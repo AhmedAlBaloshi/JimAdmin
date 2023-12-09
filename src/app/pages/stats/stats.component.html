@@ -1,0 +1,199 @@
+<ngx-spinner type="ball-pulse-sync" color="#e74c3c">
+    <p style="font-size: 20px; color: #e74c3c">{{api.translate('Please wait...')}}</p>
+</ngx-spinner>
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <h5>{{api.translate('Get Stats')}} </h5>
+            </div>
+            <div class="card-body reset-table p-t-0">
+                <div class="form-group row">
+                    <div class="col-sm-8">
+                        <label>{{api.translate('Please select store')}}</label>
+                        <select name="select" [(ngModel)]="storeId" class="form-control">
+                            <option *ngFor="let item of stores" [value]="item.uid">{{item.name_en}} - {{item.name_ar}}
+                            </option>
+                        </select>
+                    </div>
+                    <div class="col-sm-4">
+                        <label>{{api.translate('Commission (%)')}}</label>
+                        <input type="text" [(ngModel)]="storecommission" class="form-control">
+                    </div>
+                    <div class="col-sm-6">
+                        <label>{{api.translate('From Date')}} </label>
+                        <input type="date" [(ngModel)]="from" class="form-control" placeholder="Expire Date">
+                    </div>
+                    <div class="col-sm-6">
+                        <label>{{api.translate('To Date')}} </label>
+                        <input type="date" [(ngModel)]="to" class="form-control" placeholder="Expire Date">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-sm-12">
+                        <input type="checkbox" [checked]="cashPaidOrders"
+                            (change)="cashPaidOrders = !cashPaidOrders" /> Cash paid orders
+                    </div>
+                    <div class="col-sm-12">
+                        <input type="checkbox" [checked]="visaPaidOrders"
+                            (change)="visaPaidOrders = !visaPaidOrders" /> Visa paid orders
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-sm-12">
+                        <button class="btn btn-danger btn-round" (click)="getStats()">
+                            {{api.translate('Get Stats')}}</button>
+                        &nbsp;
+                        <button class="btn btn-success btn-round" *ngIf="storeId && from && to && storeOrder?.length"
+                            (click)="generatePDF()">
+                            {{api.translate('Generate PDF')}}</button>
+                        <!-- <button style="margin-left: 20px;" [useExistingCss]="true" [printTitle]="storename"
+                            printSectionId="print-section" ngxPrint *ngIf="storeId && from && to && storeOrder?.length"
+                            class="btn btn-primary"><i
+                                class="icofont icofont-printer"></i>{{api.translate('Print')}}</button> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<h2 style="text-align: center;" *ngIf="storeId && from && to && !storeOrder?.length && apiCalled">
+    {{api.translate('No Orders Found')}}
+</h2>
+<div class="row" *ngIf="storeId && from && to && storeOrder?.length">
+    <div class="col-md-12 col-xl-4">
+        <app-card [cardClass]="'counter-card-1'" [blockClass]="'card-body-big'">
+            <div class="row" style="cursor: pointer;">
+                <div class="col-6 counter-card-icon">
+                    <i class="icofont icofont-money"></i>
+                </div>
+                <div class="col-6  text-right">
+                    <div class="counter-card-text">
+                        <h3> {{groundTotalServiceTax.toFixed(3)}} </h3>
+                        <p>{{api.translate('Total Service Tax')}}</p>
+                    </div>
+                </div>
+            </div>
+        </app-card>
+    </div>
+</div>
+<div class="row" id="print-section" *ngIf="storeId && from && to && storeOrder?.length">
+    <div class="col-md-12">
+        <div class="card" style="padding: 20px;">
+            <h3 style="text-align: center;color: #7ec6aa;">{{storename}}</h3>
+            <p style="text-align: center;color: #ED7669;">{{getDate(from)}} {{api.translate('to')}} {{getDate(to)}}</p>
+            <p style="text-align: left; font-weight: bold;margin: 0px;color: #aaafad;">{{storename}}</p>
+            <p style="text-align: left; font-weight: bold;color: #7EC6AA;">{{today()}}</p>
+            <!-- <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr class="text-uppercase" style="color:#7ec6aa ;">
+                            <th>{{api.translate('#')}}</th>
+                            <th>{{api.translate('Id')}}</th>
+                            <th>{{api.translate('Description')}}</th>
+                            <th>{{api.translate('Status')}}</th>
+                            <th>{{api.translate('Payment')}}</th>
+                            <th>{{api.translate('Date/Time')}}</th>
+                            <th>{{api.translate('Price')}}</th>
+                            <th>{{api.translate('Delivery')}}</th>
+                            <th>{{api.translate('Discount')}}</th>
+                            <th>{{api.translate('Amount')}}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of storeOrder; let i = index" style="background-color: #F5F8FA;">
+                            <td>{{i}}</td>
+                            <td>#{{item.paid}}</td>
+                            <td>
+                                <div style="width: 150px !important; white-space: pre-wrap;">
+                                    <span *ngFor="let orders of item.orders;let i =index;">
+                                        Name: {{orders.prdct_name_en}} , Price: {{orders.crt_price_type == 'single' ? orders.crt_price : orders.crt_price.price}} , Qty:
+                                        {{orders.crt_pqty}}<br *ngIf="item.orders.length -1 !== i">
+                                    </span>
+                                </div>
+                            </td>
+                            <td>{{item.status}}</td>
+                            <td>{{item.pay_method}}</td>
+                            <td>{{item.time}}</td>
+                            <td>OMR {{item.total}}</td>
+                            <td>OMR {{item.delivery_charge}}</td>
+                            <td>OMR {{item.discount}}</td>
+                            <td>OMR {{item.grand_total}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div> -->
+            <div class="table-responsive">
+                <table datatable [dtOptions]="dtOptions" class="row-border hover">
+                    <thead>
+                        <tr class="text-uppercase" style="color:#7ec6aa ;">
+                            <th>{{api.translate('#')}}</th>
+                            <th>{{api.translate('Id')}}</th>
+                            <th>{{api.translate('Description')}}</th>
+                            <th>{{api.translate('Status')}}</th>
+                            <th>{{api.translate('Payment')}}</th>
+                            <th>{{api.translate('Date/Time')}}</th>
+                            <th>{{api.translate('Price')}}</th>
+                            <th>{{api.translate('Delivery')}}</th>
+                            <th>{{api.translate('Discount')}}</th>
+                            <!-- <th>{{api.translate('Tax')}}</th> -->
+                            <th>{{api.translate('Amount')}}</th>
+                        </tr>
+                    </thead>
+                    <tbody *ngIf="storeOrder?.length != 0">
+                        <tr *ngFor="let item of storeOrder; let i = index" style="background-color: #F5F8FA;">
+                            <td>{{i}}</td>
+                            <td>#{{item.paid}}</td>
+                            <td>
+                                <div style="width: 150px !important; white-space: pre-wrap;">
+                                    <span *ngFor="let orders of item.orders;let i =index;">
+                                        Name: {{orders.prdct_name_en}} , Price: {{orders.crt_price_type == 'single' ? orders.crt_price : orders.crt_price.price}} , Qty:
+                                        {{orders.crt_pqty}}<br *ngIf="item.orders.length -1 !== i">
+                                    </span>
+                                </div>
+                            </td>
+                            <td>{{item.status}}</td>
+                            <td>{{item.pay_method}}</td>
+                            <td>{{item.time}}</td>
+                            <td>OMR {{item.total}}</td>
+                            <td>OMR {{item.delivery_charge}}</td>
+                            <td>OMR {{item.discount}}</td>
+                            <!-- <td>OMR {{item.serviceTax}}</td> -->
+                            <td>OMR {{item.grand_total}}</td>
+                        </tr>
+                    </tbody>
+                    <tbody *ngIf="storeOrder?.length == 0">
+                        <tr>
+                            <td colspan="10" class="no-data-available">No data!</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="row" style="padding: 20px;">
+                <div class="col-sm-6"></div>
+                <div class="col-sm-4">
+                    <p style="text-align: right;font-weight: bold;margin: 0px !important;color: #7EC6AA;;">
+                        {{api.translate('Total')}}</p>
+                    <p style="text-align: right;font-weight: bold;margin: 0px !important;color: #7EC6AA;;">
+                        {{api.translate('Commission')}}
+                    </p>
+                    <p style="text-align: right;font-weight: bold;margin: 0px !important;color: #7EC6AA;;">
+                        {{api.translate('Amount Pay')}}
+                    </p>
+                </div>
+                <div class="col-sm-2">
+                    <p style="color: black !important;margin: 0px !important;text-align: right;">{{getCurrency()}}
+                        {{totalAmount}}
+                    </p>
+                    <p style="color: black !important; margin: 0px !important;text-align: right;">{{getCurrency()}}
+                        {{commisionAmount}}
+                    </p>
+                    <p style="color: black !important;margin: 0px !important;text-align: right;">{{getCurrency()}}
+                        {{toPay}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<ng2-toasty></ng2-toasty>

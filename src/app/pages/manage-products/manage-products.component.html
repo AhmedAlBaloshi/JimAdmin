@@ -1,0 +1,281 @@
+<ngx-spinner type="ball-pulse-sync" color="#e74c3c">
+   <p style="font-size: 20px; color: #e74c3c">{{api.translate('Please wait...')}}</p>
+</ngx-spinner>
+
+<ng-template #contentVarient let-modal>
+   <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">{{api.translate('Add item to variations')}}</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss()">
+         <span aria-hidden="true">&times;</span>
+      </button>
+   </div>
+   <div class="modal-body">
+      <div class="form-group row">
+         <div class="col-sm-12">
+            <label>{{api.translate('Add-ons name')}}</label>
+            <input style="background: transparent !important;" [(ngModel)]="variant_title" type="text"
+               class="form-control" [placeholder]="api.translate('Add-ons name')">
+         </div>
+
+         <div class="col-sm-12">
+            <label>{{api.translate('Add-ons price')}}</label>
+            <input style="background: transparent !important;" [(ngModel)]="variant_price" type="number"
+               class="form-control" [placeholder]="api.translate('Add-ons price')">
+         </div>
+      </div>
+   </div>
+   <div class="modal-footer">
+      <button type="button" class="btn btn-outlinedark" (click)="close3()">{{api.translate('Save')}}</button>
+   </div>
+</ng-template>
+
+<ng-template #newAddone let-modal>
+   <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">{{api.translate('Add Add-ons!')}}</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+         <span aria-hidden="true">&times;</span>
+      </button>
+   </div>
+   <div class="modal-body">
+      <div class="form-group row">
+         <div class="col-sm-12">
+            <label>{{api.translate('Add-ons name')}}</label>
+            <input style="background: transparent !important;" [(ngModel)]="addonName" type="text" class="form-control"
+               [placeholder]="api.translate('Add-ons name')">
+         </div>
+         <div class="col-sm-12">
+            <label>{{api.translate('Add-ons Type')}}</label>
+            <select name="select" [(ngModel)]="addonType" class="form-control">
+               <option value='radio'>{{api.translate('Single Select')}}</option>
+               <option value='check'>{{api.translate('Multiple Select')}}</option>
+            </select>
+         </div>
+      </div>
+   </div>
+   <div class="modal-footer">
+      <button type="button" class="btn btn-outline-dark" (click)="addNewAddon()">{{api.translate('Save')}}</button>
+   </div>
+</ng-template>
+
+<div class="row">
+   <div class="col-md-12">
+      <div class="card">
+         <div class="card-body">
+            <h5>{{api.translate('Product Details')}}</h5>
+         </div>
+         <div class="card-body reset-table p-t-0">
+            <div class="form-group row">
+               <div class="col-sm-6">
+                  <label>{{api.translate('Select Category')}}</label>
+                  <select name="select" [(ngModel)]="cid" class="form-control">
+                     <option *ngFor="let item of categories" [value]="item.id">{{item.name_en}} - {{item.name_ar}}
+                     </option>
+                  </select>
+               </div>
+               <div class="col-sm-6">
+                  <label>{{api.translate('Status')}}</label>
+                  <select name="select" [(ngModel)]="status" class="form-control">
+                     <option value='1'>{{api.translate('Available')}}</option>
+                     <option value='0'>{{api.translate('Hide')}}</option>
+                  </select>
+               </div>
+               <div class="col-sm-6">
+                  <label>{{api.translate('Name (EN)')}}</label>
+                  <input type="text" [(ngModel)]="name_en" class="form-control"
+                     [placeholder]="api.translate('Name (EN)')">
+               </div>
+               <div class="col-sm-6">
+                  <label>{{api.translate('Name (AR)')}}</label>
+                  <input type="text" [(ngModel)]="name_ar" class="form-control"
+                     [placeholder]="api.translate('Name (AR)')">
+               </div>
+               <div class="col-sm-3">
+                  <label>{{api.translate('Price')}}</label>
+                  <input type="text" [(ngModel)]="price" class="form-control" [placeholder]="api.translate('Price')">
+               </div>
+               <div class="col-sm-3">
+                  <label>{{api.translate('Price type')}}</label>
+                  <select name="select" [(ngModel)]="price_type" class="form-control">
+                     <option value='single'>{{api.translate('Single')}}</option>
+                     <option value='selection'>{{api.translate('Selection')}}</option>
+                  </select>
+               </div>
+               <div class="col-sm-6">
+                  <label>{{api.translate('Kind')}}</label>
+                  <select name="select" [(ngModel)]="veg" class="form-control">
+                     <option value='1'>{{api.translate('Veg')}}</option>
+                     <option value='0'>{{api.translate('Non Veg')}}</option>
+                  </select>
+               </div>
+            </div>
+            <div class="form-group row">
+               <div class="col-sm-6">
+                  <label>{{api.translate('Size?')}} <span
+                        style="font-size: 10px !important;">{{api.translate('(Regular,Medium,Large)')}}</span></label>
+                  <select name="select" (ngModelChange)="changeSize($event)" [(ngModel)]="size" class="form-control">
+                     <option value='1'>{{api.translate('Have Variations')}}</option>
+                     <option value='0'>{{api.translate('No Variations')}}</option>
+                  </select>
+               </div>
+               <div class="col-sm-6">
+                  <div *ngFor="let item of variations;let i = index;">
+                     <div
+                        style="font-size: 15px; display: flex; flex-direction: row; align-items: center; justify-content: space-between;font-weight: bold;">
+                        <label style="margin: 0px !important;font-weight: bold; font-size: 18px;">{{item.title}}</label>
+                        <i class="ti-plus" style="font-weight: bold;margin: 0px 10px;" (click)="addItem(i)"></i>
+                        <i class="ti-trash" style="font-weight: bold;margin: 0px 10px;" (click)="delete(item)"></i>
+                     </div>
+                     <div *ngFor="let sub of item.items;let j = index"
+                        style="font-size: 15px; display: flex; flex-direction: row; align-items: center; justify-content: space-between;">
+                        <div
+                           style="font-size: 15px; display: flex; flex-direction: row; align-items: center; justify-content: flex-start;">
+                           {{sub.title}} -
+                           <p style="margin: 0px !important;">
+                              <span *ngIf="util.cside ==='left'">{{util.currecny}} {{sub.price}}</span>
+                              <span *ngIf="util.cside ==='right'"> {{sub.price}} {{util.currecny}}</span>
+                           </p>
+                        </div>
+                        <i class="ti-pencil-alt" style="font-weight: bold;margin: 0px 10px;"
+                           (click)="editSub(i,sub,j)"></i>
+                        <i class="ti-trash" style="font-weight: bold;margin: 0px 10px;" (click)="deleteSub(i,sub)"></i>
+                     </div>
+                  </div>
+               </div>
+               <div class="col-sm-6">
+                  <label>{{api.translate('Add-ons')}} <span
+                        style="font-size: 10px !important;">{{api.translate('(Extras,cold drinks)')}}</span></label>
+                  <i class="ti-plus" (click)="addNew()"></i>
+               </div>
+            </div>
+            <div class="form-group row">
+               <div class="col-sm-6">
+                  <label>{{api.translate('Descriptions (EN)')}}</label>
+                  <textarea rows="5" cols="5" [(ngModel)]="descriptions_en" class="form-control"
+                     [placeholder]="api.translate('Descriptions (EN)')"></textarea>
+               </div>
+               <div class="col-sm-6">
+                  <label>{{api.translate('Descriptions (AR)')}}</label>
+                  <textarea rows="5" cols="5" [(ngModel)]="descriptions_ar" class="form-control"
+                     [placeholder]="api.translate('Descriptions (AR)')"></textarea>
+               </div>
+            </div>
+            <div class="form-group row">
+               <div class="col-sm-6">
+                  <label>{{api.translate('Notes (EN) - optional')}}</label>
+                  <textarea rows="5" cols="5" [(ngModel)]="notes_en" class="form-control"
+                     [placeholder]="api.translate('Notes (EN)')"></textarea>
+               </div>
+               <div class="col-sm-6">
+                  <label>{{api.translate('Notes (AR) - optional')}}</label>
+                  <textarea rows="5" cols="5" [(ngModel)]="notes_ar" class="form-control"
+                     [placeholder]="api.translate('Notes (AR)')"></textarea>
+               </div>
+            </div>
+            <div class="form-group row">
+               <label class="col-sm-4 col-form-label">{{api.translate('Upload cover image here')}}</label>
+               <div class="col-sm-4">
+                  <input (change)="preview_banner($event.target.files)" type="file" class="form-control"
+                     accept="image/*">
+               </div>
+               <div class="col-sm-4">
+                  <img [src]="api.mediaURL+ coverImage" alt="" style="height: 100px;width: 100px;float: right;"
+                     onError="this.src='assets/icon.png'">
+               </div>
+            </div>
+            <div class="form-group row">
+               <div class="col-sm-4">
+                  <label style="color: #ff0000">{{api.translate('Internal Tax')}}</label>
+                  <input type="text" [(ngModel)]="internalTax" class="form-control"
+                     [placeholder]="api.translate('Internal Tax')">
+               </div>
+            </div>
+            <div class="form-group row">
+               <div class="col-sm-12">
+                  <button type="button" (click)="submit()"
+                     class="btn btn-primary btn-round btn-md waves-effect text-center">{{api.translate('Submit')}}
+                  </button>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>
+<ng2-toasty></ng2-toasty>
+
+<!-- <ngx-spinner type="ball-pulse-sync" color="#e74c3c">
+   <p style="font-size: 20px; color: #e74c3c">{{api.translate('Please wait...')}}</p>
+</ngx-spinner>
+
+<div class="row">
+   <div class="col-md-12">
+      <div class="card">
+         <div class="card-body">
+            <h5>{{api.translate('Product Details')}}</h5>
+         </div>
+         <div class="card-body reset-table p-t-0">
+            <div class="form-group row">
+               <div class="col-sm-12">
+                  <div *ngFor="let item of images">
+                     <div class="back_image" *ngIf="item !==''"
+                        [ngStyle]="{'background-image':'url('+api.mediaURL+item+')'}"></div>
+                  </div>
+               </div>
+            </div>
+            <div class="form-group row">
+               <div class="col-sm-6">
+                  <label>{{api.translate('Name (EN)')}}</label>
+                  <input type="text" [(ngModel)]="name_en" disabled="true" class="form-control"
+                     [placeholder]="api.translate('Name (EN)..')">
+               </div>
+               <div class="col-sm-6">
+                  <label>{{api.translate('Name (AR)')}}</label>
+                  <input type="text" [(ngModel)]="name_ar" disabled="true" class="form-control"
+                     [placeholder]="api.translate('Name (Ar)..')">
+               </div>
+            </div>
+            <div class="form-group row">
+               <div class="col-sm-4">
+                  <label>{{api.translate('Price')}}</label>
+                  <input type="text" [value]="formatPrice(price)" disabled="true" class="form-control"
+                     [placeholder]="api.translate('Price..')">
+               </div>
+               <div class="col-sm-4">
+                  <label>{{api.translate('Kind')}}</label>
+                  <input type="text" [value]="veg?'Veg':'Non Veg' " disabled="true" class="form-control"
+                     [placeholder]="api.translate('Kind..')">
+               </div>
+               <div class="col-sm-4">
+                  <label>{{api.translate('Rating')}}</label>
+                  <input type="text" [(ngModel)]="rating" disabled="true" class="form-control"
+                     [placeholder]="api.translate('Rating..')">
+               </div>
+            </div>
+            <div class="form-group row">
+               <div class="col-sm-6">
+                  <label>{{api.translate('Descriptions (EN)')}}</label>
+                  <textarea rows="5" cols="5" [(ngModel)]="descriptions_en" disabled="true" class="form-control"
+                     [placeholder]="api.translate('Descriptions (EN)..')"></textarea>
+               </div>
+               <div class="col-sm-6">
+                  <label>{{api.translate('Descriptions (AR)')}}</label>
+                  <textarea rows="5" cols="5" [(ngModel)]="descriptions_ar" disabled="true" class="form-control"
+                     [placeholder]="api.translate('Descriptions (AR)..')"></textarea>
+               </div>
+            </div>
+            <div class="form-group row">
+               <div class="col-sm-6">
+                  <label>{{api.translate('Notes (EN)')}}</label>
+                  <textarea rows="5" cols="5" [(ngModel)]="notes_en" disabled="true" class="form-control"
+                     [placeholder]="api.translate('Notes (EN)..')"></textarea>
+               </div>
+               <div class="col-sm-6">
+                  <label>{{api.translate('Notes (AR)')}}</label>
+                  <textarea rows="5" cols="5" [(ngModel)]="notes_ar" disabled="true" class="form-control"
+                     [placeholder]="api.translate('Notes (AR)..')"></textarea>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>
+<ng2-toasty></ng2-toasty> -->

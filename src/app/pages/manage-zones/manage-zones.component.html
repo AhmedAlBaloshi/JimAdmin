@@ -1,0 +1,97 @@
+<ngx-spinner type="ball-pulse-sync" color="#e74c3c">
+    <p style="font-size: 20px; color: #e74c3c">{{api.translate('Please wait...')}}</p>
+</ngx-spinner>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <h5> <span *ngIf="new">{{api.translate('CREATE NEW')}}</span> <span
+                        *ngIf="!new">{{api.translate('Edit')}}</span> {{api.translate('Zone')}} </h5>
+            </div>
+            <div class="card-body reset-table p-t-0">
+                <h4 class="sub-title">{{api.translate('Zone Details')}}</h4>
+                <div class="form-group row">
+                    <div class="col-sm-6">
+                        <label>{{api.translate('Name (EN)')}}</label>
+                        <input type="text" [(ngModel)]="name_en" class="form-control"
+                            [placeholder]="api.translate('Name (EN)')">
+                    </div>
+                    <div class="col-sm-6">
+                        <label>{{api.translate('Name (EN)')}}</label>
+                        <input type="text" [(ngModel)]="name_ar" class="form-control"
+                            [placeholder]="api.translate('Name (AR)')">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-sm-6">
+                        <label>{{api.translate('Select Type')}}</label>
+                        <select name="select" [(ngModel)]="type" class="form-control">
+                            <option *ngFor="let item of types" [value]="item.value">{{item.name}}</option>
+                        </select>
+                    </div>
+                    <div class="col-sm-6">
+                        <label>{{api.translate('Select city')}}</label>
+                        <select name="select" [(ngModel)]="city" class="form-control">
+                            <option *ngFor="let item of cities" [value]="item.id">{{item.name_en}} - {{item.name_ar}}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-sm-3">
+                        <label>{{api.translate('Shipping Price')}} </label>
+                        <select name="select" [(ngModel)]="shipping" class="form-control">
+                            <option value="fixed">{{api.translate('Fixed')}}</option>
+                            <option value="km">{{api.translate('Per KM')}}</option>
+                        </select>
+                    </div>
+                    <div class="col-sm-3" *ngIf="shipping ==='fixed'">
+                        <label>{{api.translate('Fixed price')}}</label>
+                        <input type="number" [(ngModel)]="shippingPrice" class="form-control"
+                            [placeholder]="api.translate('Fixed price')">
+                    </div>
+                    <div class="col-sm-3" *ngIf="shipping ==='km'">
+                        <label>{{api.translate('Per KM price')}}</label>
+                        <input type="number" [(ngModel)]="shippingPrice" class="form-control"
+                            [placeholder]="api.translate('Per KM price')">
+                    </div>
+                    <div class="col-sm-3">
+                        <label>{{api.translate('Shipping Priority')}}</label>
+                        <select name="select" [(ngModel)]="shippingPriority" class="form-control">
+                            <option value="0">0</option>
+                            <option value="1">1</option>
+                        </select>
+                    </div>
+                    <div class="col-sm-3">
+                        <label>{{api.translate('Drivers shipping price')}}</label>
+                        <input type="number" [(ngModel)]="driversShippingPrice" class="form-control"
+                            [placeholder]="api.translate('Drivers shipping price')">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-sm-12">
+                        <label class="col-form-label">{{api.translate('Draw zone on map')}} </label>
+                    </div>
+                    <div class="col-sm-12">
+                        <div class="map-container">
+                            <div class="map" id="mapbox"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-sm-12">
+                        <button class="btn btn-danger btn-round" (click)="create()" *ngIf="new">{{api.translate('Add New
+                            Zone')}}
+                        </button>
+                        <button class="btn btn-danger btn-round" (click)="resetPolygon()" *ngIf="!new">
+                            {{api.translate('Reset Map')}} </button> &nbsp;
+                        <button class="btn btn-danger btn-round" (click)="update()" *ngIf="!new">
+                            {{api.translate('Update Zone')}} </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<ng2-toasty></ng2-toasty>

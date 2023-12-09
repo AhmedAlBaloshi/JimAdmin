@@ -1,0 +1,270 @@
+<ngx-spinner type="ball-pulse-sync" color="#e74c3c">
+    <p style="font-size: 20px; color: #e74c3c">{{api.translate('Please wait...')}}</p>
+</ngx-spinner>
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <h5>{{api.translate('Get Stats')}} </h5>
+            </div>
+            <div class="card-body reset-table p-t-0">
+                <div class="form-group row">
+                    <div class="col-sm-12">
+                        <label>{{api.translate('Please select Driver')}}</label>
+                        <select name="select" [(ngModel)]="did" class="form-control">
+                            <option *ngFor="let item of drivers" [value]="item.id">{{item.first_name}}
+                                {{item.last_name}} </option>
+                        </select>
+                    </div>
+                    <div class="col-sm-6">
+                        <label>{{api.translate('From DateTime')}} </label>
+                        <input type="datetime-local" [(ngModel)]="from" class="form-control"
+                            [placeholder]="api.translate('From DateTime')">
+                    </div>
+                    <div class="col-sm-6">
+                        <label>{{api.translate('To DateTime')}} </label>
+                        <input type="datetime-local" [(ngModel)]="to" class="form-control"
+                            [placeholder]="api.translate('To DateTime')">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-sm-12">
+                        <input type="checkbox" [checked]="includePaidOrders"
+                            (change)="includePaidOrders = !includePaidOrders" /> Include paid orders
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-sm-12">
+                        <button class="btn btn-danger btn-round" (click)="getStats()">{{api.translate('Get
+                            Stats')}}</button>
+                        &nbsp;
+                        <button class="btn btn-success btn-round" *ngIf="did && from && to && driverOrders?.length"
+                            (click)="generatePDF()">
+                            {{api.translate('Generate PDF')}}</button>
+                        &nbsp;
+                        <button class="btn btn-danger btn-round" (click)="resetDriverOrders()">{{api.translate('Reset
+                            Driver
+                            Orders')}}</button>
+                        <!-- <button style="margin-left: 20px;" [useExistingCss]="true" [printTitle]="getName()"
+                            printSectionId="print-section" ngxPrint *ngIf="did && from && to && driverOrders?.length"
+                            class="btn btn-primary"><i
+                                class="icofont icofont-printer"></i>{{api.translate('Print')}}</button> -->
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<h2 style="text-align: center;" *ngIf="did && from && to && !driverOrders?.length && apiCalled">
+    {{api.translate('No Orders Found')}}
+</h2>
+<div class="row" id="print-section" *ngIf="did && from && to && driverOrders?.length">
+    <div class="col-md-12">
+        <div class="card" style="padding: 20px;">
+            <h3 style="text-align: center;color: #7ec6aa;">{{dname}}</h3>
+            <p style="text-align: center;color: #ED7669;">{{getDate(from)}} {{api.translate('to')}} {{getDate(to)}}</p>
+            <p style="text-align: left; font-weight: bold;margin: 0px;color: #aaafad;">{{dname}}</p>
+            <p style="text-align: left; font-weight: bold;color: #7EC6AA;">{{today()}}</p>
+            <!-- <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr class="text-uppercase" style="color:#7ec6aa ;">
+                            <th>{{api.translate('#')}}</th>
+                            <th>{{api.translate('Id')}}</th>
+                            <th>{{api.translate('Store Name')}}</th>
+                            <th>{{api.translate('Status')}}</th>
+                            <th>{{api.translate('Payment')}}</th>
+                            <th>{{api.translate('Customer Address')}}</th>
+                            <th>{{api.translate('Date/Time')}}</th>
+                            <th>{{api.translate('Is Paid To Driver?')}}</th>
+                            <th>{{api.translate('Paid To Driver Date/Time')}}</th>
+                            <th>{{api.translate('Shipping Price')}}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of driverOrders; let i = index" style="background-color: #F5F8FA;">
+                            <td>{{i}}</td>
+                            <td>#{{item.paid}}</td>
+                            <td>{{item.str_name_en}} | {{item.str_name_ar}}</td>
+                            <td>{{item.status}}</td>
+                            <td>{{item.pay_method}}</td>
+                            <td>{{item.customer_adrs_en}} | {{item.customer_adrs_ar}}</td>
+                            <td>{{item.time}}</td>
+                            <td>{{item.paid_to_driver == 1 ? 'true' : 'false'}}</td>
+                            <td>{{item.paid_to_driver_time}}</td>
+                            <td>{{getCurrency()}}{{item.zone_shipping_price}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div> -->
+            <div class="table-responsive">
+                <table datatable [dtOptions]="dtOptions" class="row-border hover">
+                    <thead>
+                        <tr>
+                            <th>{{api.translate('#')}}</th>
+                            <th>{{api.translate('Id')}}</th>
+                            <th>{{api.translate('Store Name')}}</th>
+                            <th>{{api.translate('Status')}}</th>
+                            <th>{{api.translate('Payment')}}</th>
+                            <!-- <th>{{api.translate('Customer Address')}}</th> -->
+                            <th>{{api.translate('Date/Time')}}</th>
+                            <th>{{api.translate('Is Paid To Driver?')}}</th>
+                            <th>{{api.translate('Paid To Driver Date/Time')}}</th>
+                            <th style="background-color: #f5deb3;">{{api.translate('Driver Delivery Price')}}</th>
+                            <th>{{api.translate('Total')}}</th>
+                            <th>{{api.translate('Delivery Price')}}</th>
+                            <th style="background-color: #ffebcd;">{{api.translate('Grand Total')}}</th>
+                        </tr>
+                    </thead>
+                    <tbody *ngIf="driverOrders?.length != 0">
+                        <tr *ngFor="let item of driverOrders; let i = index">
+                            <td>{{i}}</td>
+                            <td>#{{item.paid}}</td>
+                            <td>{{item.str_name_en}} | {{item.str_name_ar}}</td>
+                            <td>{{item.status}}</td>
+                            <td>{{item.pay_method}}</td>
+                            <!-- <td>{{item.customer_adrs_en}} | {{item.customer_adrs_ar}}</td> -->
+                            <td>{{item.time}}</td>
+                            <td>{{item.paid_to_driver == 1 ? 'true' : 'false'}}</td>
+                            <td>{{item.paid_to_driver_time}}</td>
+                            <td style="background-color: #f5deb3;"><strong>OMR {{item.zone_shipping_price}}</strong></td>
+                            <td>OMR {{item.total}}</td>
+                            <td>OMR {{item.delivery_charge}}</td>
+                            <td style="background-color: #ffebcd;"><strong>OMR {{item.grand_total}}</strong></td>
+                        </tr>
+                    </tbody>
+                    <tbody *ngIf="driverOrders?.length == 0">
+                        <tr>
+                            <td colspan="10" class="no-data-available">No data!</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="row" style="padding: 20px;">
+                <div class="col-sm-4" style="text-align: center;">
+                    <p style="font-weight: bold;margin: 0px !important;color: #7EC6AA;;">
+                        {{api.translate('Total Orders Amount')}}
+                    </p>
+                    <p style="color: black !important;margin: 0px !important;">{{getCurrency()}}
+                        {{totalOrdersAmount}}</p>
+                </div>
+                <div class="col-sm-4" style="text-align: center;">
+                    <p style="font-weight: bold;margin: 0px !important;color: #7EC6AA;;">
+                        {{api.translate('Total Orders Amount without DELIVERY')}}
+                    </p>
+                    <p style="color: black !important;margin: 0px !important;">{{getCurrency()}}
+                        {{totalOrdersAmountWithoutDelivery}}</p>
+                </div>
+
+                <div class="col-sm-4" style="text-align: center;">
+                    <p style="font-weight: bold;margin: 0px !important;color: #7EC6AA;;">
+                        {{api.translate('Total Cash Orders Amount')}}
+                    </p>
+                    <p style="color: black !important;margin: 0px !important;">{{getCurrency()}}
+                        {{totalCashOrdersAmount}}</p>
+                </div>
+                <div class="col-sm-4" style="text-align: center;">
+                    <p style="font-weight: bold;margin: 0px !important;color: #7EC6AA;;">
+                        {{api.translate('Total Cash Orders Amount without DELIVERY')}}
+                    </p>
+                    <p style="color: black !important;margin: 0px !important;">{{getCurrency()}}
+                        {{totalCashOrdersAmountWithoutDelivery}}</p>
+                </div>
+
+                <div class="col-sm-4" style="text-align: center;">
+                    <p style="font-weight: bold;margin: 0px !important;color: #7EC6AA;;">
+                        {{api.translate('Amount Pay')}}
+                    </p>
+                    <p style="color: black !important;margin: 0px !important;">{{getCurrency()}}
+                        {{totalShippingAmount}}</p>
+                </div>
+                <!-- <div class="col-sm-2">
+                    <p style="color: black !important;margin: 0px !important;text-align: right;">{{getCurrency()}}
+                        {{totalShippingAmount}}</p>
+                </div> -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row" id="print-section" *ngIf="did && from && to && driverOrdersAll?.length">
+    <div class="col-md-12">
+        <div class="card" style="padding: 20px;">
+            <h3 style="text-align: center;color: #7ec6aa;">{{dname}}</h3>
+            <div class="table-responsive">
+                <table datatable [dtOptions]="dtOptions" class="row-border hover">
+                    <thead>
+                        <tr>
+                            <th>{{api.translate('#')}}</th>
+                            <th>{{api.translate('Id')}}</th>
+                            <th>{{api.translate('Store Name')}}</th>
+                            <th>{{api.translate('Status')}}</th>
+                            <th>{{api.translate('Payment')}}</th>
+                            <th>{{api.translate('Date/Time')}}</th>
+                            <th>{{api.translate('Is Paid To Driver?')}}</th>
+                            <th>{{api.translate('Paid To Driver Date/Time')}}</th>
+                            <th>{{api.translate('Total')}}</th>
+                            <th>{{api.translate('Delivery Price')}}</th>
+                            <th style="background-color: #ffebcd;">{{api.translate('Grand Total')}}</th>
+                        </tr>
+                    </thead>
+                    <tbody *ngIf="driverOrdersAll?.length != 0">
+                        <tr *ngFor="let item of driverOrdersAll; let i = index">
+                            <td>{{i}}</td>
+                            <td>#{{item.paid}}</td>
+                            <td>{{item.str_name_en}} | {{item.str_name_ar}}</td>
+                            <td>{{item.status}}</td>
+                            <td>{{item.pay_method}}</td>
+                            <td>{{item.time}}</td>
+                            <td>{{item.paid_to_driver == 1 ? 'true' : 'false'}}</td>
+                            <td>{{item.paid_to_driver_time}}</td>
+                            <td>OMR {{item.total}}</td>
+                            <td>OMR {{item.delivery_charge}}</td>
+                            <td style="background-color: #ffebcd;"><strong>OMR {{item.grand_total}}</strong></td>
+                        </tr>
+                    </tbody>
+                    <tbody *ngIf="driverOrdersAll?.length == 0">
+                        <tr>
+                            <td colspan="10" class="no-data-available">No data!</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="row" style="padding: 20px;">
+                <div class="col-sm-3" style="text-align: center;">
+                    <p style="font-weight: bold;margin: 0px !important;color: #7EC6AA;;">
+                        {{api.translate('Total Orders Amount')}}
+                    </p>
+                    <p style="color: black !important;margin: 0px !important;">{{getCurrency()}}
+                        {{totalAllOrdersAmount}}</p>
+                </div>
+                <div class="col-sm-3" style="text-align: center;">
+                    <p style="font-weight: bold;margin: 0px !important;color: #7EC6AA;;">
+                        {{api.translate('Total Orders Amount without DELIVERY')}}
+                    </p>
+                    <p style="color: black !important;margin: 0px !important;">{{getCurrency()}}
+                        {{totalAllOrdersAmountWithoutDelivery}}</p>
+                </div>
+
+                <div class="col-sm-3" style="text-align: center;">
+                    <p style="font-weight: bold;margin: 0px !important;color: #7EC6AA;;">
+                        {{api.translate('Total Cash Orders Amount')}}
+                    </p>
+                    <p style="color: black !important;margin: 0px !important;">{{getCurrency()}}
+                        {{totalCashAllOrdersAmount}}</p>
+                </div>
+                <div class="col-sm-3" style="text-align: center;">
+                    <p style="font-weight: bold;margin: 0px !important;color: #7EC6AA;;">
+                        {{api.translate('Total Cash Orders Amount without DELIVERY')}}
+                    </p>
+                    <p style="color: black !important;margin: 0px !important;">{{getCurrency()}}
+                        {{totalCashAllOrdersAmountWithoutDelivery}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<ng2-toasty></ng2-toasty>

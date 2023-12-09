@@ -1,0 +1,256 @@
+<ngx-spinner type="ball-pulse-sync" color="#e74c3c">
+    <p style="font-size: 20px; color: #e74c3c">{{api.translate('Please wait...')}}</p>
+</ngx-spinner>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <h5> <span *ngIf="new">{{api.translate('CREATE NEW')}}</span> <span
+                        *ngIf="!new">{{api.translate('Edit')}}</span> {{api.translate('Driver')}} </h5>
+            </div>
+            <div class="card-body reset-table p-t-0">
+                <h4 class="sub-title">{{api.translate('Owner Details')}}</h4>
+                <div class="form-group row">
+                    <div class="col-sm-6">
+                        <label>{{api.translate('First Name')}}</label>
+                        <input type="text" [(ngModel)]="fname" class="form-control"
+                            [placeholder]="api.translate('First Name')">
+                    </div>
+                    <div class="col-sm-6">
+                        <label>{{api.translate('Last Name')}}</label>
+                        <input type="text" [(ngModel)]="lname" class="form-control"
+                            [placeholder]="api.translate('Last Name')">
+                    </div>
+                    <div class="col-sm-6">
+                        <label>{{api.translate('Email')}}</label>
+                        <input type="email" [disabled]="!new" [(ngModel)]="email" class="form-control"
+                            [placeholder]="api.translate('Email')">
+                    </div>
+                    <div class="col-sm-6" *ngIf="new">
+                        <label>{{api.translate('Password')}}</label>
+                        <input type="password" [(ngModel)]="password" class="form-control"
+                            [placeholder]="api.translate('Password')">
+                    </div>
+                    <div class="col-sm-6">
+                        <label>{{api.translate('Country code')}}</label>
+                        <select name="select" [(ngModel)]="country_code" class="form-control">
+                            <option [value]='item.dialling_code' *ngFor="let item of util.countrys">
+                                {{item.country_name}} </option>
+                        </select>
+                    </div>
+                    <div class="col-sm-6">
+                        <label>{{api.translate('Contact No')}}</label>
+                        <input type="number" [(ngModel)]="mobile" class="form-control"
+                            [placeholder]="api.translate('Mobile No')">
+                    </div>
+
+                    <div class="col-sm-6">
+                        <label>{{api.translate('Maximum Orders')}}</label>
+                        <input type="text" [(ngModel)]="maximumOrders" class="form-control"
+                            [placeholder]="api.translate('Maximum Orders')">
+                    </div>
+
+                    <div class="col-sm-6">
+                        <label>{{api.translate('Select Gender')}}</label>
+                        <select name="select" [(ngModel)]="gender" class="form-control">
+                            <option value='1'>{{api.translate('Male')}}</option>
+                            <option value='0'>{{api.translate('Female')}}</option>
+                            <option value='2'>{{api.translate('Other')}}</option>
+                        </select>
+                    </div>
+
+                    <div class="col-sm-12">
+                        <label>{{api.translate('Address')}}</label>
+                        <input type="text" [(ngModel)]="address" class="form-control"
+                            [placeholder]="api.translate('Address')">
+                    </div>
+
+                    <div class="col-sm-12">
+                        <label>{{api.translate('Select City')}}</label>
+                        <select name="select" [(ngModel)]="city" class="form-control">
+                            <option *ngFor="let item of cities" [value]="item.id">{{item.name_en}} - {{item.name_ar}}</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label class="col-sm-4 col-form-label">{{api.translate('Upload cover image here')}}</label>
+                    <div class="col-sm-4">
+                        <input (change)="preview_banner($event.target.files)" type="file" class="form-control">
+                    </div>
+                    <div class="col-sm-4">
+                        <img [src]="imageUrl" alt="" style="height: 100px;width: 100px;float: right;"
+                            onError="this.src='assets/icon.png'">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-sm-12">
+                        <button class="btn btn-danger btn-round" (click)="create()" *ngIf="new">{{api.translate('Add New
+                            Driver')}}
+                        </button>
+                        <button class="btn btn-danger btn-round" (click)="update()" *ngIf="!new">
+                            {{api.translate('Update Driver')}} </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row" *ngIf="!new">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body-big card-status">
+                <h5>{{api.translate('Orders & Reviews')}}</h5>
+                <!-- <ngb-tabset>
+                    <ngb-tab title="Orders">
+                        <ng-template ngbTabContent>
+                            <div class="row orders">
+                                <div class="col-lg-4 col-md-6 col-sm-12 card_div" *ngFor="let item of orders">
+                                    <div class="resto_detail">
+                                        <div class="back_image"
+                                            [ngStyle]="{'background-image':'url('+api.mediaURL+item.user_cover+'),url(assets/placeholder.jpg)'}">
+                                        </div>
+                                        <div style="margin-left: 10px;">
+                                            <p class="res_name">{{item.user_first_name +'
+                                                '+item.user_last_name}}</p>
+                                            <p class="res_location">{{item.time}}</p>
+                                            <p class="res_name">{{api.translate('ID')}} : #{{item.paid}}
+                                            </p>
+                                            <p class="res_name">{{item.pay_method}}</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="line_div"></div>
+
+                                    <div class="order_detail">
+                                        <p class="head_gray">{{api.translate('ITEMS')}}</p>
+                                        <div class="small_lbl">
+                                            <span *ngFor="let order of item.orders;let ol = index">
+                                                <div *ngIf="!order.selectedItem || !order.selectedItem.length"
+                                                    class="border_bottom">
+                                                    <span>{{order.prdct_name_en}} X {{order.crt_pqty}} </span>
+                                                    <span style="font-weight: normal;"
+                                                        *ngIf="util.cside ==='left'">{{util.currecny}}
+                                                        {{order.prdct_price}} </span>
+                                                    <span style="font-weight: normal;"
+                                                        *ngIf="util.cside ==='right'">{{order.prdct_price}}
+                                                        {{util.currecny}} </span>
+                                                    <span *ngIf="ol !=item.orders.length">,</span>
+                                                </div>
+                                            </span>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col">
+                                                <p class="head_gray">{{api.translate('ORDERED ON')}}</p>
+                                            </div>
+                                            <div class="col">
+                                                <p class="small_lbl">{{item.time}} </p>
+                                            </div>
+                                            <div class="col">
+                                                <p class="head_gray">{{api.translate('TOTAL AMOUNT (+delivery)')}}</p>
+                                            </div>
+                                            <div class="col">
+                                                <p class="small_lbl" *ngIf="util.cside ==='left'">
+                                                    {{util.currecny}}{{item.grand_total}}</p>
+                                                <p class="small_lbl" *ngIf="util.cside ==='right'">{{item.grand_total}}
+                                                    {{util.currecny}}</p>
+                                            </div>
+                                        </div>
+                                        <p class="head_gray">{{api.translate('Order Notes')}}</p>
+                                        <p class="small_lbl">{{item.notes}} </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </ng-template>
+                    </ngb-tab>
+                    <ngb-tab title="Reviews">
+                        <ng-template ngbTabContent>
+                            <div class="review">
+                                <div class="row" *ngFor="let item of reviews"
+                                    style="border-bottom: 1px solid lightgray;padding: 10px;">
+                                    <div class="col-md-2">
+                                        <img height="50" width="50" [src]="api.mediaURL+item.cover" alt=""
+                                            onError="this.src='assets/icon.png'">
+                                    </div>
+                                    <div class="col-md-10">
+                                        <p style="font-weight: bold;"> {{item.fname}} {{item.lname}} </p> <br>
+                                        <p> {{item.msg}} </p> <br>
+                                        <p>{{item.timestamp}}</p> <br>
+                                    </div>
+                                </div>
+                            </div>
+                        </ng-template>
+                    </ngb-tab>
+                </ngb-tabset> -->
+                <nav ngbNav #nav="ngbNav" class="nav-tabs">
+                    <ng-container ngbNavItem>
+                        <a ngbNavLink>Orders</a>
+                        <ng-template ngbNavContent>
+                            <div class="row orders">
+                                <div class="col-lg-4 col-md-6 col-sm-12 card_div" *ngFor="let item of orders">
+                                    <div class="resto_detail">
+                                        <div class="back_image"
+                                            [ngStyle]="{'background-image':'url('+api.mediaURL+item.user_cover+'),url(assets/placeholder.jpg)'}">
+                                        </div>
+                                        <div style="margin-left: 10px;">
+                                            <p class="res_name">{{item.user_first_name +'
+                                                '+item.user_last_name}}</p>
+                                            <p class="res_location">{{item.time}}</p>
+                                            <p class="res_name">{{api.translate('ID')}} : #{{item.paid}}
+                                            </p>
+                                            <p class="res_name">{{item.pay_method}}</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="line_div"></div>
+
+                                    <div class="order_detail">
+                                        <p class="head_gray">{{api.translate('ITEMS')}}</p>
+                                        <div class="small_lbl">
+                                            <span *ngFor="let order of item.orders;let ol = index">
+                                                <div *ngIf="!order.selectedItem || !order.selectedItem.length"
+                                                    class="border_bottom">
+                                                    <span>{{order.prdct_name_en}} X {{order.crt_pqty}} </span>
+                                                    <span style="font-weight: normal;"
+                                                        *ngIf="util.cside ==='left'">{{util.currecny}}
+                                                        {{order.prdct_price}} </span>
+                                                    <span style="font-weight: normal;"
+                                                        *ngIf="util.cside ==='right'">{{order.prdct_price}}
+                                                        {{util.currecny}} </span>
+                                                    <span *ngIf="ol !=item.orders.length">,</span>
+                                                </div>
+                                            </span>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col">
+                                                <p class="head_gray">{{api.translate('ORDERED ON')}}</p>
+                                            </div>
+                                            <div class="col">
+                                                <p class="small_lbl">{{item.time}} </p>
+                                            </div>
+                                            <div class="col">
+                                                <p class="head_gray">{{api.translate('TOTAL AMOUNT (+delivery)')}}</p>
+                                            </div>
+                                            <div class="col">
+                                                <p class="small_lbl" *ngIf="util.cside ==='left'">
+                                                    {{util.currecny}}{{item.grand_total}}</p>
+                                                <p class="small_lbl" *ngIf="util.cside ==='right'">{{item.grand_total}}
+                                                    {{util.currecny}}</p>
+                                            </div>
+                                        </div>
+                                        <p class="head_gray">{{api.translate('Order Notes')}}</p>
+                                        <p class="small_lbl">{{item.notes}} </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </ng-template>
+                    </ng-container>
+                </nav>
+                <div [ngbNavOutlet]="nav" class="mt-2"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<ng2-toasty></ng2-toasty>

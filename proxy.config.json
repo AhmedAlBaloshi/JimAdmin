@@ -1,0 +1,7 @@
+{
+    "/jim-api/*": {
+        "target":"https://localhost:8090",
+        "secure": false,
+        "logLevel": "debug"
+    }
+}

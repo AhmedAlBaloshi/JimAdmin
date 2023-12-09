@@ -1,0 +1,11 @@
+{
+    "/jim-api/*": {
+        "target":"https://localhost:8090/",
+        "secure": false,
+        "changeOrigin": true,
+        "logLevel": "debug",
+        "pathRewrite": {
+            "^/jim-api": "/jim-api"
+        }
+    }
+}

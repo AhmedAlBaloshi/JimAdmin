@@ -1,0 +1,310 @@
+{
+	"wilayats": [
+		{
+			"wilayat_enName": "Wilayat Khasab",
+			"wilayat_arName": "ولاية خصب",
+			"longitude": "56.2576764270119",
+			"latitude": "26.113016875427"
+		},{
+			"wilayat_enName": "Wilayat Bukha",
+			"wilayat_arName": "ولاية بخاء",
+			"longitude": "56.1126598833106",
+			"latitude": "26.0588647012954"
+		},{
+			"wilayat_enName": "Wilayat Daba",
+			"wilayat_arName": "ولاية دبا",
+			"longitude": "56.2471880513418",
+			"latitude": "25.7748662333393"
+		},{
+			"wilayat_enName": "Wilayat Madha",
+			"wilayat_arName": "ولاية مدحاء",
+			"longitude": "56.3140116351659",
+			"latitude": "25.2876280704021"
+		},{
+			"wilayat_enName": "Wilayat Al Buraymi",
+			"wilayat_arName": "ولاية البريمي",
+			"longitude": "55.9024085751265",
+			"latitude": "24.0095950869536"
+		},{
+			"wilayat_enName": "Wilayat As Sunaynah",
+			"wilayat_arName": "ولاية السنينة",
+			"longitude": "55.7982307586634",
+			"latitude": "23.6960912177035"
+		},{
+			"wilayat_enName": "Wilayat Mahadah",
+			"wilayat_arName": "ولاية محضة",
+			"longitude": "55.9799428794203",
+			"latitude": "24.5351904250052"
+		},{
+			"wilayat_enName": "Wilayat Sohar",
+			"wilayat_arName": "ولاية صحار",
+			"longitude": "56.4841071676184",
+			"latitude": "24.1786187995871"
+		},{
+			"wilayat_enName": "Wilayat Al Khaburah",
+			"wilayat_arName": "ولاية الخابورة",
+			"longitude": "56.6933584378991",
+			"latitude": "23.8640281239742"
+		},{
+			"wilayat_enName": "Wilayat As Suwayq",
+			"wilayat_arName": "ولاية السويق",
+			"longitude": "57.3171449340499",
+			"latitude": "23.7562865298504"
+		},{
+			"wilayat_enName": "Wilayat Liwa",
+			"wilayat_arName": "ولاية لوى",
+			"longitude": "56.419528888878",
+			"latitude": "24.4594902086371"
+		},{
+			"wilayat_enName": "Wilayat Saham",
+			"wilayat_arName": "ولاية صحم",
+			"longitude": "56.8416214660176",
+			"latitude": "23.9065973227899"
+		},{
+			"wilayat_enName": "Wilayat Shinas",
+			"wilayat_arName": "ولاية شناص",
+			"longitude": "56.3352985949203",
+			"latitude": "24.7582447594728"
+		},{
+			"wilayat_enName": "Wilayat Ar Rustaq",
+			"wilayat_arName": "ولاية الرستاق",
+			"longitude": "57.3230555479859",
+			"latitude": "23.4199760543683"
+		},{
+			"wilayat_enName": "Wilayat Al Awabi",
+			"wilayat_arName": "ولاية العوابي",
+			"longitude": "57.5583533612439",
+			"latitude": "23.2930981415901"
+		},{
+			"wilayat_enName": "Wilayat Al Musanaah",
+			"wilayat_arName": "ولاية المصنعة",
+			"longitude": "57.5613327542294",
+			"latitude": "23.6677324245325"
+		},{
+			"wilayat_enName": "Wilayat Barka",
+			"wilayat_arName": "ولاية بركاء",
+			"longitude": "57.8838098967781",
+			"latitude": "23.6589520328601"
+		},{
+			"wilayat_enName": "Wilayat Nakhal",
+			"wilayat_arName": "ولاية نخل",
+			"longitude": "57.8309099320287",
+			"latitude": "23.3559276447888"
+		},{
+			"wilayat_enName": "Wilayat Wadi Al Maawil",
+			"wilayat_arName": "ولاية وادي المعاول",
+			"longitude": "57.7443647729314",
+			"latitude": "23.3742352256336"
+		},{
+			"wilayat_enName": "Wilayat Muscat",
+			"wilayat_arName": "ولاية مسقط",
+			"longitude": "58.7156741579236",
+			"latitude": "23.4931519588435"
+		},{
+			"wilayat_enName": "Wilayat Al Amrat",
+			"wilayat_arName": "ولاية العامرات",
+			"longitude": "58.4801937922661",
+			"latitude": "23.371516392119"
+		},{
+			"wilayat_enName": "Wilayat As Seeb",
+			"wilayat_arName": "ولاية السيب",
+			"longitude": "58.206417597511",
+			"latitude": "23.5834858584256"
+		},{
+			"wilayat_enName": "Wilayat Bawshar",
+			"wilayat_arName": "ولاية بوشر",
+			"longitude": "58.3359361686591",
+			"latitude": "23.4935519141337"
+		},{
+			"wilayat_enName": "Wilayat Mutrah",
+			"wilayat_arName": "ولاية مطرح",
+			"longitude": "58.5551588361657",
+			"latitude": "23.584808949343"
+		},{
+			"wilayat_enName": "Wilayat Qurayyat",
+			"wilayat_arName": "ولاية قريات",
+			"longitude": "58.8985873969606",
+			"latitude": "23.1352289813835"
+		},{
+			"wilayat_enName": "Wilayat Ibri",
+			"wilayat_arName": "ولاية عبري",
+			"longitude": "56.0522576385026",
+			"latitude": "22.5227306407753"
+		},{
+			"wilayat_enName": "Wilayat Yanqul",
+			"wilayat_arName": "ولاية ينقل",
+			"longitude": "56.4054025173141",
+			"latitude": "23.752390247965"
+		},{
+			"wilayat_enName": "Wilayat Nizwa",
+			"wilayat_arName": "ولاية نزوى",
+			"longitude": "57.5630622746366",
+			"latitude": "22.9315280818221"
+		},{
+			"wilayat_enName": "Wilayat Adam",
+			"wilayat_arName": "ولاية أدم",
+			"longitude": "57.2928216437846",
+			"latitude": "21.7522492504906"
+		},{
+			"wilayat_enName": "Wilayat Al Hamra",
+			"wilayat_arName": "ولاية الحمراء",
+			"longitude": "57.2862402402597",
+			"latitude": "23.159891079999"
+		},{
+			"wilayat_enName": "Wilayat Bahla",
+			"wilayat_arName": "ولاية بهلاء",
+			"longitude": "57.1841469649",
+			"latitude": "22.7272521202729"
+		},{
+			"wilayat_enName": "Wilayat Bidbid",
+			"wilayat_arName": "ولاية بدبد",
+			"longitude": "58.2651295605206",
+			"latitude": "23.2883386874895"
+		},{
+			"wilayat_enName": "Wilayat Izki",
+			"wilayat_arName": "ولاية إزكي",
+			"longitude": "57.8401419601283",
+			"latitude": "22.777708413488"
+		},{
+			"wilayat_enName": "Wilayat Manah",
+			"wilayat_arName": "ولاية منح",
+			"longitude": "57.5859893685477",
+			"latitude": "22.7276915772433"
+		},{
+			"wilayat_enName": "Wilayat Samail",
+			"wilayat_arName": "ولاية سمائل",
+			"longitude": "58.0421079778284",
+			"latitude": "23.2090245883787"
+		},{
+			"wilayat_enName": "Wilayat Ibra",
+			"wilayat_arName": "ولاية إبراء",
+			"longitude": "58.4307055906556",
+			"latitude": "22.7654715923686"
+		},{
+			"wilayat_enName": "Wilayat Bidiyah",
+			"wilayat_arName": "ولاية بدية",
+			"longitude": "58.7925121162435",
+			"latitude": "22.1377766110823"
+		},{
+			"wilayat_enName": "Wilayat Al Qabil",
+			"wilayat_arName": "ولاية القابل",
+			"longitude": "58.6028837628264",
+			"latitude": "22.5242245058268"
+		},{
+			"wilayat_enName": "Wilayat Al Mudaybi",
+			"wilayat_arName": "ولاية المضيبي",
+			"longitude": "58.1061777916914",
+			"latitude": "22.1503434736052"
+		},{
+			"wilayat_enName": "Wilayat Dama Wa At Taiyin",
+			"wilayat_arName": "ولاية دماء والطائيين",
+			"longitude": "58.6441493448317",
+			"latitude": "22.9989047847357"
+		},{
+			"wilayat_enName": "Wilayat Wadi Bani Khalid",
+			"wilayat_arName": "ولاية وادي بني خالد",
+			"longitude": "58.9903576237271",
+			"latitude": "22.6545129273218"
+		},{
+			"wilayat_enName": "Wilayat Sur",
+			"wilayat_arName": "ولاية صور",
+			"longitude": "59.3209144194949",
+			"latitude": "22.6149582573068"
+		},{
+			"wilayat_enName": "Wilayat Al Kamil Wa Al Wafi",
+			"wilayat_arName": "ولاية الكامل والوافي",
+			"longitude": "59.2058035023191",
+			"latitude": "22.3386100623514"
+		},{
+			"wilayat_enName": "Wilayat Jaalan Bani Bu Ali",
+			"wilayat_arName": "ولاية جعلان بني بو علي",
+			"longitude": "59.3632201790767",
+			"latitude": "21.6694948489169"
+		},{
+			"wilayat_enName": "Wilayat Jaalan Bani Bu Hasan",
+			"wilayat_arName": "ولاية جعلان بني بو حسن",
+			"longitude": "59.1360927236544",
+			"latitude": "21.6994378863"
+		},{
+			"wilayat_enName": "Wilayat Masirah",
+			"wilayat_arName": "ولاية مصيرة",
+			"longitude": "58.7952697010707",
+			"latitude": "20.4290215622753"
+		},{
+			"wilayat_enName": "Wilayat Hayma",
+			"wilayat_arName": "ولاية هيماء",
+			"longitude": "56.1578717477185",
+			"latitude": "20.1017142685899"
+		},{
+			"wilayat_enName": "Wilayat Al Jazir",
+			"wilayat_arName": "ولاية الجازر",
+			"longitude": "56.2239339386717",
+			"latitude": "18.5194064284704"
+		},{
+			"wilayat_enName": "Wilayat Ad Duqm",
+			"wilayat_arName": "ولاية الدقم",
+			"longitude": "57.4172335461934",
+			"latitude": "19.3457472638692"
+		},{
+			"wilayat_enName": "Wilayat Mahawt",
+			"wilayat_arName": "ولاية محوت",
+			"longitude": "57.9696820378968",
+			"latitude": "20.6467818302131"
+		},{
+			"wilayat_enName": "Wilayat Salalah",
+			"wilayat_arName": "ولاية صلالة",
+			"longitude": "53.9803500643465",
+			"latitude": "17.2437693119549"
+		},{
+			"wilayat_enName": "Wilayat Al Mazyunah",
+			"wilayat_arName": "ولاية المزيونة",
+			"longitude": "52.7650465850871",
+			"latitude": "18.0637865388541"
+		},{
+			"wilayat_enName": "Wilayat Dalkut",
+			"wilayat_arName": "ولاية ضلكوت",
+			"longitude": "53.0691348899421",
+			"latitude": "16.8727220568949"
+		},{
+			"wilayat_enName": "Wilayat Mirbat",
+			"wilayat_arName": "ولاية مرباط",
+			"longitude": "54.6409737348382",
+			"latitude": "17.0789237536608"
+		},{
+			"wilayat_enName": "Wilayat Muqshin",
+			"wilayat_arName": "ولاية مقشن",
+			"longitude": "54.88678620577",
+			"latitude": "19.1127650650402"
+		},{
+			"wilayat_enName": "Wilayat Rakhyut",
+			"wilayat_arName": "ولاية رخيوت",
+			"longitude": "53.3892939353657",
+			"latitude": "16.9175698744962"
+		},{
+			"wilayat_enName": "Wilayat Sadah",
+			"wilayat_arName": "ولاية سدح",
+			"longitude": "54.9374412700329",
+			"latitude": "17.2751913222165"
+		},{
+			"wilayat_enName": "Wilayat Shalim Wa Juzor Al Hallaniyat",
+			"wilayat_arName": "ولاية شليم وجزر الحلانيات",
+			"longitude": "55.3631908796257",
+			"latitude": "18.2120406382169"
+		},{
+			"wilayat_enName": "Wilayat Taqah",
+			"wilayat_arName": "ولاية طاقة",
+			"longitude": "54.4301029438616",
+			"latitude": "17.2165994601692"
+		},{
+			"wilayat_enName": "Wilayat Thumrayt",
+			"wilayat_arName": "ولاية ثمريت",
+			"longitude": "53.8741508400038",
+			"latitude": "18.4126763076578"
+		},{
+			"wilayat_enName": "Wilayat Dank",
+			"wilayat_arName": "ولاية ضنك",
+			"longitude": "56.1129670380527",
+			"latitude": "23.6979158290089"
+		}
+	]
+}

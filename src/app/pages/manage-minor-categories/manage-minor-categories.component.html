@@ -1,0 +1,49 @@
+<ngx-spinner type="ball-pulse-sync" color="#e74c3c">
+    <p style="font-size: 20px; color: #e74c3c">{{api.translate('Please wait...')}}</p>
+</ngx-spinner>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <h5> <span *ngIf="new">{{api.translate('CREATE NEW')}}</span> <span
+                        *ngIf="!new">{{api.translate('Edit')}}</span> {{api.translate('Minor Category')}} </h5>
+            </div>
+            <div class="card-body reset-table p-t-0">
+                <h4 class="sub-title">{{api.translate('Minor Category Details')}}</h4>
+                <div class="form-group row">
+                    <div class="col-sm-6">
+                        <label>{{api.translate('Name (EN)')}}</label>
+                        <input type="text" [(ngModel)]="name_en" class="form-control"
+                            [placeholder]="api.translate('Name (EN)')">
+                    </div>
+                    <div class="col-sm-6">
+                        <label>{{api.translate('Name (EN)')}}</label>
+                        <input type="text" [(ngModel)]="name_ar" class="form-control"
+                            [placeholder]="api.translate('Name (AR)')">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-4 col-form-label">{{api.translate('Upload cover image here')}}</label>
+                    <div class="col-sm-4">
+                        <input (change)="preview_banner($event.target.files)" type="file" class="form-control">
+                    </div>
+                    <div class="col-sm-4">
+                        <img [src]="imageUrl" alt="" style="height: 100px;width: 100px;float: right;"
+                            onError="this.src='assets/icon.png'">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-sm-12">
+                        <button class="btn btn-danger btn-round" (click)="create()" *ngIf="new">{{api.translate('Add New
+                            Minor Category')}}
+                        </button>
+                        <button class="btn btn-danger btn-round" (click)="update()" *ngIf="!new">
+                            {{api.translate('Update Minor Category')}} </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<ng2-toasty></ng2-toasty>
