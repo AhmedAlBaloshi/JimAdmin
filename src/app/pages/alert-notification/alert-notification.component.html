@@ -1,0 +1,62 @@
+<ngx-spinner type="ball-pulse-sync" color="#e74c3c">
+  <p style="font-size: 20px; color: #e74c3c">{{api.translate('Please wait...')}}</p>
+</ngx-spinner>
+
+<div class="row">
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-body">
+        <h5>{{api.translate('Alert Notification')}}</h5>
+      </div>
+
+      <div class="card-body reset-table p-t-0">
+
+        <div class="form-group row">
+            <div class="col-sm-6">
+                <label>{{api.translate('For')}}</label>
+                <select name="select" [(ngModel)]="messageFor" (change)="getUsers($event)" class="form-control">
+                  <option value="customer" selected>{{api.translate('Customer')}}</option>
+                  <option value="vendor">{{api.translate('Vendor')}}</option>
+                  <option value="driver">{{api.translate('Driver')}}</option>
+              </select>
+            </div>
+            <div class="col-sm-6">
+              <label for=""> {{ api.translate('Users') }} </label>
+              <ng-multiselect-dropdown [placeholder]="api.translate('Select Users')" [settings]="dropdownSettings"
+              [data]="users" [(ngModel)]="selectedUsers" (onSelect)="onItemSelect($event)"
+              (onSelectAll)="onSelectAll($event)">
+            </ng-multiselect-dropdown>
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-sm-12">
+                <label>{{api.translate('Title')}}</label>
+                <input type="text" [(ngModel)]="title" class="form-control"
+                    [placeholder]="api.translate('Title')">
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <div class="col-sm-12">
+                <label>{{api.translate('Message')}}</label>
+                <ckeditor [(ngModel)]="message" [readonly]="false" (change)="onChange($event)"
+                    (editorChange)="onEditorChange($event)" debounce="500">
+                </ckeditor>
+                <!-- <textarea rows="5" cols="5" [(ngModel)]="message" class="form-control"
+                    placeholder="Message"></textarea> -->
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <div class="col-sm-12">
+                <button (click)="submit()" class="btn btn-danger btn-round">{{api.translate('Submit')}}</button>
+            </div>
+        </div>
+
+    </div>
+    </div>
+  </div>
+</div>
+
+
+<ng2-toasty></ng2-toasty>

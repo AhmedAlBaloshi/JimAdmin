@@ -5,8 +5,9 @@
 export const environment = {
   production: false,
   // baseURL: 'https://jimgate.com/jim/api/index.php/', //'/jim-api/index.php/', //
-  baseURL: 'http://127.0.0.1:8000/api/', //'/jim-api/index.php/', //
-  mediaURL: 'https://jimgate.com/jim/api/uploads/', //'/jim-api/uploads/', //
+  baseURL: 'http://localhost/api/api/', //'/jim-api/index.php/', //
+  // mediaURL: 'https://jimgate.com/jim/api/uploads/', //'/jim-api/uploads/', //
+  mediaURL: 'http://localhost/api/api/uploads/', //'/jim-api/uploads/', //
   onesignal: {
     appId: 'YOUR_APP_ID',
     googleProjectNumber: 'GOOGLE_PROJECT_NUMBER',

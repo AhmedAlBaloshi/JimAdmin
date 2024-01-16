@@ -232,23 +232,19 @@
                                                 <div class="line_div"></div>
 
                                                 <div class="status_detail"
-                                                    *ngIf="item.status =='completed' || item.status == 'delivered'">
+                                                    *ngIf="item.status =='completed' || item.status == 'delivered';else otherStatus">
                                                     <div class="deliver_div">
                                                         {{api.translate('Delivered')}}
                                                     </div>
                                                 </div>
-                                                <div class="status_detail"
-                                                    *ngIf="item.status =='rejected' || item.status == 'cancel'">
-                                                    <div class="deliver_div">
-                                                        {{api.translate('Order is')}} {{item.status}}
-                                                    </div>
+                                                <ng-template #otherStatus>
+                                                  <div class="status_detail">
+                                                  <div class="deliver_div">
+                                                    {{api.translate('Order is')}} {{item.status.replaceAll('_', ' ')}}
+                                                  </div>
                                                 </div>
-                                                <div class="status_detail"
-                                                    *ngIf="item.status =='created' || item.status =='ongoing' || item.status === 'accepted'">
-                                                    <div class="deliver_div">
-                                                        {{api.translate('Order is')}} {{item.status}}
-                                                    </div>
-                                                </div>
+                                              </ng-template>
+
                                             </div>
                                         </div>
                                     </ng-template>
@@ -279,7 +275,7 @@
                                     </ng-template>
                                 </ng-container>
                             </nav>
-                            
+
                             <div [ngbNavOutlet]="nav" class="mt-2"></div>
                         </div>
                     </div>

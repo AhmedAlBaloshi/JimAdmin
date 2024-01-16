@@ -39,7 +39,7 @@ export class DashboardComponent implements OnInit {
           if (((x) => { try { JSON.parse(x); return true; } catch (e) { return false } })(element.orders)) {
             element.orders = JSON.parse(element.orders);
           }
-          if (element.did != 0) {
+          if (element.did != 0  && element.did != null) {
             this.api.post('drivers/getById', { id: element.did }).then((res: any) => {
               if (res && res.status === 200 && res.data.length) {
                 const obj = res.data[0];

@@ -140,7 +140,7 @@ export class CategoryComponent implements OnInit {
         console.log('update it');
         const query = item.status === '1' ? '0' : '1';
         const param = {
-          id: item.id,
+          id: item.cid,
           status: query
         };
         this.spinner.show();

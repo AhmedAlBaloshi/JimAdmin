@@ -1,277 +1,276 @@
 <ngx-spinner type="ball-pulse-sync" color="#e74c3c">
-    <p style="font-size: 20px; color: #e74c3c">{{api.translate('Please wait...')}}</p>
+  <p style="font-size: 20px; color: #e74c3c">{{api.translate('Please wait...')}}</p>
 </ngx-spinner>
 
 <div class="row">
-    <div class="col-md-12">
-        <div class="card">
-            <div class="card-body">
-                <p style="color: red;font-size: 1.5rem;">
-                    {{api.translate('Stores will be shown to users once Stores add products to his store')}}
-                </p>
-                <h5> <span *ngIf="new">{{api.translate('CREATE NEW')}}</span> <span
-                        *ngIf="!new">{{api.translate('Edit')}}</span>
-                    {{api.translate('Store')}} </h5>
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-body">
+        <p style="color: red;font-size: 1.5rem;">
+          {{api.translate('Stores will be shown to users once Stores add products to his store')}}
+        </p>
+        <h5> <span *ngIf="new">{{api.translate('CREATE NEW')}}</span> <span
+            *ngIf="!new">{{api.translate('Edit')}}</span>
+          {{api.translate('Store')}} </h5>
+      </div>
+      <div class="card-body reset-table p-t-0">
+        <h4 class="sub-title" *ngIf="new">{{api.translate('Owner Details')}}</h4>
+        <div class="form-group row" *ngIf="new">
+          <div class="col-sm-6">
+            <label>{{api.translate('First Name')}}</label>
+            <input type="text" [(ngModel)]="fname" class="form-control" [placeholder]="api.translate('First Name')">
+          </div>
+          <div class="col-sm-6">
+            <label>{{api.translate('Last Name')}}</label>
+            <input type="text" [(ngModel)]="lname" class="form-control" [placeholder]="api.translate('Last Name')">
+          </div>
+          <div class="col-sm-6">
+            <label>{{api.translate('Email')}}</label>
+            <input type="email" [disabled]="!new" [(ngModel)]="email" class="form-control"
+              [placeholder]="api.translate('Email')">
+          </div>
+          <div class="col-sm-6">
+            <label>{{api.translate('Password')}}</label>
+            <input type="password" [(ngModel)]="password" class="form-control"
+              [placeholder]="api.translate('Password')">
+          </div>
+          <div class="col-sm-6">
+            <label>{{api.translate('Contact No')}}</label>
+            <div class="row">
+              <div class="col-3" *ngIf="new ===true">
+                <select name="select" class="form-control" [(ngModel)]="mobileCcode">
+                  <option *ngFor="let item of util.countrys;" [value]="item.dialling_code">
+                    {{item.country_name}}
+                  </option>
+                </select>
+              </div>
+              <div class="col-9">
+                <input type="number" class="form-control" [placeholder]="api.translate('Mobile Number')"
+                  [(ngModel)]="phone" [ngModelOptions]="{standalone: true}">
+                <span class="md-line"></span>
+              </div>
             </div>
-            <div class="card-body reset-table p-t-0">
-                <h4 class="sub-title" *ngIf="new">{{api.translate('Owner Details')}}</h4>
-                <div class="form-group row" *ngIf="new">
-                    <div class="col-sm-6">
-                        <label>{{api.translate('First Name')}}</label>
-                        <input type="text" [(ngModel)]="fname" class="form-control"
-                            [placeholder]="api.translate('First Name')">
-                    </div>
-                    <div class="col-sm-6">
-                        <label>{{api.translate('Last Name')}}</label>
-                        <input type="text" [(ngModel)]="lname" class="form-control"
-                            [placeholder]="api.translate('Last Name')">
-                    </div>
-                    <div class="col-sm-6">
-                        <label>{{api.translate('Email')}}</label>
-                        <input type="email" [disabled]="!new" [(ngModel)]="email" class="form-control"
-                            [placeholder]="api.translate('Email')">
-                    </div>
-                    <div class="col-sm-6">
-                        <label>{{api.translate('Password')}}</label>
-                        <input type="password" [(ngModel)]="password" class="form-control"
-                            [placeholder]="api.translate('Password')">
-                    </div>
-                    <div class="col-sm-6">
-                        <label>{{api.translate('Contact No')}}</label>
-                        <div class="row">
-                            <div class="col-3" *ngIf="new ===true">
-                                <select name="select" class="form-control" [(ngModel)]="mobileCcode">
-                                    <option *ngFor="let item of util.countrys;" [value]="item.dialling_code">
-                                        {{item.country_name}}
-                                    </option>
-                                </select>
-                            </div>
-                            <div class="col-9">
-                                <input type="number" class="form-control" [placeholder]="api.translate('Mobile Number')"
-                                    [(ngModel)]="phone" [ngModelOptions]="{standalone: true}">
-                                <span class="md-line"></span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-6">
-                        <label>{{api.translate('Gender')}}</label>
-                        <select name="select" [(ngModel)]="gender" class="form-control">
-                            <option value="1">{{api.translate('Male')}}</option>
-                            <option value="0">{{api.translate('Female')}}</option>
-                        </select>
-                    </div>
-                </div>
-                <!-- if !new -->
-                <h4 class="sub-title" *ngIf="!new">{{api.translate('Owner Details')}}</h4>
-                <div class="form-group row" *ngIf="!new">
-                    <div class="col-sm-6">
-                        <label>{{api.translate('Name')}}</label>
-                        <input type="text" [(ngModel)]="userName" class="form-control">
-                    </div>
-                    <div class="col-sm-6">
-                        <label>{{api.translate('Email')}}</label>
-                        <input type="text" [(ngModel)]="userEmail" class="form-control">
-                    </div>
-                </div>
-                <h4 class="sub-title">{{api.translate('Stores Details')}}</h4>
-                <div class="form-group row">
-                    <div class="col-sm-12">
-                        <div class="form-group row">
-                            <div class="col-sm-6">
-                                <label>{{api.translate('Stores Name (EN)')}}</label>
-                                <input type="text" [(ngModel)]="name_en" class="form-control"
-                                    [placeholder]="api.translate('Stores Name (EN)')">
-                            </div>
-                            <div class="col-sm-6">
-                                <label>{{api.translate('Stores Name (AR)')}}</label>
-                                <input type="text" [(ngModel)]="name_ar" class="form-control"
-                                    [placeholder]="api.translate('Stores Name (AR)')">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-6">
-                        <label>{{api.translate('Opening Time')}}</label>
-                        <input [(ngModel)]="openTime" type="time" class="form-control"
-                            [placeholder]="api.translate('Opening Time')">
-                    </div>
-                    <div class="col-sm-6">
-                        <label>{{api.translate('Closing Time')}}</label>
-                        <input [(ngModel)]="closeTime" type="time" class="form-control"
-                            [placeholder]="api.translate('Closing Time')">
-                    </div>
-
-                    <div class="col-sm-3">
-                        <label>{{api.translate('Shipping Price')}} </label>
-                        <select name="select" [(ngModel)]="shipping" class="form-control">
-                            <option value="fixed">{{api.translate('Fixed')}}</option>
-                            <option value="km">{{api.translate('Per KM')}}</option>
-                        </select>
-                    </div>
-                    <div class="col-sm-3" *ngIf="shipping ==='fixed'">
-                        <label>{{api.translate('Fixed price')}}</label>
-                        <input type="number" [(ngModel)]="shippingPrice" class="form-control"
-                            [placeholder]="api.translate('Fixed price')">
-                    </div>
-                    <div class="col-sm-3" *ngIf="shipping ==='km'">
-                        <label>{{api.translate('Per KM price')}}</label>
-                        <input type="number" [(ngModel)]="shippingPrice" class="form-control"
-                            [placeholder]="api.translate('Per KM price')">
-                    </div>
-                    <div class="col-sm-3">
-                        <label>{{api.translate('Minimum Order')}}</label>
-                        <input type="number" [(ngModel)]="minOrderPrice" class="form-control"
-                            [placeholder]="api.translate('Minimum Order')">
-                    </div>
-                    <div class="col-sm-3">
-                        <label>{{api.translate('Estimated Delivery time')}}</label>
-                        <input [(ngModel)]="deliveryTime" type="number" class="form-control"
-                            [placeholder]="api.translate('Estimated Delivery time')">
-                    </div>
-                    <div class="col-sm-12">
-                        <div class="form-group row">
-                            <div class="col-sm-6">
-                                <label>{{api.translate('Store Description (EN)')}}</label>
-                                <textarea [(ngModel)]="descriptions_en" rows="5" cols="5" class="form-control"
-                                    [placeholder]="api.translate('Store Description (EN)')"></textarea>
-                            </div>
-                            <div class="col-sm-6">
-                                <label>{{api.translate('Store Description (AR)')}}</label>
-                                <textarea [(ngModel)]="descriptions_ar" rows="5" cols="5" class="form-control"
-                                    [placeholder]="api.translate('Store Description (AR)')"></textarea>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-12">
-                        <label>{{api.translate('Major Category')}}</label>
-                        <ng-multiselect-dropdown [placeholder]="api.translate('Select Major Category')"
-                            [settings]="dropdownSettings" [data]="getMajorCategoriesList()"
-                            [(ngModel)]="selectedMajorCategory" (onSelect)="onItemSelect($event)"
-                            (onSelectAll)="onSelectAll($event)">
-                        </ng-multiselect-dropdown>
-                    </div>
-                    <div class="col-sm-12">
-                        <label>{{api.translate('Rest Cuisines')}}</label>
-                        <ng-multiselect-dropdown [placeholder]="api.translate('Select Rest Cuisine')"
-                            [settings]="dropdownSettings" [data]="getRestCuisinesList()"
-                            [(ngModel)]="selectedRestCuisines" (onSelect)="onItemSelect($event)"
-                            (onSelectAll)="onSelectAll($event)">
-                        </ng-multiselect-dropdown>
-                    </div>
-                    <div class="col-sm-12">
-                        <label>{{api.translate('Select city')}}</label>
-                        <select name="select" [(ngModel)]="city" class="form-control">
-                            <option *ngFor="let item of cities" [value]="item.id">{{item.name_en}} - {{item.name_ar}}
-                            </option>
-                        </select>
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label class="col-sm-4 col-form-label">{{api.translate('Upload cover image here')}}</label>
-                    <div class="col-sm-4">
-                        <input (change)="preview_banner($event.target.files)" type="file" class="form-control"
-                            accept="image/*">
-                    </div>
-                    <div class="col-sm-4">
-                        <img [src]="coverImage" alt="" style="height: 100px;width: 100px;float: right;"
-                            onError="this.src='assets/icon.png'">
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <div class="col-sm-12">
-                        <label class="col-form-label">{{api.translate('Select location on map')}}</label>
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <div class="col-sm-12">
-                        <div class="map-container">
-                            <div class="map" id="mapbox"></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <div class="col-sm-12">
-                        <div class="form-group row">
-                            <div class="col-sm-6">
-                                <label>{{api.translate('Address (EN)')}}</label>
-                                <input readonly type="text" [(ngModel)]="address_en" class="form-control"
-                                    [placeholder]="api.translate('Address')">
-                            </div>
-                            <div class="col-sm-6">
-                                <label>{{api.translate('Address (AR)')}}</label>
-                                <input readonly type="text" [(ngModel)]="address_ar" class="form-control"
-                                    [placeholder]="api.translate('Address')">
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <div class="col-sm-6">
-                                <label>{{api.translate('Longitude')}}</label>
-                                <input readonly type="text" [(ngModel)]="longitude" class="form-control"
-                                    [placeholder]="api.translate('Longitude')">
-                            </div>
-                            <div class="col-sm-6">
-                                <label>{{api.translate('Latitude')}}</label>
-                                <input readonly type="text" [(ngModel)]="latitude" class="form-control"
-                                    [placeholder]="api.translate('Latitude')">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <div class="col-sm-12">
-                        <div class="form-group row">
-                            <div class="col-sm-6">
-                                <label>{{api.translate('Notes (EN)')}}</label>
-                                <textarea [(ngModel)]="notes_en" rows="5" cols="5" class="form-control"
-                                    [placeholder]="api.translate('Notes (EN)')"></textarea>
-                            </div>
-                            <div class="col-sm-6">
-                                <label>{{api.translate('Notes (AR)')}}</label>
-                                <textarea [(ngModel)]="notes_ar" rows="5" cols="5" class="form-control"
-                                    [placeholder]="api.translate('Notes (AR)')"></textarea>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <div class="col-sm-12">
-                        <button class="btn btn-danger btn-round" (click)="create()" *ngIf="new">{{api.translate('Create
-                            new Store')}}
-                        </button>
-                        <button class="btn btn-danger btn-round" (click)="updateVenue()" *ngIf="!new">
-                            {{api.translate('Update Store')}} </button>
-                    </div>
-                </div>
-            </div>
+          </div>
+          <div class="col-sm-6">
+            <label>{{api.translate('Gender')}}</label>
+            <select name="select" [(ngModel)]="gender" class="form-control">
+              <option value="1">{{api.translate('Male')}}</option>
+              <option value="0">{{api.translate('Female')}}</option>
+            </select>
+          </div>
         </div>
+        <!-- if !new -->
+        <h4 class="sub-title" *ngIf="!new">{{api.translate('Owner Details')}}</h4>
+        <div class="form-group row" *ngIf="!new">
+          <div class="col-sm-6">
+            <label>{{api.translate('Name')}}</label>
+            <input type="text" [(ngModel)]="userName" class="form-control">
+          </div>
+          <div class="col-sm-6">
+            <label>{{api.translate('Email')}}</label>
+            <input type="text" [(ngModel)]="userEmail" class="form-control">
+          </div>
+        </div>
+        <h4 class="sub-title">{{api.translate('Stores Details')}}</h4>
+        <div class="form-group row">
+          <div class="col-sm-12">
+            <div class="form-group row">
+              <div class="col-sm-6">
+                <label>{{api.translate('Stores Name (EN)')}}</label>
+                <input type="text" [(ngModel)]="name_en" class="form-control"
+                  [placeholder]="api.translate('Stores Name (EN)')">
+              </div>
+              <div class="col-sm-6">
+                <label>{{api.translate('Stores Name (AR)')}}</label>
+                <input type="text" [(ngModel)]="name_ar" class="form-control"
+                  [placeholder]="api.translate('Stores Name (AR)')">
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-6">
+            <label>{{api.translate('Opening Time')}}</label>
+            <input [(ngModel)]="openTime" type="time" class="form-control"
+              [placeholder]="api.translate('Opening Time')">
+          </div>
+          <div class="col-sm-6">
+            <label>{{api.translate('Closing Time')}}</label>
+            <input [(ngModel)]="closeTime" type="time" class="form-control"
+              [placeholder]="api.translate('Closing Time')">
+          </div>
+
+          <div class="col-sm-3">
+            <label>{{api.translate('Shipping Price')}} </label>
+            <select name="select" [(ngModel)]="shipping" class="form-control">
+              <option value="fixed">{{api.translate('Fixed')}}</option>
+              <option value="km">{{api.translate('Per KM')}}</option>
+            </select>
+          </div>
+          <div class="col-sm-3" *ngIf="shipping ==='fixed'">
+            <label>{{api.translate('Fixed price')}}</label>
+            <input type="number" [(ngModel)]="shippingPrice" class="form-control"
+              [placeholder]="api.translate('Fixed price')">
+          </div>
+          <div class="col-sm-3" *ngIf="shipping ==='km'">
+            <label>{{api.translate('Per KM price')}}</label>
+            <input type="number" [(ngModel)]="shippingPrice" class="form-control"
+              [placeholder]="api.translate('Per KM price')">
+          </div>
+          <div class="col-sm-3">
+            <label>{{api.translate('Minimum Order')}}</label>
+            <input type="number" [(ngModel)]="minOrderPrice" class="form-control"
+              [placeholder]="api.translate('Minimum Order')">
+          </div>
+          <div class="col-sm-3">
+            <label>{{api.translate('Estimated Delivery time')}}</label>
+            <input [(ngModel)]="deliveryTime" type="number" class="form-control"
+              [placeholder]="api.translate('Estimated Delivery time')">
+          </div>
+          <div class="col-sm-12">
+            <div class="form-group row">
+              <div class="col-sm-6">
+                <label>{{api.translate('Store Description (EN)')}}</label>
+                <textarea [(ngModel)]="descriptions_en" rows="5" cols="5" class="form-control"
+                  [placeholder]="api.translate('Store Description (EN)')"></textarea>
+              </div>
+              <div class="col-sm-6">
+                <label>{{api.translate('Store Description (AR)')}}</label>
+                <textarea [(ngModel)]="descriptions_ar" rows="5" cols="5" class="form-control"
+                  [placeholder]="api.translate('Store Description (AR)')"></textarea>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-12">
+            <label>{{api.translate('Major Category')}}</label>
+            <!-- <select name="type_id" [(ngModel)]="selectedMajorCategory" class="form-control">
+              <option *ngFor="let item of getMajorCategoriesList()" [value]="item.id">{{item.name_en}} - {{item.name_ar}}
+              </option>
+            </select> -->
+            <ng-multiselect-dropdown [placeholder]="api.translate('Select Major Category')"
+              [settings]="dropdownSettings" [data]="getMajorCategoriesList()" [(ngModel)]="selectedMajorCategory"
+              (onSelect)="onItemSelect($event)" (onSelectAll)="onSelectAll($event)">
+            </ng-multiselect-dropdown>
+          </div>
+          <div class="col-sm-12">
+            <label>{{api.translate('Rest Cuisines')}}</label>
+            <ng-multiselect-dropdown [placeholder]="api.translate('Select Rest Cuisine')" [settings]="dropdownSettings"
+              [data]="getRestCuisinesList()" [(ngModel)]="selectedRestCuisines" (onSelect)="onItemSelect($event)"
+              (onSelectAll)="onSelectAll($event)">
+            </ng-multiselect-dropdown>
+          </div>
+          <div class="col-sm-12">
+            <label>{{api.translate('Select city')}}</label>
+            <select name="select" [(ngModel)]="city" class="form-control">
+              <option *ngFor="let item of cities" [value]="item.id">{{item.name_en}} - {{item.name_ar}}
+              </option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col-sm-4 col-form-label">{{api.translate('Upload cover image here')}}</label>
+          <div class="col-sm-4">
+            <input (change)="preview_banner($event.target.files)" type="file" class="form-control" accept="image/*">
+          </div>
+          <div class="col-sm-4">
+            <img [src]="coverImage" alt="" style="height: 100px;width: 100px;float: right;"
+              onError="this.src='assets/icon.png'">
+          </div>
+        </div>
+        <div class="form-group row">
+          <div class="col-sm-12">
+            <label class="col-form-label">{{api.translate('Select location on map')}}</label>
+          </div>
+        </div>
+        <div class="form-group row">
+          <div class="col-sm-12">
+            <div class="map-container">
+              <div class="map" id="mapbox"></div>
+            </div>
+          </div>
+        </div>
+        <div class="form-group row">
+          <div class="col-sm-12">
+            <div class="form-group row">
+              <div class="col-sm-6">
+                <label>{{api.translate('Address (EN)')}}</label>
+                <input readonly type="text" [(ngModel)]="address_en" class="form-control"
+                  [placeholder]="api.translate('Address')">
+              </div>
+              <div class="col-sm-6">
+                <label>{{api.translate('Address (AR)')}}</label>
+                <input readonly type="text" [(ngModel)]="address_ar" class="form-control"
+                  [placeholder]="api.translate('Address')">
+              </div>
+            </div>
+            <div class="form-group row">
+              <div class="col-sm-6">
+                <label>{{api.translate('Longitude')}}</label>
+                <input readonly type="text" [(ngModel)]="longitude" class="form-control"
+                  [placeholder]="api.translate('Longitude')">
+              </div>
+              <div class="col-sm-6">
+                <label>{{api.translate('Latitude')}}</label>
+                <input readonly type="text" [(ngModel)]="latitude" class="form-control"
+                  [placeholder]="api.translate('Latitude')">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="form-group row">
+          <div class="col-sm-12">
+            <div class="form-group row">
+              <div class="col-sm-6">
+                <label>{{api.translate('Notes (EN)')}}</label>
+                <textarea [(ngModel)]="notes_en" rows="5" cols="5" class="form-control"
+                  [placeholder]="api.translate('Notes (EN)')"></textarea>
+              </div>
+              <div class="col-sm-6">
+                <label>{{api.translate('Notes (AR)')}}</label>
+                <textarea [(ngModel)]="notes_ar" rows="5" cols="5" class="form-control"
+                  [placeholder]="api.translate('Notes (AR)')"></textarea>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="form-group row">
+          <div class="col-sm-12">
+            <button class="btn btn-danger btn-round" (click)="create()" *ngIf="new">{{api.translate('Create new
+              Store')}}
+            </button>
+            <button class="btn btn-danger btn-round" (click)="updateVenue()" *ngIf="!new">
+              {{api.translate('Update Store')}} </button>
+          </div>
+        </div>
+      </div>
     </div>
+  </div>
 </div>
 
 <div class="row" *ngIf="!new">
-    <div class="col-md-4">
-        <div class="card">
-            <div class="card-body-big card-status">
-                <h5>{{api.translate('Income Status')}}</h5>
-                <div class="card-body text-center">
-                    <h2 class="text-primary">{{api.translate('ORDERS')}} : {{orders.length}}</h2>
-                </div>
-                <div class="row">
-                    <div class="col-6">
-                        <p class="f-16 text-muted m-0">{{api.translate('Totale Income')}} : {{getCurrency()}}
-                            {{totalSales}}
-                        </p>
-                    </div>
-                    <div class="col-6">
-
-                    </div>
-                </div>
-            </div>
+  <div class="col-md-4">
+    <div class="card">
+      <div class="card-body-big card-status">
+        <h5>{{api.translate('Income Status')}}</h5>
+        <div class="card-body text-center">
+          <h2 class="text-primary">{{api.translate('ORDERS')}} : {{orders.length}}</h2>
         </div>
+        <div class="row">
+          <div class="col-6">
+            <p class="f-16 text-muted m-0">{{api.translate('Totale Income')}} : {{getCurrency()}}
+              {{totalSales}}
+            </p>
+          </div>
+          <div class="col-6">
+
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="col-md-8">
-        <div class="card">
-            <div class="card-body-big card-status">
-                <h5>{{api.translate('Orders & Reviews')}}</h5>
-                <!-- <ngb-tabset>
+  </div>
+  <div class="col-md-8">
+    <div class="card">
+      <div class="card-body-big card-status">
+        <h5>{{api.translate('Orders & Reviews')}}</h5>
+        <!-- <ngb-tabset>
                     <ngb-tab title="Orders">
                         <ng-template ngbTabContent>
                             <div class="row orders">
@@ -315,10 +314,6 @@
                                                             *ngIf="util.cside ==='left'">{{util.currecny}}
                                                             {{order.crt_price.price}}
                                                         </span>
-                                                        <span style="font-weight: normal;"
-                                                            *ngIf="util.cside ==='right'">{{order.crt_price.price}}
-                                                            {{util.currecny}} </span>
-                                                    </ng-container>
                                                 </div>
                                             </span>
                                         </div>
@@ -365,106 +360,97 @@
                         </ng-template>
                     </ngb-tab>
                 </ngb-tabset> -->
-                <nav ngbNav #nav="ngbNav" class="nav-tabs">
-                    <ng-container ngbNavItem>
-                        <a ngbNavLink>Orders</a>
-                        <ng-template ngbNavContent>
-                            <div class="row orders">
-                                <div class="col-lg-6 col-md-12 col-sm-12 card_div" *ngFor="let item of orders">
-                                    <div class="resto_detail">
-                                        <div class="back_image"
-                                            [ngStyle]="{'background-image':'url('+api.mediaURL+item.user_cover+'),url(assets/placeholder.jpg)'}">
-                                        </div>
-                                        <div style="margin-left: 10px;">
-                                            <p class="res_name">{{item.user_first_name +'
-                                                '+item.user_last_name}}</p>
-                                            <p class="res_location">{{item.time}}</p>
-                                            <p class="res_name">{{api.translate('ID')}} : #{{item.paid}}
-                                            </p>
-                                            <p class="res_name">{{item.pay_method}}</p>
-                                        </div>
-                                    </div>
+        <nav ngbNav #nav="ngbNav" class="nav-tabs">
+          <ng-container ngbNavItem>
+            <a ngbNavLink>Orders</a>
+            <ng-template ngbNavContent>
+              <div class="row orders">
+                <div class="col-lg-6 col-md-12 col-sm-12 card_div" *ngFor="let item of orders">
+                  <div class="resto_detail">
+                    <div class="back_image"
+                      [ngStyle]="{'background-image':'url('+api.mediaURL+item.user_cover+'),url(assets/placeholder.jpg)'}">
+                    </div>
+                    <div style="margin-left: 10px;">
+                      <p class="res_name">{{item.user_first_name +'
+                        '+item.user_last_name}}</p>
+                      <p class="res_location">{{item.time}}</p>
+                      <p class="res_name">{{api.translate('ID')}} : #{{item.paid}}
+                      </p>
+                      <p class="res_name">{{item.pay_method}}</p>
+                    </div>
+                  </div>
 
-                                    <div class="line_div"></div>
+                  <div class="line_div"></div>
 
-                                    <div class="order_detail">
-                                        <p class="head_gray">{{api.translate('ITEMS')}}</p>
-                                        <div class="small_lbl">
-                                            <span *ngFor="let order of item.orders;let ol = index">
-                                                <div *ngIf="!order.selectedItem || !order.selectedItem.length"
-                                                    class="border_bottom">
-                                                    <ng-container *ngIf="order.crt_price_type == 'single'">
-                                                        <span>{{order.prdct_name_en}} X {{order.crt_pqty}} </span>
-                                                        <span style="font-weight: normal;"
-                                                            *ngIf="util.cside ==='left'">{{util.currecny}}
-                                                            {{order.crt_price}}
-                                                        </span>
-                                                        <span style="font-weight: normal;"
-                                                            *ngIf="util.cside ==='right'">{{order.crt_price}}
-                                                            {{util.currecny}} </span>
-                                                    </ng-container>
-                                                    <ng-container *ngIf="order.crt_price_type == 'selection'">
-                                                        <span>{{order.prdct_name_en}} - {{order.crt_price.title}} X
-                                                            {{order.crt_pqty}} </span>
-                                                        <span style="font-weight: normal;"
-                                                            *ngIf="util.cside ==='left'">{{util.currecny}}
-                                                            {{order.crt_price.price}}
-                                                        </span>
-                                                        <span style="font-weight: normal;"
-                                                            *ngIf="util.cside ==='right'">{{order.crt_price.price}}
-                                                            {{util.currecny}} </span>
-                                                    </ng-container>
-                                                </div>
-                                            </span>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col">
-                                                <p class="head_gray">{{api.translate('ORDERED ON')}}</p>
-                                            </div>
-                                            <div class="col">
-                                                <p class="small_lbl">{{item.time}} </p>
-                                            </div>
-                                            <div class="col">
-                                                <p class="head_gray">{{api.translate('TOTAL AMOUNT (+delivery)')}}</p>
-                                            </div>
-                                            <div class="col">
-                                                <p class="small_lbl" *ngIf="util.cside ==='left'">
-                                                    {{util.currecny}}{{item.grand_total}}</p>
-                                                <p class="small_lbl" *ngIf="util.cside ==='right'">{{item.grand_total}}
-                                                    {{util.currecny}}</p>
-                                            </div>
-                                        </div>
-                                        <p class="head_gray">{{api.translate('Order Notes')}}</p>
-                                        <p class="small_lbl">{{item.notes}} </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </ng-template>
-                    </ng-container>
-                    <ng-container ngbNavItem>
-                        <a ngbNavLink>Reviews</a>
-                        <ng-template ngbNavContent>
-                            <div class="review">
-                                <div class="row" *ngFor="let item of reviews"
-                                    style="border-bottom: 1px solid lightgray;padding: 10px;">
-                                    <div class="col-md-2">
-                                        <img height="50" width="50" [src]="api.mediaURL+item.cover" alt=""
-                                            onError="this.src='assets/icon.png'">
-                                    </div>
-                                    <div class="col-md-10">
-                                        <p style="font-weight: bold;"> {{item.fname}} {{item.lname}} </p> <br>
-                                        <p> {{item.msg}} </p> <br>
-                                        <p>{{item.timestamp}}</p> <br>
-                                    </div>
-                                </div>
-                            </div>
-                        </ng-template>
-                    </ng-container>
-                </nav>
-                <div [ngbNavOutlet]="nav" class="mt-2"></div>
-            </div>
-        </div>
+                  <div class="order_detail">
+                    <p class="head_gray">{{api.translate('ITEMS')}}</p>
+                    <div class="small_lbl">
+                      <span *ngFor="let order of item.orders;let ol = index">
+                        <div class="border_bottom">
+                          <ng-container>
+                            <span>{{order.prdct_name_en}} X {{order.crt_pqty}} </span>
+
+                            <span style="font-weight: normal;" *ngIf="util.cside ==='left'"> {{util.currecny}}
+                              {{order.crt_price}}
+                            </span>
+                            <span style="font-weight: normal;" *ngIf="util.cside ==='right'">
+                              {{order.crt_price}}{{util.currecny}}
+                            </span>
+                          </ng-container>
+                        </div>
+                      </span>
+                    </div>
+                    <div class="row">
+                      <div class="col">
+                        <p class="head_gray">{{api.translate('ORDERED ON')}}</p>
+                      </div>
+                      <div class="col">
+                        <p class="small_lbl">{{item.time}} </p>
+                      </div>
+                      <div class="col">
+                        <p class="head_gray">{{api.translate('TOTAL AMOUNT (+delivery)')}}</p>
+                      </div>
+                      <div class="col">
+                        <p class="small_lbl" *ngIf="util.cside ==='left'">
+                          {{util.currecny}}{{item.grand_total}}</p>
+                        <p class="small_lbl" *ngIf="util.cside ==='right'">{{item.grand_total}}
+                          {{util.currecny}}</p>
+                      </div>
+                    </div>
+                    <p class="head_gray">{{api.translate('Order Notes')}}</p>
+                    <p class="small_lbl">{{item.notes}} </p>
+                  </div>
+                </div>
+              </div>
+            </ng-template>
+          </ng-container>
+          <ng-container ngbNavItem>
+            <a ngbNavLink>Reviews</a>
+            <ng-template ngbNavContent>
+              <div class="review">
+                <div class="row" *ngFor="let item of reviews" style="border-bottom: 1px solid lightgray;padding: 10px;">
+                  <div class="col-md-2">
+                    <img height="50" width="50" [src]="api.mediaURL+item.cover" alt=""
+                      onError="this.src='assets/icon.png'">
+                  </div>
+                  <div class="col-md-8">
+                    <p style="font-weight: bold;"> {{item.fname}} {{item.lname}} </p> <br>
+                    <p> {{item.msg}} </p> <br>
+                    <p>{{item.timestamp}}</p> <br>
+                  </div>
+                  <div class="col-md-2">
+                    <button  [className]="'btn btn-danger btn-round p-0'"
+                      (click)="changeStatus(item)"><i class="fa fa-trash text-white m-2"></i></button>
+                  </div>
+                </div>
+              </div>
+            </ng-template>
+          </ng-container>
+        </nav>
+        <div [ngbNavOutlet]="nav" class="mt-2"></div>
+      </div>
     </div>
+  </div>
 </div>
 
 

@@ -14,7 +14,6 @@ import { TitleComponent } from './layouts/admin/title/title.component';
 import { AdminComponent } from './layouts/admin/admin.component';
 import { BreadcrumbsComponent } from './layouts/admin/breadcrumbs/breadcrumbs.component';
 import { AuthComponent } from './layouts/auth/auth.component';
-
 @NgModule({
   declarations: [
     AppComponent,

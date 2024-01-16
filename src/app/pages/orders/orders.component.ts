@@ -1,10 +1,12 @@
 
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef, inject } from '@angular/core';
 import { ApisService } from 'src/app/services/apis.service';
 import { Router, NavigationExtras } from '@angular/router';
 import * as moment from 'moment';
 import { UtilService } from 'src/app/services/util.service';
 import { ToastData, ToastOptions, ToastyService } from 'ng2-toasty';
+import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-orders',
@@ -16,14 +18,47 @@ export class OrdersComponent implements OnInit {
   dummOrders: any[] = [];
   dummy = Array(5);
   page = 1;
+  selectedDriver:any;
+  drivers:any[]= [];
+  orderId:number|null = null;
+  closeResult = '';
+  reason:string = '';
+
+  private modalService = inject(NgbModal);
+
   constructor(
     public api: ApisService,
     private router: Router,
     public util: UtilService,
     private toastyService: ToastyService,
+    private spinner: NgxSpinnerService
   ) {
     this.api.auth();
     this.getOrders();
+    this.getDrivers()
+  }
+
+  getDrivers() {
+    this.drivers = [];
+
+    this.api
+      .get('drivers')
+      .then(
+        (datas: any) => {
+          if (datas && datas.data.length) {
+            this.drivers = datas.data;
+            console.warn(this.drivers);
+          }
+        },
+        (error) => {
+          console.log(error);
+          this.error(this.api.translate('Something went wrong'));
+        }
+      )
+      .catch((error) => {
+        console.log(error);
+        this.error(this.api.translate('Something went wrong'));
+      });
   }
 
   getOrders() {
@@ -35,7 +70,7 @@ export class OrdersComponent implements OnInit {
           if (((x) => { try { JSON.parse(x); return true; } catch (e) { return false } })(element.orders)) {
             element.orders = JSON.parse(element.orders);
           }
-          if (element.did != 0) {
+          if (element.did != 0 && element.did != null) {
             this.api.post('drivers/getById', { id: element.did }).then((data: any) => {
               if (data && data.status === 200 && data.data.length) {
                 const obj = data.data[0];
@@ -58,6 +93,32 @@ export class OrdersComponent implements OnInit {
   }
 
   ngOnInit(): void {
+  }
+
+  open(content: TemplateRef<any>, item) {
+    this.orderId = item.id;
+    this.selectedDriver = item.did
+    this.modalService
+      .open(content, { ariaLabelledBy: 'modal-basic-title' })
+      .result.then(
+        (result) => {
+          this.closeResult = `Closed with: ${result}`;
+        },
+        (reason) => {
+          this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+        }
+      );
+  }
+
+  private getDismissReason(reason: any): string {
+    switch (reason) {
+      case ModalDismissReasons.ESC:
+        return 'by pressing ESC';
+      case ModalDismissReasons.BACKDROP_CLICK:
+        return 'by clicking on a backdrop';
+      default:
+        return `with: ${reason}`;
+    }
   }
 
   search(string) {
@@ -117,6 +178,9 @@ export class OrdersComponent implements OnInit {
     });
   }
 
+  getBadgeClass(item){
+    return item.paid == 0?'bg-danger':'bg-success';
+  }
 
   getClass(item) {
     if (item === 'created' || item === 'accepted' || item === 'picked') {
@@ -144,5 +208,50 @@ export class OrdersComponent implements OnInit {
 
   getCurrency() {
     return this.api.getCurrecySymbol();
+  }
+
+
+  openUser(item) {
+    const navData: NavigationExtras = {
+      queryParams: {
+        id: item.uid
+      }
+    };
+    this.router.navigate(['manage-users'], navData);
+  }
+
+  transfer() {
+
+    let driver = this.drivers.filter((d) => d.id === this.selectedDriver);
+    let reason = `Changed driver to ${driver[0].first_name} ${driver[0].last_name} because "${this.reason}"`;
+
+    const param = {
+      id: this.orderId,
+      selectedDriver: this.selectedDriver,
+      reason: reason
+    };
+    this.spinner.show();
+    console.log(param);
+    this.api
+      .post('drivers/changeDriver', param)
+      .then(
+        (datas) => {
+          this.selectedDriver = null;
+          this.spinner.hide();
+          this.getOrders();
+          this.success('Products are copied to ' + driver[0].first_name+ ' ' +driver[0].last_name);
+          this.modalService.dismissAll();
+        },
+        (error) => {
+          this.spinner.hide();
+          this.error(this.api.translate('Something went wrong'));
+          console.log(error);
+        }
+      )
+      .catch((error) => {
+        this.spinner.hide();
+        console.log(error);
+        this.error(this.api.translate('Something went wrong'));
+      });
   }
 }

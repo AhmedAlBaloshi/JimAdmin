@@ -61,7 +61,8 @@ export class UsersComponent implements OnInit {
 
   filterItems(searchTerm) {
     return this.users.filter((item) => {
-      return item.first_name.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1;
+      const name = item.full_name+' '+item.last_name + ' '+item.country_code+item.mobile;
+      return name.toLowerCase().includes(searchTerm.toLowerCase());
     });
   }
 

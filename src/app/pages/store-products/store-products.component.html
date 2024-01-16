@@ -1,0 +1,172 @@
+<ngx-spinner type="ball-pulse-sync" color="#e74c3c">
+  <p style="font-size: 20px; color: #e74c3c">{{api.translate('Please wait...')}}</p>
+</ngx-spinner>
+
+<div class="row">
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-body">
+        <h5>{{api.translate('All Products')}}</h5>
+      </div>
+      <div class="card-body reset-table p-t-0">
+        <div class="form-group row">
+          <label class="col-sm-2 col-form-label">{{api.translate('Search')}}</label>
+          <div class="col-sm-6">
+            <input type="text" class="form-control form-control-round" [placeholder]="api.translate('Search products')"
+              (input)="search($event.target.value)">
+          </div>
+          <div class="col-sm-4 text-right">
+
+            <button style="float: right;" type="button"
+              class="btn btn-info btn-round" (click)="open(content)" [disabled]="checkSelectedProd()">Copy Meal To</button>
+
+            <ng-template #content let-modal>
+              <div class="modal-header">
+                <h4 class="modal-title" id="modal-basic-title">Copy Meal To</h4>
+                <!-- <span aria-hidden="true" (click)="modal.dismiss('Cross click')">&times;</span> -->
+                <button type="button" class="btn btn-sm bg-none" style="font-size: 30px;" aria-label="Close"
+                  (click)="modal.dismiss('Cross click')"> &times;</button>
+              </div>
+              <div class="modal-body">
+                <form>
+                  <div class="mb-3">
+                    <label for="dateOfBirth">Restaurants</label>
+                    <div class="input-group">
+                      <select class="form-control" [(ngModel)]="selectedRestaurant">
+                        <option *ngFor="let rest of restaurants" [value]="rest.id">{{ rest.name_en }} - {{ rest.name_ar }}</option>
+                      </select>
+                    </div>
+                  </div>
+                </form>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-danger btn-round" (click)="modal.close('Cancel')">Cancel</button>
+                <button type="button" class="btn btn-success btn-round" (click)="copyMeal()">Copy</button>
+              </div>
+            </ng-template>
+
+          </div>
+
+        </div>
+        <div class="table-responsive">
+          <!-- <table class="table table-hover">
+                      <thead>
+                          <tr class="text-uppercase">
+                              <th>{{api.translate('ID')}}</th>
+                              <th>{{api.translate('Cover')}}</th>
+                              <th (click)="sortByName()">{{api.translate('Name')}} <i class="ti-angle-down"></i> </th>
+                              <th>{{api.translate('Price')}} </th>
+                              <th (click)="sortByRating()">{{api.translate('Rating')}} <i class="ti-angle-down"></i>
+                              </th>
+                              </tr>
+                      </thead>
+                      <tbody> -->
+          <!-- <tr *ngFor="let item of dummy;">
+                              <td>
+                                  <ngx-skeleton-loader count="1"
+                                      [theme]="{ 'border-radius': '5px', height: '10px', border: '1px solid white' }">
+                                  </ngx-skeleton-loader>
+                              </td>
+                              <td>
+                                  <ngx-skeleton-loader count="1"
+                                      [theme]="{ 'border-radius': '5px', height: '10px', border: '1px solid white' }">
+                                  </ngx-skeleton-loader>
+                              </td>
+                              <td>
+                                  <ngx-skeleton-loader count="1"
+                                      [theme]="{ 'border-radius': '5px', height: '10px', border: '1px solid white' }">
+                                  </ngx-skeleton-loader>
+                              </td>
+                              <td>
+                                  <ngx-skeleton-loader count="1"
+                                      [theme]="{ 'border-radius': '5px', height: '10px', border: '1px solid white' }">
+                                  </ngx-skeleton-loader>
+                              </td>
+                              <td>
+                                  <ngx-skeleton-loader count="1"
+                                      [theme]="{ 'border-radius': '5px', height: '10px', border: '1px solid white' }">
+                                  </ngx-skeleton-loader>
+                              </td>
+                          </tr> -->
+          <!-- <tr
+                              *ngFor="let item of products | paginate: {id:'pagin1', itemsPerPage: 10, currentPage: page };let i = index;">
+                              <td>{{item.id}}</td>
+                              <td><a href="javascript:;"><img class="img-responsive" style="height: 40px;"
+                                          [src]="api.mediaURL+item.cover" onError="this.src='assets/images/user.png'"
+                                          alt="chat-user"></a>
+                              </td>
+                              <td>{{item.name_en}} - {{item.name_ar}}</td>
+                              <td>{{util.currecny}} {{formatPrice(item.price)}}</td>
+                              <td>{{item.rating}}</td>
+                      </tbody>
+                  </table> -->
+          <table class="table table-hover">
+            <thead>
+              <tr class="text-uppercase">
+                <th>
+                  <input type="checkbox" [(ngModel)]="selectAllProducts" (change)="toggleSelectAll()">
+                </th>
+                <th>{{ api.translate('ID') }}</th>
+                <th>{{ api.translate('Cover') }}</th>
+                <th (click)="sortByName()">{{ api.translate('Name') }} <i class="ti-angle-down"></i> </th>
+                <th>{{ api.translate('Price') }}</th>
+                <th (click)="sortByRating()">{{ api.translate('Rating') }} <i class="ti-angle-down"></i> </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of dummy;">
+                <td>
+                  <ngx-skeleton-loader count="1"
+                    [theme]="{ 'border-radius': '5px', height: '10px', border: '1px solid white' }">
+                  </ngx-skeleton-loader>
+                </td>
+                <td>
+                  <ngx-skeleton-loader count="1"
+                    [theme]="{ 'border-radius': '5px', height: '10px', border: '1px solid white' }">
+                  </ngx-skeleton-loader>
+                </td>
+                <td>
+                  <ngx-skeleton-loader count="1"
+                    [theme]="{ 'border-radius': '5px', height: '10px', border: '1px solid white' }">
+                  </ngx-skeleton-loader>
+                </td>
+                <td>
+                  <ngx-skeleton-loader count="1"
+                    [theme]="{ 'border-radius': '5px', height: '10px', border: '1px solid white' }">
+                  </ngx-skeleton-loader>
+                </td>
+                <td>
+                  <ngx-skeleton-loader count="1"
+                    [theme]="{ 'border-radius': '5px', height: '10px', border: '1px solid white' }">
+                  </ngx-skeleton-loader>
+                </td>
+              </tr>
+              <tr
+                *ngFor="let item of products | paginate: { id: 'pagin1', itemsPerPage: 10, currentPage: page }; let i = index;">
+                <td>
+                  <input type="checkbox" [(ngModel)]="item.isSelected" [value]="item">
+                </td>
+                <td>{{ item.id }}</td>
+                <td>
+                  <a href="javascript:;">
+                    <img class="img-responsive" style="height: 40px;" [src]="api.mediaURL + item.cover"
+                      onError="this.src='assets/images/user.png'" alt="chat-user">
+                  </a>
+                </td>
+                <td>{{ item.name_en }} - {{ item.name_ar }}</td>
+                <td>{{ util.currecny }} {{ formatPrice(item.price) }}</td>
+                <td>{{ item.rating }}</td>
+              </tr>
+            </tbody>
+          </table>
+
+        </div>
+        <div class="has-text-centered">
+          <pagination-controls id="pagin1" (pageChange)="page = $event"></pagination-controls>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng2-toasty></ng2-toasty>

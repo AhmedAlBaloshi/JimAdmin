@@ -86,8 +86,7 @@
                                 <td>{{item.name_en}} - {{item.name_ar}}</td>
                                 <td>{{item.store_name_en}} - {{item.store_name_ar}}</td>
                                 <td><button type="button" [className]="getClass(item.status)"
-                                        (click)="changeStatus(item)">{{item.status === '1' ?
-                                        'Active':'Deactive'}}</button>
+                                        (click)="changeStatus(item)">{{item.status === '1' ? 'Active':'Deactive'}}</button>
                                 </td>
                                 <td><button type="button" (click)="view(item)"
                                         class="btn btn-success btn-round btn-outline-success">{{api.translate('View')}}</button>

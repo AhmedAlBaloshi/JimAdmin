@@ -1,4 +1,4 @@
- 
+
 <ngx-spinner type="ball-pulse-sync" color="#e74c3c">
     <p style="font-size: 20px; color: #e74c3c">{{api.translate('Please wait...')}}</p>
 </ngx-spinner>
@@ -28,6 +28,8 @@
                             <tr class="text-uppercase">
                                 <th>{{api.translate('COUPEN CODE')}}</th>
                                 <th>{{api.translate('DISCOUNT')}}</th>
+                                <th>{{api.translate('Free Delivery')}}</th>
+                                <th>{{api.translate('Is Promo')}}</th>
                                 <th>{{api.translate('EXPIRE')}}</th>
                                 <th>{{api.translate('Descriptions')}}</th>
                                 <th>{{api.translate('ACTIONS')}}</th>
@@ -71,6 +73,14 @@
                                 </td>
                                 <td>
                                     {{item.discount}} {{item.type === 'per' ? '%' : api.getCurrecySymbol()}}
+                                </td>
+                                <td>
+                                  <span *ngIf="item.free_delivery != 1" class="badge badge-danger">False</span>
+                                  <span *ngIf="item.free_delivery == 1" class="badge badge-success">True</span>
+                                </td>
+                                <td>
+                                  <span *ngIf="item.is_promo != 1" class="badge badge-danger">False</span>
+                                  <span *ngIf="item.is_promo == 1" class="badge badge-success">True</span>
                                 </td>
                                 <td>
                                     {{getDate(item.date_time)}}

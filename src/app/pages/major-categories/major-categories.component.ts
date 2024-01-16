@@ -19,7 +19,7 @@ export class MajorCategoriesComponent implements OnInit {
   page: number = 1;
   cuisineName: any = '';
   cuisineId: any;
-  
+
   constructor(
     private router: Router,
     public api: ApisService,
@@ -148,7 +148,7 @@ export class MajorCategoriesComponent implements OnInit {
           status: query
         };
         this.spinner.show();
-        this.api.post('cuisines/editCuisine', param).then((res) => {
+        this.api.post('majorcategories/editList', param).then((res) => {
           this.spinner.hide();
           this.getMajorCategories();
         }, error => {

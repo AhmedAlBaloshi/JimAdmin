@@ -139,6 +139,18 @@ const routes: Routes = [
         loadChildren: () => import('./pages/send-email/send-email.module').then(m => m.SendEmailModule)
       },
       {
+        path: 'alert-notification',
+        loadChildren: () => import('./pages/alert-notification/alert-notification.module').then(m => m.AlertNotificationModule)
+      },
+      {
+        path: 'restaurant-products',
+        loadChildren: () => import('./pages/store-products/store-products.module').then(m => m.StoreProductsModule)
+      },
+      {
+        path: 'restaurant-cuisines',
+        loadChildren: () => import('./pages/store-cuisines/store-cuisines.module').then(m => m.StoreCuisinesModule)
+      },
+      {
         path: 'app-settings',
         loadChildren: () => import('./pages/app-settings/app-settings.module').then(m => m.AppSettingsModule)
       },
@@ -147,12 +159,20 @@ const routes: Routes = [
         loadChildren: () => import('./pages/app-web/app-web.module').then(m => m.AppWebModule)
       },
       {
+        path: 'custom-sort',
+        loadChildren: () => import('./pages/custom-sort/custom-sort.module').then(m => m.CustomSortModule)
+      },
+      {
         path: 'products',
         loadChildren: () => import('./pages/products/products.module').then(m => m.ProductsModule)
       },
       {
         path: 'manage-products',
         loadChildren: () => import('./pages/manage-products/manage-products.module').then(m => m.ManageProductsModule)
+      },
+      {
+        path: 'silver-display',
+        loadChildren: () => import('./pages/silver-display/silver-display.module').then(m => m.SilverDisplayModule)
       },
       {
         path: 'zones',

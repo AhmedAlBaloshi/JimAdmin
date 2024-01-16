@@ -30,6 +30,8 @@ export class AppWebComponent implements OnInit {
   shipping: any = 'fixed';
   haveSave: boolean;
   allowDistance: any;
+  restaurantDistance: any = '0.00';
+  silverDisplay:any = true;
 
   facebook: any;
   instagram: any;
@@ -74,6 +76,8 @@ export class AppWebComponent implements OnInit {
           this.tax = this.formatPrice(info.tax);
           this.zip = info.zip;
           this.allowDistance = info.allowDistance;
+          this.restaurantDistance = info.restaurant_distance;
+          this.silverDisplay = info.silver_display == 1?true:false;
           this.facebook = info.facebook;
           this.instagram = info.instagram;
           this.twitter = info.twitter;
@@ -160,6 +164,8 @@ export class AppWebComponent implements OnInit {
         shippingPrice: this.shippingPrice,
         id: this.id,
         allowDistance: this.allowDistance,
+        restaurant_distance: this.restaurantDistance,
+        silver_display: this.silverDisplay,
         facebook: this.facebook,
         instagram: this.instagram,
         twitter: this.twitter,
@@ -210,6 +216,8 @@ export class AppWebComponent implements OnInit {
         shipping: this.shipping,
         shippingPrice: this.shippingPrice,
         allowDistance: this.allowDistance,
+        restaurant_distance: this.restaurantDistance,
+        silver_display:this.silverDisplay,
         facebook: this.facebook,
         instagram: this.instagram,
         twitter: this.twitter,

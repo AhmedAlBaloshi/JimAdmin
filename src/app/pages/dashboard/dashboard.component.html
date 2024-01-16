@@ -126,9 +126,15 @@
                                 <ng-container *ngIf="item.pay_method == 'Cash'">
                                     <td style="color: red">{{item.pay_method}}</td>
                                 </ng-container>
+
                                 <ng-container *ngIf="item.pay_method == 'Thawani'">
                                     <td style="color: green">{{item.pay_method}}</td>
                                 </ng-container>
+
+                                <ng-container *ngIf="item.pay_method != 'Thawani' && item.pay_method != 'Cash'">
+                                  <td style="color:rgb(10, 45, 246)" >{{item.pay_method}}</td>
+                                </ng-container>
+
                                 <td>
                                     {{util.currecny}}
                                     {{item.grand_total}}

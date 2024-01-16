@@ -1,70 +1,61 @@
 <ngx-spinner type="ball-pulse-sync" color="#e74c3c">
-    <p style="font-size: 20px; color: #e74c3c">{{api.translate('Please wait...')}}</p>
+  <p style="font-size: 20px; color: #e74c3c">{{api.translate('Please wait...')}}</p>
 </ngx-spinner>
 <div class="row">
-    <div class="col-md-12">
-        <div class="card">
-            <div class="card-body">
-                <h5>{{api.translate('Order Details')}}</h5>
-                <div class="orders">
-                    <div class="card_div">
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-body">
+        <h5>{{api.translate('Order Details')}}</h5>
+        <div class="orders">
+          <div class="card_div">
 
-                        <div class="resto_detail">
-                            <div class="back_image" [style.backgroundImage]="'url('+api.mediaURL+ restCover+')'"></div>
-                            <div style="margin-left: 20px;">
-                                <p class="res_name">{{restName}}</p>
-                                <p class="res_location">
-                                    {{address}}
-                                </p>
-                            </div>
+            <div class="resto_detail">
+              <div class="back_image" [style.backgroundImage]="'url('+api.mediaURL+ restCover+')'"></div>
+              <div style="margin-left: 20px;">
+                <p class="res_name">{{restName}}</p>
+                <p class="res_location">
+                  {{address}}
+                </p>
+              </div>
 
-                            <div style="text-align: center;margin: 10px;">
-                                <div class="ti-angle-double-right"></div>
-                            </div>
+              <div style="text-align: center;margin: 10px;">
+                <div class="ti-angle-double-right"></div>
+              </div>
 
-                            <div class="back_image"
-                                [ngStyle]="{'background-image':'url('+api.mediaURL+userpic+'),url(assets/icon.png)'}">
-                            </div>
-                            <div style="margin-left: 20px;">
-                                <p class="res_name">{{username}}</p>
-                                <p class="res_location">
-                                    {{userAddress}}
-                                </p>
-                            </div>
-                        </div>
+              <div class="back_image"
+                [ngStyle]="{'background-image':'url('+api.mediaURL+userpic+'),url(assets/icon.png)'}">
+              </div>
+              <div style="margin-left: 20px;">
+                <p class="res_name">{{username}}</p>
+                <p class="res_location">
+                  {{userAddress}}
+                </p>
+              </div>
+            </div>
 
-                        <div class="line_div"></div>
+            <div class="line_div"></div>
 
-                        <div class="order_detail">
-                            <p class="head_gray">{{api.translate('ORDER ID')}}</p>
-                            <p class="small_lbl">#{{orderId}} </p>
-                            <p class="head_gray">{{api.translate('ITEMS')}}</p>
-                            <div class="small_lbl">
-                                <span *ngFor="let order of orders;let ol = index">
-                                    <div *ngIf="!order.selectedItem || !order.selectedItem.length"
-                                        class="border_bottom">
-                                        <ng-container *ngIf="order.crt_price_type == 'single'">
-                                            <span>{{order.prdct_name_en}} X {{order.crt_pqty}} </span>
+            <div class="order_detail">
+              <p class="head_gray">{{api.translate('ORDER ID')}}</p>
+              <p class="small_lbl">#{{orderId}} </p>
+              <p class="head_gray">{{api.translate('ITEMS')}}</p>
+              <div class="small_lbl">
+                <span *ngFor="let order of orders;let ol = index">
+                  <div class="border_bottom">
+                    <ng-container>
+                      <span>{{order.prdct_name_en}} X {{order.crt_pqty}} </span>
 
-                                            <span style="font-weight: normal;"
-                                                *ngIf="util.cside ==='left'">{{util.currecny}} {{order.crt_price}}
-                                            </span>
-                                            <span style="font-weight: normal;"
-                                                *ngIf="util.cside ==='right'">{{order.crt_price}}
-                                                {{util.currecny}} </span>
-                                        </ng-container>
-                                        <ng-container *ngIf="order.crt_price_type == 'selection'">
-                                            <span>{{order.prdct_name_en}} - {{order.crt_price.title}} X {{order.crt_pqty}} </span>
-                                            <span style="font-weight: normal;"
-                                                *ngIf="util.cside ==='left'">{{util.currecny}} {{order.crt_price.price}}
-                                            </span>
-                                            <span style="font-weight: normal;"
-                                                *ngIf="util.cside ==='right'">{{order.crt_price.price}}
-                                                {{util.currecny}} </span>
-                                        </ng-container>
-                                    </div>
+                      <span style="font-weight: normal;" *ngIf="util.cside ==='left'"> {{util.currecny}}
+                        {{order.crt_price}}
+                      </span>
+                      <span style="font-weight: normal;" *ngIf="util.cside ==='right'">
+                        {{order.crt_price}}{{util.currecny}}
+                      </span>
+                    </ng-container>
 
-                                    <!-- <div *ngFor="let subItems of order.selectedItem;let j = index" class="subNames">
+                  </div>
+
+                  <!-- <div *ngFor="let subItems of order.selectedItem;let j = index" class="subNames">
                                         <p class="food_title">{{order.name}} X {{order.selectedItem[j].total}}</p>
                                         <div *ngFor="let addods of subItems.item" class="flex_titles">
                                             <p class="sub_name">
@@ -75,44 +66,68 @@
                                             </p>
                                         </div>
                                     </div> -->
-                                </span>
-                            </div>
-                            <p class="head_gray">{{api.translate('ORDERED ON')}}</p>
-                            <p class="small_lbl">{{getDate(time)}} </p>
-                            <p class="head_gray">{{api.translate('Order Notes')}}</p>
-                            <p class="small_lbl">{{orderNotes}} </p>
-                            <p class="head_gray">{{api.translate('Payment Method')}}</p>
-                            <p class="small_lbl">{{paymentMethod}} </p>
-                            <p class="head_gray" *ngIf="coupon">{{api.translate('Discount')}}</p>
-                            <p class="small_lbl" *ngIf="coupon">{{util.currecny}} {{dicount}}
-                            </p>
-                            <p class="head_gray">{{api.translate('TOTAL AMOUNT')}}</p>
-                            <p class="small_lbl"> {{util.currecny}} {{grandTotal}}</p>
-                        </div>
-
-                        <div class="line_div"></div>
-
-                        <div class="status_detail" *ngIf="status =='completed' || status == 'delivered'">
-                            <div class="deliver_div">
-                                {{api.translate('Delivered')}}
-                            </div>
-                        </div>
-                        <div class="status_detail" *ngIf="status =='rejected' || status == 'cancel'">
-                            <div class="deliver_div">
-                                {{api.translate('Order is')}} {{status}}
-                            </div>
-                        </div>
-                        <div class="status_detail"
-                            *ngIf="status =='created' || status =='ongoing' || status === 'accepted'">
-                            <div class="deliver_div">
-                                {{api.translate('Order is')}} {{status}}
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                </span>
+              </div>
+              <p class="head_gray">{{api.translate('ORDERED ON')}}</p>
+              <p class="small_lbl">{{getDate(time)}} </p>
+              <p class="head_gray">{{api.translate('Order Notes')}}</p>
+              <p class="small_lbl">{{orderNotes}} </p>
+              <p class="head_gray">{{api.translate('Payment Method')}}</p>
+              <p class="small_lbl">{{paymentMethod}}
+              </p>
+              <p class="head_gray">{{api.translate('Payment Status')}}</p>
+              <p class="small_lbl">
+                <span class="badge" [class]="is_paid == 0? ' badge-danger': ' badge-success'"> {{ is_paid == 0? 'Not Paid': 'Paid' }} </span>
+              </p>
+              <p class="head_gray" *ngIf="coupon">{{api.translate('Discount')}}</p>
+              <p class="small_lbl" *ngIf="coupon">{{util.currecny}} {{dicount}}
+              </p>
+              <p class="head_gray">{{api.translate('TOTAL AMOUNT')}}</p>
+              <p class="small_lbl"> {{util.currecny}} {{grandTotal}}</p>
             </div>
+
+            <div class="line_div"></div>
+
+            <div class="status_detail" *ngIf="status =='completed' || status == 'delivered';else otherStatuses">
+              <div class="deliver_div">
+                {{api.translate('Delivered')}}
+              </div>
+            </div>
+            <ng-template #otherStatuses>
+              <div class="status_detail">
+                <div class="deliver_div">
+                  {{api.translate('Order is')}} {{status.replaceAll('_', ' ')}}
+                </div>
+              </div>
+            </ng-template>
+            <div class="line_div"></div>
+
+            <div style="border-bottom: 1px dashed lightgray; margin-top: 10px;">
+              <h5 class="head_grey">{{ api.translate('Order Tracks') }}</h5>
+            </div>
+
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>{{ api.translate('Status') }}</th>
+                  <th>{{ api.translate('Reason') }}</th>
+                  <th>{{ api.translate('Created Date') }}</th>
+                </tr>
+                <tr *ngFor="let track of orderTracks">
+                  <!-- <th scope="col">#</th> -->
+
+                <th scope="col">{{ track.status.replaceAll('_', ' ') }}</th>
+                <th scope="col">{{ track.reason }}</th>
+                <th scope="col">{{ track.created_at }}</th>
+                </tr>
+              </thead>
+            </table>
+
+          </div>
         </div>
+      </div>
     </div>
+  </div>
 </div>
 
 <ng2-toasty></ng2-toasty>

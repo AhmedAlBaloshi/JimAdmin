@@ -100,6 +100,12 @@ const MENUITEMS = [
         icon: 'ti-envelope'
       },
       {
+        state: 'silver-display',
+        name: 'Silver Display',
+        type: 'link',
+        icon: 'ti-map'
+      },
+      {
         state: 'zones',
         name: 'Zones',
         type: 'link',
@@ -146,7 +152,7 @@ const MENUITEMS = [
         type: 'link',
         icon: 'ti-bell'
       },
-      { 
+      {
         state: 'contacts',
         name: 'Support',
         type: 'link',
@@ -180,6 +186,12 @@ const MENUITEMS = [
         icon: 'ti-lock'
       },
       {
+        state: 'alert-notification',
+        name: 'Alert Notification',
+        type: 'link',
+        icon: 'ti-email'
+      },
+      {
         state: 'send-mail',
         name: 'Send Emails',
         type: 'link',
@@ -194,6 +206,12 @@ const MENUITEMS = [
       {
         state: 'general',
         name: 'General',
+        type: 'link',
+        icon: 'ti-settings'
+      },
+      {
+        state: 'custom-sort',
+        name: 'Custom Sort',
         type: 'link',
         icon: 'ti-settings'
       },

@@ -1,0 +1,57 @@
+<ngx-spinner type="ball-pulse-sync" color="#e74c3c">
+  <p style="font-size: 20px; color: #e74c3c">{{api.translate('Please wait...')}}</p>
+</ngx-spinner>
+<div class="row">
+  <div class="col-sm-12">
+  </div>
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-body">
+        <h5>{{api.translate('Custom Sort Of Restaurant')}} </h5>
+      </div>
+
+      <div class="card-body reset-table p-t-0">
+        <div class="form-group row">
+          <div class="col-sm-6">
+            <label>{{api.translate('Sort Types')}}</label>
+            <select name="select" [(ngModel)]="type" class="form-control">
+              <option value="id">{{api.translate('Id')}}</option>
+              <option value="name">{{api.translate('Name')}}</option>
+              <option value="delivery">{{api.translate('Delivery Charge')}}</option>
+              <option value="rating">{{api.translate('Rating')}}</option>
+              <option value="discount">{{api.translate('Discount')}}</option>
+              <option value="offer">{{api.translate('Offer')}}</option>
+              <option value="distance">{{api.translate('Distance')}}</option>
+              <option value="featured">{{api.translate('Featured')}}</option>
+              <option value="is_closed">{{api.translate('Closed')}}</option>
+              <option value="is_busy">{{api.translate('Busy')}}</option>
+            </select>
+          </div>
+          <div class="col-sm-6">
+            <label></label>
+            <br>
+            <label class="p-2"><input type="radio" name="asc" class="m-2" value="asc" [(ngModel)]="selectedSortOrder" checked> ASC</label>
+            <label class="p-2"><input type="radio" name="asc" class="m-2" value="desc" [(ngModel)]="selectedSortOrder"> DESC</label>
+          </div></div>
+
+          <div class="row" [style]="type === 'discount' || type === 'delivery'?'':'display:none'">
+          <div class="col-sm-6" >
+            <label for="">{{ api.translate('Custom') }}</label>
+            <input type="number" class="form-control" [(ngModel)]="customAmount" [value]="customAmount" placeholder="enter amount">
+          </div>
+          <div class="col-sm-6">
+            <label></label>
+            <br>
+            <label class="p-2"><input type="radio" name="greater" class="m-2" value="greater_than" [(ngModel)]="selectedOrder" checked> Greater Than</label>
+            <label class="p-2"><input type="radio" name="greater" class="m-2" value="less_than" [(ngModel)]="selectedOrder"> Less Than</label>
+          </div>
+        </div>
+        <div class="form-group row">
+          <div class="col-sm-6">
+            <button class="btn btn-danger btn-round" (click)="submit()">{{api.translate('Update')}}</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -18,6 +18,7 @@ export class ManageOrdersComponent implements OnInit {
   orderId: any;
   orders: any[] = [];
   serviceTax: any;
+  is_paid: any;
   status: any;
   time: any;
   total: any;
@@ -36,6 +37,7 @@ export class ManageOrdersComponent implements OnInit {
   userAddress: any;
   refund: boolean;
   payKey: any;
+  orderTracks:any;
 
   orderNotes: any = '';
   constructor(
@@ -52,9 +54,32 @@ export class ManageOrdersComponent implements OnInit {
       if (data && data.id) {
         this.id = data.id;
         this.getOrder();
+        this.getOrderTracks();
       }
     });
   }
+
+  getOrderTracks(){
+
+    this.spinner.show();
+    const param = {
+      id: this.id
+    }
+    this.api.post('orders/tracks', param).then((datas: any) => {
+      this.spinner.hide();
+      console.log("datas", datas);
+      if (datas && datas.status === 200 && datas.data.length) {
+        this.orderTracks = datas.data;
+        console.warn('----------------------------------TRACKS----------------------------------');
+        console.warn(this.orderTracks);
+
+      }
+    }).catch(error => {
+      this.spinner.hide();
+      console.log(error);
+    });
+  }
+
   getOrder() {
     this.spinner.show();
     const param = {
@@ -66,9 +91,12 @@ export class ManageOrdersComponent implements OnInit {
       if (datas && datas.status === 200 && datas.data.length) {
         const data = datas.data[0];
         this.paymentMethod = data.pay_method;
-        this.orderId = data.paid;
+
+        this.orderId = data.orderId;
+        this.is_paid = data.paid;
         this.grandTotal = (+data.grand_total).toFixed(3);
         this.orders = JSON.parse(data.orders);
+        console.log(this.orders)
         this.serviceTax = data.serviceTax;
         this.status = data.status;
         this.time = data.time;
@@ -109,7 +137,7 @@ export class ManageOrdersComponent implements OnInit {
       console.log(data);
       if (data && data.status === 200 && data.data.length) {
         const info = data.data[0];
-        this.username = info.first_name + ' ' + info.last_name;
+        this.username = info.full_name + ' ' + (info.last_name != null ?info.last_name:'');
         this.userpic = info.cover;
       }
     }, error => {
@@ -193,7 +221,7 @@ export class ManageOrdersComponent implements OnInit {
     // Add see all possible types in one shot
     this.toastyService.error(toastOptions);
   }
-  
+
   success(message) {
     const toastOptions: ToastOptions = {
       title: this.api.translate('Success'),

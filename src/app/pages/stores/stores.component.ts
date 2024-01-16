@@ -154,6 +154,26 @@ export class StoresComponent implements OnInit {
     this.router.navigate(['manage-stores'], navData);
   }
 
+  viewCuisines(item){
+    const navData: NavigationExtras = {
+      queryParams: {
+        id: item.id,
+        register: false
+      }
+    };
+    this.router.navigate(['restaurant-cuisines'], navData);
+  }
+
+  viewProducts(item){
+    const navData: NavigationExtras = {
+      queryParams: {
+        id: item.id,
+        register: false
+      }
+    };
+    this.router.navigate(['restaurant-products'], navData);
+  }
+
   changeStatus(item) {
     const text = item.status === '1' ? 'Deactivate' : 'Activate';
     Swal.fire({

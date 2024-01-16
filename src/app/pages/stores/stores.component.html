@@ -33,6 +33,7 @@
                                 <th>{{api.translate('Address')}}</th>
                                 <th>{{api.translate('Time')}}</th>
                                 <th>{{api.translate('Ratting')}}</th>
+                                <th>{{api.translate('Reg. Date')}}</th>
                                 <th>{{api.translate('Status')}}</th>
                                 <th>{{api.translate('Action')}}</th>
                             </tr>
@@ -94,6 +95,7 @@
                                 </td>
                                 <td>{{getTime(item.open_time)}} {{getTime(item.close_time)}} </td>
                                 <td>{{item.rating}}</td>
+                                <td>{{item.created_at}}</td>
                                 <td><button type="button" [className]="getClass(item.status)"
                                         (click)="changeStatus(item)">{{item.status === '1' ?
                                         'Active':'Deactive'}}</button>
@@ -106,7 +108,12 @@
                                         (click)="changeFatured(item)">{{item.featured === '1' ?
                                         'Featured':'Not Featured'}}</button>
                                 </td>
-                                <td><button type="button" (click)="openRest(item)"
+                                <td>
+                                  <button type="button" (click)="viewProducts(item)"
+                                        class="btn btn-success btn-round btn-outline-success">{{api.translate('View Products')}}</button>
+                                  <button type="button" (click)="viewCuisines(item)"
+                                        class="btn btn-success btn-round btn-outline-success mx-2">{{api.translate('View Cuisines')}}</button>
+                                  <button type="button" (click)="openRest(item)"
                                         class="btn btn-success btn-round btn-outline-success">{{api.translate('View')}}</button>
                                 </td>
                             </tr>
