@@ -67,6 +67,14 @@ const routes: Routes = [
         loadChildren: () => import('./pages/manage-users/manage-users.module').then(m => m.ManageUsersModule)
       },
       {
+        path: 'branch-managers',
+        loadChildren: () => import('./pages/branch-managers/branch-managers.module').then(m => m.BranchManagersModule)
+      },
+      {
+        path: 'agents',
+        loadChildren: () => import('./pages/agent/agent.module').then(m => m.AgentModule)
+      },
+      {
         path: 'manage-stores',
         loadChildren: () => import('./pages/manage-stores/manage-stores.module').then(m => m.ManageStoresModule)
       },

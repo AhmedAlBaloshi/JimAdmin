@@ -1,4 +1,3 @@
-
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Router, NavigationExtras } from '@angular/router';
 import Swal from 'sweetalert2';
@@ -9,7 +8,7 @@ import * as moment from 'moment';
 @Component({
   selector: 'app-stores',
   templateUrl: './stores.component.html',
-  styleUrls: ['./stores.component.scss']
+  styleUrls: ['./stores.component.scss'],
 })
 export class StoresComponent implements OnInit {
   searchText: any = '';
@@ -18,21 +17,23 @@ export class StoresComponent implements OnInit {
   dummy = Array(5);
   page: number = 1;
   majorCategoriesList = [];
+  userType: string = localStorage.getItem('type');
+  city: string = localStorage.getItem('city_id');
+  loggedInId: string = localStorage.getItem('uid');
 
   constructor(
     public api: ApisService,
     private router: Router,
     private spinner: NgxSpinnerService,
     private chMod: ChangeDetectorRef,
-    private toastyService: ToastyService,
+    private toastyService: ToastyService
   ) {
     this.api.auth();
     this.getStores();
     this.getMajorCategories();
   }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   search(string) {
     this.resetChanges();
@@ -42,33 +43,47 @@ export class StoresComponent implements OnInit {
   getStores() {
     this.stores = [];
     this.dummy = Array(10);
-    this.api.get('stores').then((datas: any) => {
-      this.dummy = [];
-      if (datas && datas.data.length) {
-        datas.data.forEach(element => {
-          if (element.cusine && element.cusine !== '') {
-            element.cusine = JSON.parse(element.cusine);
-            //element.cusine = element.cusine.split(',');
-          } else {
-            element.cusine = [];
+    let queryParam = '';
+    if (this.userType == 'agent') {
+      queryParam = '?city_id=' + this.city;
+    }
+    if (this.userType == 'branch_manager') {
+      queryParam = '?manager_id=' + this.loggedInId;
+    }
+
+    this.api
+      .get('stores'+queryParam)
+      .then(
+        (datas: any) => {
+          this.dummy = [];
+          if (datas && datas.data.length) {
+            datas.data.forEach((element) => {
+              if (element.cusine && element.cusine !== '') {
+                element.cusine = JSON.parse(element.cusine);
+                //element.cusine = element.cusine.split(',');
+              } else {
+                element.cusine = [];
+              }
+            });
+            this.stores = datas.data;
+            this.dummyStores = this.stores;
           }
-        });
-        this.stores = datas.data;
-        this.dummyStores = this.stores;
-      }
-    }, error => {
-      console.log(error);
-      this.error(this.api.translate('Something went wrong'));
-      this.dummy = [];
-    }).catch(error => {
-      console.log(error);
-      this.error(this.api.translate('Something went wrong'));
-    });
+        },
+        (error) => {
+          console.log(error);
+          this.error(this.api.translate('Something went wrong'));
+          this.dummy = [];
+        }
+      )
+      .catch((error) => {
+        console.log(error);
+        this.error(this.api.translate('Something went wrong'));
+      });
   }
 
   protected resetChanges = () => {
     this.stores = this.dummyStores;
-  }
+  };
 
   setFilteredItems() {
     this.stores = [];
@@ -77,7 +92,10 @@ export class StoresComponent implements OnInit {
 
   filterItems(searchTerm) {
     return this.stores.filter((item) => {
-      return (item.name_en.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1) || (item.name_ar.indexOf(searchTerm) > -1);
+      return (
+        item.name_en.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1 ||
+        item.name_ar.indexOf(searchTerm) > -1
+      );
     });
   }
 
@@ -93,7 +111,7 @@ export class StoresComponent implements OnInit {
       },
       onRemove: () => {
         console.log('Toast  has been removed!');
-      }
+      },
     };
     // Add see all possible types in one shot
     this.toastyService.error(toastOptions);
@@ -111,7 +129,7 @@ export class StoresComponent implements OnInit {
       },
       onRemove: () => {
         console.log('Toast  has been removed!');
-      }
+      },
     };
     // Add see all possible types in one shot
     this.toastyService.success(toastOptions);
@@ -148,28 +166,28 @@ export class StoresComponent implements OnInit {
     const navData: NavigationExtras = {
       queryParams: {
         id: item.id,
-        register: false
-      }
+        register: false,
+      },
     };
     this.router.navigate(['manage-stores'], navData);
   }
 
-  viewCuisines(item){
+  viewCuisines(item) {
     const navData: NavigationExtras = {
       queryParams: {
         id: item.id,
-        register: false
-      }
+        register: false,
+      },
     };
     this.router.navigate(['restaurant-cuisines'], navData);
   }
 
-  viewProducts(item){
+  viewProducts(item) {
     const navData: NavigationExtras = {
       queryParams: {
         id: item.id,
-        register: false
-      }
+        register: false,
+      },
     };
     this.router.navigate(['restaurant-products'], navData);
   }
@@ -183,33 +201,39 @@ export class StoresComponent implements OnInit {
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
       cancelButtonColor: '#d33',
-      confirmButtonText: this.api.translate('Yes, ') + text + this.api.translate(' it!')
+      confirmButtonText:
+        this.api.translate('Yes, ') + text + this.api.translate(' it!'),
     }).then((result) => {
       if (result.value) {
         const query = item.status === '1' ? '0' : '1';
         const param = {
           id: item.id,
-          status: query
+          status: query,
         };
         this.spinner.show();
-        this.api.post('stores/editList', param).then((datas: any) => {
-          this.spinner.hide();
-          if (datas && datas.status === 200) {
-            this.getStores();
-          } else {
+        this.api
+          .post('stores/editList', param)
+          .then(
+            (datas: any) => {
+              this.spinner.hide();
+              if (datas && datas.status === 200) {
+                this.getStores();
+              } else {
+                this.spinner.hide();
+                this.error(this.api.translate('Something went wrong'));
+              }
+            },
+            (error) => {
+              this.spinner.hide();
+              console.log(error);
+              this.error(this.api.translate('Something went wrong'));
+            }
+          )
+          .catch((error) => {
             this.spinner.hide();
+            console.log(error);
             this.error(this.api.translate('Something went wrong'));
-          }
-
-        }, error => {
-          this.spinner.hide();
-          console.log(error);
-          this.error(this.api.translate('Something went wrong'));
-        }).catch(error => {
-          this.spinner.hide();
-          console.log(error);
-          this.error(this.api.translate('Something went wrong'));
-        });
+          });
       }
     });
   }
@@ -223,33 +247,38 @@ export class StoresComponent implements OnInit {
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
       cancelButtonColor: '#d33',
-      confirmButtonText: this.api.translate('Yes, ') + text
+      confirmButtonText: this.api.translate('Yes, ') + text,
     }).then((result) => {
       if (result.value) {
         const query = item.is_busy === '1' ? '0' : '1';
         const param = {
           id: item.id,
-          is_busy: query
+          is_busy: query,
         };
         this.spinner.show();
-        this.api.post('stores/editList', param).then((datas: any) => {
-          this.spinner.hide();
-          if (datas && datas.status === 200) {
-            this.getStores();
-          } else {
+        this.api
+          .post('stores/editList', param)
+          .then(
+            (datas: any) => {
+              this.spinner.hide();
+              if (datas && datas.status === 200) {
+                this.getStores();
+              } else {
+                this.spinner.hide();
+                this.error(this.api.translate('Something went wrong'));
+              }
+            },
+            (error) => {
+              this.spinner.hide();
+              console.log(error);
+              this.error(this.api.translate('Something went wrong'));
+            }
+          )
+          .catch((error) => {
             this.spinner.hide();
+            console.log(error);
             this.error(this.api.translate('Something went wrong'));
-          }
-
-        }, error => {
-          this.spinner.hide();
-          console.log(error);
-          this.error(this.api.translate('Something went wrong'));
-        }).catch(error => {
-          this.spinner.hide();
-          console.log(error);
-          this.error(this.api.translate('Something went wrong'));
-        });
+          });
       }
     });
   }
@@ -263,32 +292,38 @@ export class StoresComponent implements OnInit {
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
       cancelButtonColor: '#d33',
-      confirmButtonText: this.api.translate('Yes, ') + text
+      confirmButtonText: this.api.translate('Yes, ') + text,
     }).then((result) => {
       if (result.value) {
         const query = item.featured === '1' ? '0' : '1';
         const param = {
           id: item.id,
-          featured: query
+          featured: query,
         };
         this.spinner.show();
-        this.api.post('stores/editList', param).then((datas: any) => {
-          this.spinner.hide();
-          if (datas && datas.status === 200) {
-            this.getStores();
-          } else {
+        this.api
+          .post('stores/editList', param)
+          .then(
+            (datas: any) => {
+              this.spinner.hide();
+              if (datas && datas.status === 200) {
+                this.getStores();
+              } else {
+                this.spinner.hide();
+                this.error(this.api.translate('Something went wrong'));
+              }
+            },
+            (error) => {
+              this.spinner.hide();
+              console.log(error);
+              this.error(this.api.translate('Something went wrong'));
+            }
+          )
+          .catch((error) => {
             this.spinner.hide();
+            console.log(error);
             this.error(this.api.translate('Something went wrong'));
-          }
-        }, error => {
-          this.spinner.hide();
-          console.log(error);
-          this.error(this.api.translate('Something went wrong'));
-        }).catch(error => {
-          this.spinner.hide();
-          console.log(error);
-          this.error(this.api.translate('Something went wrong'));
-        });
+          });
       }
     });
   }
@@ -296,8 +331,8 @@ export class StoresComponent implements OnInit {
   createNew() {
     const navData: NavigationExtras = {
       queryParams: {
-        register: true
-      }
+        register: true,
+      },
     };
     this.router.navigate(['manage-stores'], navData);
   }
@@ -312,25 +347,32 @@ export class StoresComponent implements OnInit {
 
   getMajorCategories() {
     this.majorCategoriesList = [];
-    this.api.get('majorcategories').then((res: any) => {
-      if (res && res.data && res.data.length) {
-        this.majorCategoriesList = res.data;
-        this.chMod.detectChanges();
-      }
-    }, error => {
-      console.log(error);
-      this.error(this.api.translate('Something went wrong'));
-    }).catch(error => {
-      console.log(error);
-      this.error(this.api.translate('Something went wrong'));
-    });
+    this.api
+      .get('majorcategories')
+      .then(
+        (res: any) => {
+          if (res && res.data && res.data.length) {
+            this.majorCategoriesList = res.data;
+            this.chMod.detectChanges();
+          }
+        },
+        (error) => {
+          console.log(error);
+          this.error(this.api.translate('Something went wrong'));
+        }
+      )
+      .catch((error) => {
+        console.log(error);
+        this.error(this.api.translate('Something went wrong'));
+      });
   }
 
   getCusineName(id) {
     let matchedMajorCategories = this.majorCategoriesList.filter((item) => {
-      return (item.id === id);
+      return item.id === id;
     });
-    return matchedMajorCategories.length > 0 ? matchedMajorCategories[0].name_en : '-';
+    return matchedMajorCategories.length > 0
+      ? matchedMajorCategories[0].name_en
+      : '-';
   }
 }
-

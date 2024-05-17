@@ -23,6 +23,9 @@ export class OrdersComponent implements OnInit {
   orderId:number|null = null;
   closeResult = '';
   reason:string = '';
+  userType: string = localStorage.getItem('type');
+  city: string = localStorage.getItem('city_id');
+  loggedInId: string = localStorage.getItem('uid');
 
   private modalService = inject(NgbModal);
 
@@ -62,7 +65,14 @@ export class OrdersComponent implements OnInit {
   }
 
   getOrders() {
-    this.api.get('orders').then((data: any) => {
+    let queryParam = '';
+    if (this.userType == 'agent') {
+      queryParam = '?city_id=' + this.city;
+    }
+    if (this.userType == 'branch_manager') {
+      queryParam = '?manager_id=' + this.loggedInId;
+    }
+    this.api.get('orders'+queryParam).then((data: any) => {
       this.dummy = [];
       if (data && data.status === 200 && data.data) {
         const orders = data.data;

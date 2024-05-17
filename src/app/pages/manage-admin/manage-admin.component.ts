@@ -1,4 +1,3 @@
-
 import { Component, OnInit, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ToastData, ToastOptions, ToastyService } from 'ng2-toasty';
@@ -11,11 +10,13 @@ import { UtilService } from 'src/app/services/util.service';
 @Component({
   selector: 'app-manage-admin',
   templateUrl: './manage-admin.component.html',
-  styleUrls: ['./manage-admin.component.css']
+  styleUrls: ['./manage-admin.component.css'],
 })
 export class ManageAdminComponent implements OnInit {
   cities: any[] = [];
   new: boolean;
+  branchManager: boolean = false;
+  isAgent: boolean = false;
   id: any;
   fname: any = '';
   lname: any = '';
@@ -44,54 +45,89 @@ export class ManageAdminComponent implements OnInit {
     this.api.auth();
     this.route.queryParams.subscribe((data: any) => {
       this.new = data.register === 'true' ? true : false;
+      this.branchManager = data.branch_manager === 'true' ? true : false;
+      this.isAgent = data.agent === 'true' ? true : false;
+
+      if (this.isAgent) {
+        this.getCities();
+      }
+
       if (!this.new && data.id) {
         this.id = data.id;
         this.getAdmin();
       }
     });
-
   }
 
   getAdmin() {
     const param = {
-      id: this.id
+      id: this.id,
     };
     this.spinner.show();
-    this.api.post('users/getById', param).then((data: any) => {
-      console.log(data);
-      this.spinner.hide();
-      if (data && data.status === 200 && data.data.length) {
-        const info = data.data[0];
-        this.fname = info.first_name;
-        this.lname = info.last_name;
-        this.email = info.email;
-        this.city = info.city;
-        this.gender = info.gender;
-        this.coverImage = info.cover;
-        this.imageUrl = this.api.mediaURL + this.coverImage;
-        this.mobile = info.mobile;
-        this.others = info.others;
-        this.lat = info.lat;
-        this.lng = info.lng;
-        this.address = info.address;
-      } else {
+    this.api
+      .post('users/getById', param)
+      .then(
+        (data: any) => {
+          console.log(data);
+          this.spinner.hide();
+          if (data && data.status === 200 && data.data.length) {
+            const info = data.data[0];
+            this.fname = info.first_name;
+            this.lname = info.last_name;
+            this.email = info.email;
+            this.city = info.city;
+            this.gender = info.gender;
+            this.coverImage = info.cover;
+            this.imageUrl = this.api.mediaURL + this.coverImage;
+            this.mobile = info.mobile;
+            this.others = info.others;
+            this.lat = info.lat;
+            this.lng = info.lng;
+            this.address = info.address;
+          } else {
+            this.error('Something went wrong');
+          }
+        },
+        (error) => {
+          console.log(error);
+          this.spinner.hide();
+          this.error('Something went wrong');
+        }
+      )
+      .catch((error) => {
+        console.log(error);
+        this.spinner.hide();
         this.error('Something went wrong');
-      }
-    }, error => {
-      console.log(error);
-      this.spinner.hide();
-      this.error('Something went wrong');
-    }).catch(error => {
-      console.log(error);
-      this.spinner.hide();
-      this.error('Something went wrong');
-    });
+      });
   }
 
-  ngOnInit(): void {
-
+  getCities() {
+    this.api
+      .get('cities')
+      .then(
+        (data: any) => {
+          // console.log(data);
+          if (data && data.status === 200 && data.data.length) {
+            this.cities = data.data;
+            console.warn(
+              '---------------------------------------------' + this.cities
+            );
+          } else {
+            this.error('Something went wrong');
+          }
+        },
+        (error) => {
+          console.log(error);
+          this.error('Something went wrong');
+        }
+      )
+      .catch((error) => {
+        console.log(error);
+        this.error('Something went wrong');
+      });
   }
 
+  ngOnInit(): void {}
 
   error(message) {
     const toastOptions: ToastOptions = {
@@ -105,7 +141,7 @@ export class ManageAdminComponent implements OnInit {
       },
       onRemove: () => {
         console.log('Toast  has been removed!');
-      }
+      },
     };
     // Add see all possible types in one shot
     this.toastyService.error(toastOptions);
@@ -122,20 +158,33 @@ export class ManageAdminComponent implements OnInit {
       },
       onRemove: () => {
         console.log('Toast  has been removed!');
-      }
+      },
     };
     // Add see all possible types in one shot
     this.toastyService.success(toastOptions);
   }
 
   create() {
-    if (this.email === '' || this.password === '' || this.fname === '' || this.lname === '' || this.gender === '' ||
-      this.mobile === '' || !this.mobile) {
+    if (
+      this.email === '' ||
+      this.password === '' ||
+      this.fname === '' ||
+      this.lname === '' ||
+      this.gender === '' ||
+      this.mobile === '' ||
+      !this.mobile
+    ) {
       this.error('All Fields are required');
       return false;
     }
+    if (this.isAgent) {
+      if (this.city === '') {
+        this.error('All Fields are required');
+        return false;
+      }
+    }
     const emailfilter = /^[\w._-]+[+]?[\w._-]+@[\w.-]+\.[a-zA-Z]{2,6}$/;
-    if (!(emailfilter.test(this.email))) {
+    if (!emailfilter.test(this.email)) {
       this.error('Please enter valid email');
       return false;
     }
@@ -145,6 +194,15 @@ export class ManageAdminComponent implements OnInit {
     this.lat = '';
     this.lng = '';
     console.log('----->', this.lat, this.lng);
+    let user_type = 'admin';
+    let role_id = 1;
+    if (this.branchManager) {
+      user_type = 'branch_manager';
+      role_id = 5;
+    } else if (this.isAgent) {
+      user_type = 'agent';
+      role_id = 6;
+    }
 
     const param = {
       first_name: this.fname,
@@ -152,7 +210,8 @@ export class ManageAdminComponent implements OnInit {
       gender: 1,
       email: this.email,
       password: this.password,
-      type: 'admin',
+      type: user_type,
+      created_by: this.isAgent?localStorage.getItem('uid'):null,
       status: 1,
       lat: '0',
       lng: '0',
@@ -163,9 +222,11 @@ export class ManageAdminComponent implements OnInit {
       others: '1',
       date: moment().format('YYYY-MM-DD'),
       stripe_key: '',
-      country_code: '+' + this.mobileCcode
+      city: this.isAgent ? this.city : null,
+      role_id: role_id,
+      country_code: '+' + this.mobileCcode,
     };
-
+console.log('patrama-----------------'+ JSON.stringify(param))
     this.spinner.show();
     this.api.post('users/registerUser', param).then((data: any) => {
       console.log(data);
@@ -181,20 +242,21 @@ export class ManageAdminComponent implements OnInit {
         return false;
       }
     });
-
-
   }
 
-
   update() {
-
-    if (this.fname === '' || this.lname === '' || this.gender === '' ||
-      this.mobile === '' || !this.mobile) {
+    if (
+      this.fname === '' ||
+      this.lname === '' ||
+      this.gender === '' ||
+      this.mobile === '' ||
+      !this.mobile
+    ) {
       this.error('All Fields are required');
       return false;
     }
     const emailfilter = /^[\w._-]+[+]?[\w._-]+@[\w.-]+\.[a-zA-Z]{2,6}$/;
-    if (!(emailfilter.test(this.email))) {
+    if (!emailfilter.test(this.email)) {
       this.error('Please enter valid email');
       return false;
     }
@@ -213,7 +275,7 @@ export class ManageAdminComponent implements OnInit {
       lng: this.lng,
       mobile: this.mobile,
       others: this.others,
-      id: this.id
+      id: this.id,
     };
 
     this.api.post('users/edit_profile', param).then((data: any) => {
@@ -232,8 +294,5 @@ export class ManageAdminComponent implements OnInit {
         return false;
       }
     });
-
   }
-
-
 }

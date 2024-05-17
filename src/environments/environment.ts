@@ -4,10 +4,12 @@
 
 export const environment = {
   production: false,
-  // baseURL: 'https://jimgate.com/jim/api/index.php/', //'/jim-api/index.php/', //
-  baseURL: 'http://localhost/api/api/', //'/jim-api/index.php/', //
-  // mediaURL: 'https://jimgate.com/jim/api/uploads/', //'/jim-api/uploads/', //
-  mediaURL: 'http://localhost/api/api/uploads/', //'/jim-api/uploads/', //
+  baseURL: 'http://localhost/jimadminapi/api/index.php/', //'/jim-api/index.php/', //
+  mediaURL: 'http://localhost/jimadminapi/api/uploads/', //'/jim-api/uploads/', //
+
+// baseURL: 'https://apijim.nuewma.com/index.php/',
+// mediaURL: 'https://apijim.nuewma.com/uploads/',
+
   onesignal: {
     appId: 'YOUR_APP_ID',
     googleProjectNumber: 'GOOGLE_PROJECT_NUMBER',

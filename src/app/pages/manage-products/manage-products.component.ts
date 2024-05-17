@@ -524,7 +524,7 @@ export class ManageProductsComponent implements OnInit {
   // formatPrice(price){
   //   return (+price).toFixed(3);
   // }
-  
+
   // error(message) {
   //   const toastOptions: ToastOptions = {
   //     title: this.api.translate('Error'),

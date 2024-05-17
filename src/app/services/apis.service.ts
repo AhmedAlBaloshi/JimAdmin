@@ -156,8 +156,14 @@ export class ApisService {
       this.http.post(this.baseUrl + 'users/getById', param, header).subscribe((data: any) => {
         console.log(data);
         if (data && data.status === 200 && data.data && data.data.length) {
-          if (data && data.data[0] && data.data[0].type && data.data[0].type === 'admin') {
+          if (data && data.data[0] && data.data[0].type) {
+          if (data.data[0].type === 'admin' || data.data[0].type === 'branch_manager' || data.data[0].type === 'agent') {
             resolve(true);
+          } else {
+            localStorage.removeItem('uid');
+            this.router.navigate(['login']);
+            resolve(false);
+          }
           } else {
             localStorage.removeItem('uid');
             this.router.navigate(['login']);

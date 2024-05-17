@@ -8,7 +8,7 @@ import { UtilService } from 'src/app/services/util.service';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
+  styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent implements OnInit {
   email: any = '';
@@ -20,13 +20,16 @@ export class LoginComponent implements OnInit {
     private toastyService: ToastyService,
     private spinner: NgxSpinnerService,
     public util: UtilService
-  ) { }
+  ) {}
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
   login() {
-
-    if (!this.email || this.email === '' || !this.password || this.password === '') {
+    if (
+      !this.email ||
+      this.email === '' ||
+      !this.password ||
+      this.password === ''
+    ) {
       this.error('All Fields are required');
       return false;
     }
@@ -38,42 +41,53 @@ export class LoginComponent implements OnInit {
     }
     const param = {
       email: this.email,
-      password: this.password
+      password: this.password,
     };
     this.spinner.show();
-    this.api.post('users/login', param).then((data: any) => {
-      console.log('datas', data);
-      this.spinner.hide();
-      if (data && data.status === 200) {
-        if (data && data.data && data.data.type && data.data.type === 'admin') {
-          localStorage.setItem('uid', data.data.id);
-          localStorage.setItem('type', 'admin');
-          localStorage.setItem('status', 'signedin');
-          this.router.navigate(['']);
-        } else {
-          this.error(this.api.translate('access denied'));
-          return false;
-        }
-      } else if (data && data.status === 500) {
-        if (data.data && data.data.message) {
-          this.error(data.data.message);
+    this.api
+      .post('users/login', param)
+      .then((data: any) => {
+        console.log('datas', data);
+        this.spinner.hide();
+        if (data && data.status === 200) {
+          if (data && data.data && data.data.type) {
+            if (
+              data.data.type === 'admin' ||
+              data.data.type === 'branch_manager' ||
+              data.data.type === 'agent'
+            ) {
+              localStorage.setItem('uid', data.data.id);
+              localStorage.setItem('type', data.data.type);
+              localStorage.setItem('city_id', data.data.city);
+              localStorage.setItem('status', 'signedin');
+              this.router.navigate(['']);
+            } else {
+              this.error(this.api.translate('access denied'));
+              return false;
+            }
+          } else {
+            this.error(this.api.translate('access denied'));
+            return false;
+          }
+        } else if (data && data.status === 500) {
+          if (data.data && data.data.message) {
+            this.error(data.data.message);
+          } else {
+            this.error(this.api.translate('Something went wrong'));
+          }
         } else {
           this.error(this.api.translate('Something went wrong'));
         }
-      } else {
+      })
+      .catch((error) => {
+        this.spinner.hide();
+        console.log('errror', error);
         this.error(this.api.translate('Something went wrong'));
-      }
-
-    }).catch(error => {
-      this.spinner.hide();
-      console.log('errror', error);
-      this.error(this.api.translate('Something went wrong'));
-    });
+      });
     // localStorage.setItem('uid', 'admin');
     // localStorage.setItem('type', 'admin');
     // this.router.navigate(['admin']);
   }
-
 
   error(message) {
     const toastOptions: ToastOptions = {
@@ -87,7 +101,7 @@ export class LoginComponent implements OnInit {
       },
       onRemove: () => {
         console.log('Toast  has been removed!');
-      }
+      },
     };
     // Add see all possible types in one shot
     this.toastyService.error(toastOptions);
@@ -104,7 +118,7 @@ export class LoginComponent implements OnInit {
       },
       onRemove: () => {
         console.log('Toast  has been removed!');
-      }
+      },
     };
     // Add see all possible types in one shot
     this.toastyService.success(toastOptions);

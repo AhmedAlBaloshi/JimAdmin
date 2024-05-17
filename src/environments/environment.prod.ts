@@ -1,7 +1,7 @@
 export const environment = {
   production: true,
-  baseURL: 'https://jimgate.com/jim/api/index.php/', //'/jim-api/index.php/', //
-  mediaURL: 'https://jimgate.com/jim/api/uploads/', //'/jim-api/uploads/', //
+  baseURL: 'https://apijim.nuewma.com/index.php/', //'/jim-api/index.php/', //
+  mediaURL: 'https://apijim.nuewma.com/uploads/', //'/jim-api/uploads/', //
   onesignal: {
     appId: 'a44ba4e4-cd5e-4c42-8388-a3195418b147',
     googleProjectNumber: '316583116510', //firebase sender id

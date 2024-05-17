@@ -1,56 +1,47 @@
-
 import { Component, OnInit } from '@angular/core';
-import { Router, NavigationExtras } from '@angular/router';
-import { NgxSpinnerService } from 'ngx-spinner';
 import Swal from 'sweetalert2';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { NavigationExtras, Router } from '@angular/router';
 import { ApisService } from 'src/app/services/apis.service';
 import { ToastData, ToastOptions, ToastyService } from 'ng2-toasty';
-@Component({
-  selector: 'app-drivers',
-  templateUrl: './drivers.component.html',
-  styleUrls: ['./drivers.component.scss']
-})
-export class DriversComponent implements OnInit {
-  drivers: any[] = [];
-  dummy = Array(5);
-  dummyDrivers: any[] = [];
-  page: number = 1;
-  userType: string = localStorage.getItem('type');
-  city: string = localStorage.getItem('city_id');
-  loggedInId: string = localStorage.getItem('uid');
 
+@Component({
+  selector: 'app-agent',
+  templateUrl: './agent.component.html',
+  styleUrls: ['./agent.component.scss']
+})
+export class AgentComponent implements OnInit {
+  users: any[] = [];
+  dummy = Array(5);
+  dummyUsers: any[] = [];
+  page: number = 1;
+  userType:string = localStorage.getItem('type')
+  loggedInId:string = localStorage.getItem('uid')
   constructor(
     public api: ApisService,
-    private router: Router,
     private spinner: NgxSpinnerService,
+    private router: Router,
     private toastyService: ToastyService,
   ) {
     this.api.auth();
-    this.getDrivers();
+    this.getUsers();
   }
 
-  ngOnInit(): void {
+  ngOnInit() {
   }
 
-  getDrivers() {
+  getUsers() {
     let queryParam = '';
-    if (this.userType == 'agent') {
-      queryParam = '?city_id=' + this.city;
+    if(this.userType == 'branch_manager'){
+      queryParam = '?created_by='+this.loggedInId
     }
-    if (this.userType == 'branch_manager') {
-      queryParam = '?manager_id=' + this.loggedInId;
-    }
-
-    this.api.get('drivers'+queryParam).then((data: any) => {
-      console.log(data);
+    this.api.get('users/getAgents'+queryParam).then((data: any) => {
+      console.log('users', data);
       this.dummy = [];
       if (data && data.status === 200 && data.data.length) {
-        this.drivers = data.data;
-        this.dummyDrivers = this.drivers;
+        this.users = data.data;
+        this.dummyUsers = data.data;
       }
-    }, error => {
-      console.log(error);
-      this.error('Something went wrong');
     }).catch(error => {
       console.log(error);
       this.error('Something went wrong');
@@ -60,35 +51,27 @@ export class DriversComponent implements OnInit {
   search(str) {
     this.resetChanges();
     console.log('string', str);
-    this.drivers = this.filterItems(str);
+    this.users = this.filterItems(str);
   }
 
 
   protected resetChanges = () => {
-    this.drivers = this.dummyDrivers;
+    this.users = this.dummyUsers;
   }
 
   setFilteredItems() {
     console.log('clear');
-    this.drivers = [];
-    this.drivers = this.dummyDrivers;
+    this.users = [];
+    this.users = this.dummyUsers;
   }
 
   filterItems(searchTerm) {
-    return this.drivers.filter((item) => {
-      return item.first_name.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1;
+    return this.users.filter((item) => {
+      const name = item.full_name+' '+item.last_name + ' '+item.country_code+item.mobile;
+      return name.toLowerCase().includes(searchTerm.toLowerCase());
     });
-
   }
 
-  createNew() {
-    const navData: NavigationExtras = {
-      queryParams: {
-        register: true
-      }
-    };
-    this.router.navigate(['manage-drivers'], navData);
-  }
   getClass(item) {
     if (item === '1') {
       return 'btn btn-primary btn-round';
@@ -99,65 +82,45 @@ export class DriversComponent implements OnInit {
   }
 
   changeStatus(item) {
-    const text = item.status === 'active' ? 'deactive' : 'active';
+    const text = item.status === '1' ? 'deactive' : 'active';
     console.log(text);
     Swal.fire({
-      title: 'Are you sure?',
-      text: 'To ' + text + ' this driver!',
+      title: this.api.translate('Are you sure?'),
+      text: this.api.translate('To ') + text + this.api.translate(' this user!'),
       icon: 'question',
       showConfirmButton: true,
-      confirmButtonText: 'Yes',
+      confirmButtonText: this.api.translate('Yes'),
       showCancelButton: true,
-      cancelButtonText: 'Cancel',
+      cancelButtonText: this.api.translate('Cancle'),
       backdrop: false,
       background: 'white'
     }).then((data) => {
       if (data && data.value) {
         console.log('update it');
-        // item.status = text;
-        console.log(item);
-        const query = item.status === '1' ? '0' : '1';
+        const newStatus = item.status === '1' ? 0 : 1;
         const param = {
           id: item.id,
-          status: query
+          status: newStatus
         };
         console.log('param', param);
         this.spinner.show();
-        this.api.post('drivers/edit_profile', param).then((datas: any) => {
-          console.log(datas);
+        this.api.post('users/edit_profile', param).then((data) => {
           this.spinner.hide();
-          if (datas && datas.status === 200) {
-            this.getDrivers();
-          } else {
-            this.spinner.hide();
-            this.error('Something went wrong');
-          }
-
+          this.getUsers();
         }, error => {
-          this.spinner.hide();
           console.log(error);
-          this.error('Something went wrong');
+          this.spinner.hide();
         }).catch(error => {
           this.spinner.hide();
           console.log(error);
-          this.error('Something went wrong');
         });
       }
     });
   }
-  openDriver(item) {
-    const navData: NavigationExtras = {
-      queryParams: {
-        id: item.id,
-        register: false
-      }
-    };
-    this.router.navigate(['manage-drivers'], navData);
-  }
 
   error(message) {
     const toastOptions: ToastOptions = {
-      title: 'Error',
+      title: this.api.translate('Error'),
       msg: message,
       showClose: true,
       timeout: 2000,
@@ -172,9 +135,10 @@ export class DriversComponent implements OnInit {
     // Add see all possible types in one shot
     this.toastyService.error(toastOptions);
   }
+
   success(message) {
     const toastOptions: ToastOptions = {
-      title: 'Success',
+      title: this.api.translate('Success'),
       msg: message,
       showClose: true,
       timeout: 2000,
@@ -188,6 +152,25 @@ export class DriversComponent implements OnInit {
     };
     // Add see all possible types in one shot
     this.toastyService.success(toastOptions);
+  }
+
+  createNew() {
+    const navData: NavigationExtras = {
+      queryParams: {
+        register: true,
+        agent: true
+      }
+    };
+    this.router.navigate(['manage-administrantor'], navData);
+  }
+
+  openUser(item) {
+    const navData: NavigationExtras = {
+      queryParams: {
+        id: item.id
+      }
+    };
+    this.router.navigate(['manage-users'], navData);
   }
 
 }

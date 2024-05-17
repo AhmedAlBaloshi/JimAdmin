@@ -72,7 +72,7 @@ export class ProductsComponent implements OnInit {
 
   getStoreName(id) {
     let matchedStore = this.stores.filter((item) => {
-      return (item.uid === id);
+      return (item.id === id);
     });
     return matchedStore.length > 0 ? matchedStore[0].name_en : '-';
   }
