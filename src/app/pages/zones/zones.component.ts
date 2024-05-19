@@ -73,7 +73,7 @@ export class ZonesComponent implements OnInit {
       let matchedCity = this.cities.filter((item) => {
         return (item.id === id);
       });
-      return matchedCity[0].name_en;
+      return matchedCity.length > 0?matchedCity[0].name_en:null;
     }
   }
 

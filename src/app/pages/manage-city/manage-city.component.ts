@@ -118,8 +118,8 @@ export class ManageCityComponent implements OnInit {
       name_en: this.name_en,
       name_ar: this.name_ar,
       status: 1,
-      lat: this.lat,
-      lng: this.lng
+      latitude: this.lat,
+      longitude: this.lng
     };
     this.spinner.show();
     this.api.post('cities/save', param).then(data => {

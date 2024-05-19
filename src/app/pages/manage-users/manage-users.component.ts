@@ -52,7 +52,7 @@ export class ManageUsersComponent implements OnInit {
         console.log('info', info);
         this.email = info.email;
         this.mobile = info.country_code + " " + info.mobile;
-        this.name = info.full_name + ' ' + info.last_name;
+        this.name = info.full_name + ' ' + (info.last_name!= null?info.last_name:'');
         this.photo = this.api.mediaURL + info.cover;
       }
     }, error => {

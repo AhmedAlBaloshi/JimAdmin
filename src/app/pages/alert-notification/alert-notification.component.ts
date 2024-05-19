@@ -32,6 +32,7 @@ export class AlertNotificationComponent implements OnInit {
   }
 
   getUsers(event) {
+    this.selectedUsers = [];
     if (this.messageFor === 'driver') this.getDrivers();
     else if (this.messageFor === 'vendor') this.getVendors();
     else if (this.messageFor === 'customer') this.getCustomers();
