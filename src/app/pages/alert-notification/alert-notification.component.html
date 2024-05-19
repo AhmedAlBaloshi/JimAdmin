@@ -23,8 +23,8 @@
             <div class="col-sm-6">
               <label for=""> {{ api.translate('Users') }} </label>
               <ng-multiselect-dropdown [placeholder]="api.translate('Select Users')" [settings]="dropdownSettings"
-              [data]="users" [(ngModel)]="selectedUsers" (onSelect)="onItemSelect($event)"
-              (onSelectAll)="onSelectAll($event)">
+              [data]="displayedUsers" [(ngModel)]="selectedUsers" (onSelect)="onItemSelect($event)"
+              (onSelectAll)="onSelectAll($event)" (filterChange)="onFilterChange($event)">
             </ng-multiselect-dropdown>
             </div>
         </div>

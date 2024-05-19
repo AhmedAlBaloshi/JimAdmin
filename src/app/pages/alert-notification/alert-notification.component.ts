@@ -13,7 +13,7 @@ export class AlertNotificationComponent implements OnInit {
   title: string = '';
   message: string = '';
   messageFor: any = '';
-
+  displayedUsers: any[] = [];
   selectedUsers: any = [];
   users: any = [];
   dropdownSettings: IDropdownSettings = {};
@@ -28,7 +28,7 @@ export class AlertNotificationComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // this.spinner.hide();
+    this.spinner.hide();
   }
 
   getUsers(event) {
@@ -44,6 +44,8 @@ export class AlertNotificationComponent implements OnInit {
       .then((data: any) => {
         if (data && data.status === 200 && data.data.length) {
           this.users = data.data;
+          this.displayedUsers = this.users.slice(0, 100);
+
           this.setDrop('full_name');
         }
       })
@@ -61,6 +63,7 @@ export class AlertNotificationComponent implements OnInit {
         (datas: any) => {
           if (datas && datas.data.length) {
             this.users = datas.data;
+            this.displayedUsers = this.users.slice(0, 100);
             this.setDrop('name_en');
           }
         },
@@ -98,6 +101,7 @@ export class AlertNotificationComponent implements OnInit {
           console.log(data);
           if (data && data.status === 200 && data.data.length) {
             this.users = data.data;
+            this.displayedUsers = this.users.slice(0, 100);
             this.setDrop('first_name');
           }
         },
@@ -135,6 +139,7 @@ export class AlertNotificationComponent implements OnInit {
   onEditorChange(event) {}
 
   onSelectAll(items: any) {
+    this.selectedUsers = [...this.users];
     console.log('onSelectAll', this.selectedUsers);
   }
 
@@ -142,43 +147,53 @@ export class AlertNotificationComponent implements OnInit {
     console.log('onItemSelect', this.selectedUsers);
   }
 
+  onFilterChange(filter: string) {
+    if (filter) {
+      this.displayedUsers = this.users.filter((user) =>
+        user.name.toLowerCase().includes(filter.toLowerCase())
+      );
+    } else {
+      this.displayedUsers = this.users.slice(0, 100);
+    }
+  }
+
   submit() {
     if (
       !this.messageFor ||
       this.message === '' ||
-      this.selectedUsers.length< 1 ||
+      this.selectedUsers.length < 1 ||
       this.title === ''
     ) {
       this.error(this.api.translate('All Fields are required'));
       return false;
     }
     const params = {
-    for: this.messageFor,
-    title:this.title,
-    message:this.message,
-    users:this.selectedUsers,
+      for: this.messageFor,
+      title: this.title,
+      message: this.message,
+      users: this.selectedUsers,
     };
     console.warn(params);
 
     this.api
-    .post('users/sendNotification',params)
-    .then(
-      (data: any) => {
-        console.log(data);
+      .post('users/sendNotification', params)
+      .then(
+        (data: any) => {
+          console.log(data);
 
-        // if (data && data.status === 200 && data.data.length) {
-        //   this.users = data.data;
-        //   this.setDrop('first_name');
-        // }
-      },
-      (error) => {
+          // if (data && data.status === 200 && data.data.length) {
+          //   this.users = data.data;
+          //   this.setDrop('first_name');
+          // }
+        },
+        (error) => {
+          console.log(error);
+          this.error('Something went wrong');
+        }
+      )
+      .catch((error) => {
         console.log(error);
         this.error('Something went wrong');
-      }
-    )
-    .catch((error) => {
-      console.log(error);
-      this.error('Something went wrong');
-    });
+      });
   }
 }
