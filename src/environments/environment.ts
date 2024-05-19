@@ -11,7 +11,7 @@ export const environment = {
 // mediaURL: 'https://apijim.nuewma.com/uploads/',
 
   onesignal: {
-    appId: 'YOUR_APP_ID',
+    appId: 'a44ba4e4-cd5e-4c42-8388-a3195418b147',
     googleProjectNumber: 'GOOGLE_PROJECT_NUMBER',
     restKey: 'REST_KEY'
   },

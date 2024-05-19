@@ -184,7 +184,7 @@ export class OrdersComponent implements OnInit {
 
   filterItems(searchTerm) {
     return this.orders.filter((item) => {
-      return item.str_name_en.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1 || item.paid.indexOf(searchTerm) > -1;
+      return item.str_name_en.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1 || item.paid.indexOf(searchTerm) > -1 || item.id.indexOf(searchTerm)> -1;
     });
   }
 
