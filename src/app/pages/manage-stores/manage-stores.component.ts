@@ -206,8 +206,8 @@ export class ManageStoresComponent implements OnInit {
 
   getReviews() {
     const param = {
-      id: this.user_id,
-      where: 'sid = ' + this.user_id,
+      id: this.id,
+      where: 'sid = ' + this.id,
     };
     this.api
       .post('rating/getFromIDs', param)
@@ -230,7 +230,7 @@ export class ManageStoresComponent implements OnInit {
 
   getProfile(id) {
     const param = {
-      id: id,
+      id: this.user_id,
     };
     this.api.post('users/getById', param).then(
       (data: any) => {

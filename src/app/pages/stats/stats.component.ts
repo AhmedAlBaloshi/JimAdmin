@@ -62,7 +62,7 @@ class Invoice {
   additionalDetails: string;
 
   constructor() {
-    // Initially one empty product row we will show 
+    // Initially one empty product row we will show
     //this.orders.push(new Order());
   }
 }
@@ -95,7 +95,7 @@ export class StatsComponent implements OnInit {
   invoice = new Invoice();
 
   dtOptions: DataTables.Settings = {};
-  
+
   constructor(
     public api: ApisService,
     private toastyService: ToastyService,
@@ -171,14 +171,14 @@ export class StatsComponent implements OnInit {
                 let description = "";
                 element.orders.forEach((elem) => {
                   if (elem.crt_price_type == 'single')
-                    description = description + "Name: " + elem.prdct_name_en + " , Price: " + parseFloat((elem.crt_price - elem.prdct_internal_tax).toString()).toFixed(3) + " , Qty: " + elem.crt_pqty + "\n"
+                    description = description + "Name: " + elem.prdct_name_en + " , Price: " + parseFloat((elem.crt_price - elem.product_tax).toString()).toFixed(3) + " , Qty: " + elem.crt_pqty + "\n"
                   else if (elem.crt_price_type == 'selection')
-                    description = description + "Name: " + elem.prdct_name_en + " , Price: " + parseFloat((elem.crt_price.price - elem.prdct_internal_tax).toString()).toFixed(3) + " , Qty: " + elem.crt_pqty + "\n"
+                    description = description + "Name: " + elem.prdct_name_en + " , Price: " + parseFloat((elem.crt_price.price - elem.product_tax).toString()).toFixed(3) + " , Qty: " + elem.crt_pqty + "\n"
                 });
                 var totalServiceTax : number = 0;
                 element.orders.forEach((elem) => {
-                  totalServiceTax = totalServiceTax + (parseFloat((Number(elem.prdct_internal_tax) * Number(elem.crt_pqty)).toString()));
-                  this.groundTotalServiceTax = this.groundTotalServiceTax + (parseFloat((Number(elem.prdct_internal_tax) * Number(elem.crt_pqty)).toString()));
+                  totalServiceTax = totalServiceTax + (parseFloat((Number(elem.product_tax) * Number(elem.crt_pqty)).toString()));
+                  this.groundTotalServiceTax = this.groundTotalServiceTax + (parseFloat((Number(elem.product_tax) * Number(elem.quantity)).toString()));
                 });
                 element.total = (element.total - Number(totalServiceTax));
                 element.grand_total = (element.grand_total - Number(totalServiceTax));

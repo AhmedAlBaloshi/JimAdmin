@@ -12,7 +12,7 @@
                     <div class="col-sm-8">
                         <label>{{api.translate('Please select store')}}</label>
                         <select name="select" [(ngModel)]="storeId" class="form-control">
-                            <option *ngFor="let item of stores" [value]="item.uid">{{item.name_en}} - {{item.name_ar}}
+                            <option *ngFor="let item of stores" [value]="item.id">{{item.name_en}} - {{item.name_ar}}
                             </option>
                         </select>
                     </div>
@@ -58,6 +58,7 @@
     </div>
 </div>
 <h2 style="text-align: center;" *ngIf="storeId && from && to && !storeOrder?.length && apiCalled">
+  {{ storeId && from && to && storeOrder.length && apiCalled }}
     {{api.translate('No Orders Found')}}
 </h2>
 <div class="row" *ngIf="storeId && from && to && storeOrder?.length">
@@ -142,13 +143,13 @@
                     </thead>
                     <tbody *ngIf="storeOrder?.length != 0">
                         <tr *ngFor="let item of storeOrder; let i = index" style="background-color: #F5F8FA;">
-                            <td>{{i}}</td>
+                            <td>{{i+1}}</td>
                             <td>#{{item.paid}}</td>
                             <td>
                                 <div style="width: 150px !important; white-space: pre-wrap;">
                                     <span *ngFor="let orders of item.orders;let i =index;">
                                         Name: {{orders.prdct_name_en}} , Price: {{orders.crt_price_type == 'single' ? orders.crt_price : orders.crt_price.price}} , Qty:
-                                        {{orders.crt_pqty}}<br *ngIf="item.orders.length -1 !== i">
+                                        {{orders.quantity}}<br *ngIf="item.orders.length -1 !== i">
                                     </span>
                                 </div>
                             </td>
