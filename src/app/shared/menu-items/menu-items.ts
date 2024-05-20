@@ -30,9 +30,8 @@ export interface Menu {
 }
 
 let MENUITEMS = [];
-const userType = localStorage.getItem('type');
-if (userType == 'admin') {
-  MENUITEMS = [
+
+  const ADMINMENUITEMS = [
     {
       label: 'Main',
       main: [
@@ -250,8 +249,7 @@ if (userType == 'admin') {
       ],
     },
   ];
-} else if (userType == 'branch_manager') {
-  MENUITEMS = [
+  const BRANCHMANAGERMENUITEMS = [
     {
       label: 'Main',
       main: [
@@ -295,8 +293,7 @@ if (userType == 'admin') {
       ],
     },
   ];
-} else {
-  MENUITEMS = [
+  const AGENTMENUITEMS = [
     {
       label: 'Main',
       main: [
@@ -334,11 +331,18 @@ if (userType == 'admin') {
       ],
     },
   ];
-}
 @Injectable()
 export class MenuItems {
-  getAll(): Menu[] {
-    return MENUITEMS;
+  getAll(type:string): Menu[] {
+    if(type == 'admin'){
+      return ADMINMENUITEMS;
+    }
+    else if (type == 'branch_manager'){
+        return BRANCHMANAGERMENUITEMS;
+      }
+      else{
+        return AGENTMENUITEMS
+      }
   }
 
   /*add(menu: Menu) {

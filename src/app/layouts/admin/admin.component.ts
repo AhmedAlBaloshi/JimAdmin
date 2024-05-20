@@ -70,15 +70,16 @@ export class AdminComponent implements OnInit {
   selectedName: any = 'English';
   selectedFlag: any = '';
 
+  userType = localStorage.getItem('type');
   asideItems:any;
-  
+
   constructor(
     public menuItems: MenuItems,
     public api: ApisService,
     private router: Router,
     public util: UtilService
   ) {
-    this.asideItems = this.menuItems.getAll();
+    this.asideItems = this.menuItems.getAll(this.userType);
     const scrollHeight = window.screen.height - 150;
     this.innerHeight = scrollHeight + 'px';
     this.windowWidth = window.innerWidth;

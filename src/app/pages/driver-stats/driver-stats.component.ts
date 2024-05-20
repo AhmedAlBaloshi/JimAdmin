@@ -196,9 +196,9 @@ export class DriverStatsComponent implements OnInit {
     if (this.did && this.from && this.to) {
       const filteredDriver = this.drivers.filter(x => x.id === this.did);
       if (filteredDriver && filteredDriver.length) {
-        this.dname = filteredDriver[0].first_name + ' ' + filteredDriver[0].last_name;
+        this.dname = filteredDriver[0].first_name + ' ' + (filteredDriver[0].last_name != null?filteredDriver[0].last_name:'');
         // invoice store details
-        this.invoice.driverName = filteredDriver[0].first_name + " " + filteredDriver[0].last_name;
+        this.invoice.driverName = filteredDriver[0].first_name + " " + (filteredDriver[0].last_name != null?filteredDriver[0].last_name:'');
         this.invoice.contactNo = filteredDriver[0].mobile;
         this.invoice.address = filteredDriver[0].address;
       }
