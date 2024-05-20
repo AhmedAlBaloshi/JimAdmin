@@ -48,7 +48,7 @@ class Invoice {
   additionalDetails: string;
 
   constructor() {
-    // Initially one empty product row we will show 
+    // Initially one empty product row we will show
     //this.orders.push(new Order());
   }
 }
@@ -235,7 +235,7 @@ export class DriverStatsComponent implements OnInit {
         this.spinner.hide();
         console.log(error);
         this.apiCalled = true;
-        this.error('Something went wrong');
+        // this.error('Something went wrong');
       });
 
       // get all orders

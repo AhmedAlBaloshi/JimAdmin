@@ -147,7 +147,7 @@ export class AlertNotificationComponent implements OnInit {
       },
       onRemove: () => {
         console.log('Toast  has been removed!');
-      }
+      },
     };
     // Add see all possible types in one shot
     this.toastyService.success(toastOptions);
@@ -193,7 +193,7 @@ export class AlertNotificationComponent implements OnInit {
       users: this.selectedUsers,
     };
     console.warn(params);
-
+    this.spinner.show();
     this.api
       .post('users/sendNotification', params)
       .then(
@@ -201,20 +201,23 @@ export class AlertNotificationComponent implements OnInit {
           console.log(data);
 
           if (data && data.status === 200) {
-            this.success('Notification sent')
+            this.success('Notification sent');
             this.title = '';
             this.message = '';
             this.messageFor = '';
             this.selectedUsers = [];
           }
-
+          this.spinner.hide();
         },
         (error) => {
+          this.spinner.hide();
+
           console.log(error);
           this.error('Something went wrong');
         }
       )
       .catch((error) => {
+        this.spinner.hide();
         console.log(error);
         this.error('Something went wrong');
       });

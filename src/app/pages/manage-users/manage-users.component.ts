@@ -114,7 +114,7 @@ export class ManageUsersComponent implements OnInit {
             element.orders = JSON.parse(element.orders);
             element.date_time = moment(element.date_time).format('dddd, MMMM Do YYYY');
             if (element && element.address) {
-              element.address = JSON.parse(element.address);
+              element.address = element.address;
             }
           }
           element.grand_total = (+element.grand_total).toFixed(3);

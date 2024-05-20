@@ -85,8 +85,8 @@
                     </thead>
                     <tbody>
                         <tr *ngFor="let item of driverOrders; let i = index" style="background-color: #F5F8FA;">
-                            <td>{{i}}</td>
-                            <td>#{{item.paid}}</td>
+                            <td>{{i+1}}</td>
+                            <td>#{{item.id}}</td>
                             <td>{{item.str_name_en}} | {{item.str_name_ar}}</td>
                             <td>{{item.status}}</td>
                             <td>{{item.pay_method}}</td>
@@ -120,8 +120,8 @@
                     </thead>
                     <tbody *ngIf="driverOrders?.length != 0">
                         <tr *ngFor="let item of driverOrders; let i = index">
-                            <td>{{i}}</td>
-                            <td>#{{item.paid}}</td>
+                            <td>{{i+1}}</td>
+                            <td>#{{item.orderId}}</td>
                             <td>{{item.str_name_en}} | {{item.str_name_ar}}</td>
                             <td>{{item.status}}</td>
                             <td>{{item.pay_method}}</td>
@@ -213,7 +213,7 @@
                     <tbody *ngIf="driverOrdersAll?.length != 0">
                         <tr *ngFor="let item of driverOrdersAll; let i = index">
                             <td>{{i}}</td>
-                            <td>#{{item.paid}}</td>
+                            <td>#{{item.orderId}}</td>
                             <td>{{item.str_name_en}} | {{item.str_name_ar}}</td>
                             <td>{{item.status}}</td>
                             <td>{{item.pay_method}}</td>
