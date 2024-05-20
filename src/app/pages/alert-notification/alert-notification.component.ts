@@ -135,6 +135,24 @@ export class AlertNotificationComponent implements OnInit {
     this.toastyService.error(toastOptions);
   }
 
+  success(message) {
+    const toastOptions: ToastOptions = {
+      title: 'Success',
+      msg: message,
+      showClose: true,
+      timeout: 2000,
+      theme: 'default',
+      onAdd: (toast: ToastData) => {
+        console.log('Toast ' + toast.id + ' has been added!');
+      },
+      onRemove: () => {
+        console.log('Toast  has been removed!');
+      }
+    };
+    // Add see all possible types in one shot
+    this.toastyService.success(toastOptions);
+  }
+
   onChange(event) {}
 
   onEditorChange(event) {}
@@ -182,10 +200,14 @@ export class AlertNotificationComponent implements OnInit {
         (data: any) => {
           console.log(data);
 
-          // if (data && data.status === 200 && data.data.length) {
-          //   this.users = data.data;
-          //   this.setDrop('first_name');
-          // }
+          if (data && data.status === 200) {
+            this.success('Notification sent')
+            this.title = '';
+            this.message = '';
+            this.messageFor = '';
+            this.selectedUsers = [];
+          }
+
         },
         (error) => {
           console.log(error);

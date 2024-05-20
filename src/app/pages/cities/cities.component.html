@@ -1,4 +1,4 @@
- 
+
 <ngx-spinner type="ball-pulse-sync" color="#e74c3c">
     <p style="font-size: 20px; color: #e74c3c">{{api.translate('Please wait...')}}</p>
 </ngx-spinner>
@@ -55,7 +55,7 @@
                             </tr>
                             <tr *ngFor="let item of cities;let i = index">
                                 <td>{{item.name_en}}</td>
-                                <td>{{item.name_ar}}</td>
+                                <td>{{item.name_ar!= null?item.name_ar:item.name_en}}</td>
                                 <td><button type="button" [className]="getClass(item.status)"
                                         (click)="changeStatus(item)">{{item.status === '1' ?
                                         'Active':'Deactive'}}</button>
