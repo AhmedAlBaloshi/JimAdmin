@@ -57,9 +57,14 @@
         </div>
     </div>
 </div>
-<h2 style="text-align: center;" *ngIf="did && from && to && !driverOrders?.length && apiCalled">
+
+<div *ngIf="did && from && to">
+  <h2 style="text-align: center;" *ngIf="!driverOrders?.length && !driverOrdersAll?.length && apiCalled">
     {{api.translate('No Orders Found')}}
-</h2>
+  </h2>
+</div>
+
+
 <div class="row" id="print-section" *ngIf="did && from && to && driverOrders?.length">
     <div class="col-md-12">
         <div class="card" style="padding: 20px;">
