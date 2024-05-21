@@ -12,6 +12,9 @@ import { UtilService } from 'src/app/services/util.service';
 export class DashboardComponent implements OnInit {
   dummy = Array(5);
   page: number = 1;
+  userType: string = localStorage.getItem('type');
+  city: string = localStorage.getItem('city_id');
+  loggedInId: string = localStorage.getItem('uid');
 
   orders: any[] = [];
   stores: any[] = [];
@@ -28,13 +31,20 @@ export class DashboardComponent implements OnInit {
   }
 
   getData() {
-    this.api.get('users/adminHome').then((res: any) => {
+    let queryParam = '';
+    if (this.userType == 'agent') {
+      queryParam = '?city_id=' + this.city;
+    }
+    if (this.userType == 'branch_manager') {
+      queryParam = '?manager_id=' + this.loggedInId;
+    }
+    this.api.get('users/adminHome'+queryParam).then((res: any) => {
       this.dummy = [];
       if (res && res.status === 200) {
         const orders = res.data.orders;
         this.stores = res.data.stores;
-        this.allUsers = res.data.allUsers[0]?.totalUsers;
-        this.allOrders = res.data.allOrders[0]?.totalOrders;
+        this.allUsers = res.data.allUsers;
+        this.allOrders = res.data.allOrders;
         orders.forEach(element => {
           if (((x) => { try { JSON.parse(x); return true; } catch (e) { return false } })(element.orders)) {
             element.orders = JSON.parse(element.orders);
