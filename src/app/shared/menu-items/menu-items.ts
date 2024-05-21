@@ -254,6 +254,12 @@ let MENUITEMS = [];
       label: 'Main',
       main: [
         {
+          state: 'dashboard',
+          name: 'Dashboard',
+          type: 'link',
+          icon: 'ti-home',
+        },
+        {
           state: 'stores',
           name: 'Restaurants',
           type: 'link',
@@ -297,6 +303,12 @@ let MENUITEMS = [];
     {
       label: 'Main',
       main: [
+        {
+          state: 'dashboard',
+          name: 'Dashboard',
+          type: 'link',
+          icon: 'ti-home',
+        },
         {
           state: 'stores',
           name: 'Restaurants',

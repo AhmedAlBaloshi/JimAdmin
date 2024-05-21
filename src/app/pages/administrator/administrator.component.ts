@@ -66,7 +66,7 @@ export class AdministratorComponent implements OnInit {
 
   filterItems(searchTerm) {
     return this.admins.filter((item) => {
-      return item.first_name.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1;
+      return item.full_name.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1;
     });
 
   }

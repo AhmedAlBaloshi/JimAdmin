@@ -8,44 +8,50 @@ import { ToastData, ToastOptions, ToastyService } from 'ng2-toasty';
 @Component({
   selector: 'app-agent',
   templateUrl: './agent.component.html',
-  styleUrls: ['./agent.component.scss']
+  styleUrls: ['./agent.component.scss'],
 })
 export class AgentComponent implements OnInit {
   users: any[] = [];
   dummy = Array(5);
   dummyUsers: any[] = [];
   page: number = 1;
-  userType:string = localStorage.getItem('type')
-  loggedInId:string = localStorage.getItem('uid')
+  userType: string = localStorage.getItem('type');
+  loggedInId: string = localStorage.getItem('uid');
   constructor(
     public api: ApisService,
     private spinner: NgxSpinnerService,
     private router: Router,
-    private toastyService: ToastyService,
+    private toastyService: ToastyService
   ) {
     this.api.auth();
     this.getUsers();
   }
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   getUsers() {
+    this.spinner.show();
     let queryParam = '';
-    if(this.userType == 'branch_manager'){
-      queryParam = '?created_by='+this.loggedInId
+    if (this.userType == 'branch_manager') {
+      queryParam = '?created_by=' + this.loggedInId;
     }
-    this.api.get('users/getAgents'+queryParam).then((data: any) => {
-      console.log('users', data);
-      this.dummy = [];
-      if (data && data.status === 200 && data.data.length) {
-        this.users = data.data;
-        this.dummyUsers = data.data;
-      }
-    }).catch(error => {
-      console.log(error);
-      this.error('Something went wrong');
-    });
+    this.api
+      .get('users/getAgents' + queryParam)
+      .then((data: any) => {
+        console.log('users', data);
+        this.dummy = [];
+        if (data && data.status === 200 && data.data.length) {
+          this.users = data.data;
+          this.dummyUsers = data.data;
+        }
+        this.spinner.hide();
+      })
+      .catch((error) => {
+        this.spinner.hide();
+
+        console.log(error);
+        this.error('Something went wrong');
+      });
   }
 
   search(str) {
@@ -54,10 +60,9 @@ export class AgentComponent implements OnInit {
     this.users = this.filterItems(str);
   }
 
-
   protected resetChanges = () => {
     this.users = this.dummyUsers;
-  }
+  };
 
   setFilteredItems() {
     console.log('clear');
@@ -67,7 +72,17 @@ export class AgentComponent implements OnInit {
 
   filterItems(searchTerm) {
     return this.users.filter((item) => {
-      const name = item.full_name+' '+item.last_name + ' '+item.country_code+item.mobile;
+      const name =
+        item.full_name +
+        ' ' +
+        item.last_name +
+        ' ' +
+        item.email +
+        ' ' +
+        item.country_code +
+        item.mobile +
+        ' ' +
+        item.branch_manager;
       return name.toLowerCase().includes(searchTerm.toLowerCase());
     });
   }
@@ -86,34 +101,41 @@ export class AgentComponent implements OnInit {
     console.log(text);
     Swal.fire({
       title: this.api.translate('Are you sure?'),
-      text: this.api.translate('To ') + text + this.api.translate(' this user!'),
+      text:
+        this.api.translate('To ') + text + this.api.translate(' this user!'),
       icon: 'question',
       showConfirmButton: true,
       confirmButtonText: this.api.translate('Yes'),
       showCancelButton: true,
       cancelButtonText: this.api.translate('Cancle'),
       backdrop: false,
-      background: 'white'
+      background: 'white',
     }).then((data) => {
       if (data && data.value) {
         console.log('update it');
         const newStatus = item.status === '1' ? 0 : 1;
         const param = {
           id: item.id,
-          status: newStatus
+          status: newStatus,
         };
         console.log('param', param);
         this.spinner.show();
-        this.api.post('users/edit_profile', param).then((data) => {
-          this.spinner.hide();
-          this.getUsers();
-        }, error => {
-          console.log(error);
-          this.spinner.hide();
-        }).catch(error => {
-          this.spinner.hide();
-          console.log(error);
-        });
+        this.api
+          .post('users/edit_profile', param)
+          .then(
+            (data) => {
+              this.spinner.hide();
+              this.getUsers();
+            },
+            (error) => {
+              console.log(error);
+              this.spinner.hide();
+            }
+          )
+          .catch((error) => {
+            this.spinner.hide();
+            console.log(error);
+          });
       }
     });
   }
@@ -130,7 +152,7 @@ export class AgentComponent implements OnInit {
       },
       onRemove: () => {
         console.log('Toast  has been removed!');
-      }
+      },
     };
     // Add see all possible types in one shot
     this.toastyService.error(toastOptions);
@@ -148,7 +170,7 @@ export class AgentComponent implements OnInit {
       },
       onRemove: () => {
         console.log('Toast  has been removed!');
-      }
+      },
     };
     // Add see all possible types in one shot
     this.toastyService.success(toastOptions);
@@ -158,8 +180,8 @@ export class AgentComponent implements OnInit {
     const navData: NavigationExtras = {
       queryParams: {
         register: true,
-        agent: true
-      }
+        agent: true,
+      },
     };
     this.router.navigate(['manage-administrantor'], navData);
   }
@@ -167,10 +189,85 @@ export class AgentComponent implements OnInit {
   openUser(item) {
     const navData: NavigationExtras = {
       queryParams: {
-        id: item.id
-      }
+        id: item.id,
+      },
     };
     this.router.navigate(['manage-users'], navData);
   }
 
+  editAgent(item) {
+    const navData: NavigationExtras = {
+      queryParams: {
+        id: item.id,
+        agent: true,
+        register: false,
+      },
+    };
+    this.router.navigate(['manage-administrantor'], navData);
+  }
+
+  deleteIt(item) {
+    Swal.fire({
+      title: this.api.translate('Are you sure'),
+      text:
+        this.api.translate('to delete') +
+        ' ' +
+        item.full_name +
+        ' ' +
+        item.last_name +
+        ' ?',
+      icon: 'question',
+      showConfirmButton: true,
+      showCancelButton: true,
+      confirmButtonText: this.api.translate('Delete'),
+      backdrop: false,
+      background: 'white',
+    }).then((status) => {
+      if (status && status.value) {
+        const param = {
+          original_id: item.id,
+          email: item.email,
+        };
+        this.spinner.show();
+        this.api
+          .post('users/deleteUser', param)
+          .then(
+            (datas: any) => {
+              console.log(datas);
+              this.spinner.hide();
+              if (datas && datas.status === 200) {
+                this.getUsers();
+                const Toast = Swal.mixin({
+                  toast: true,
+                  position: 'top-end',
+                  showConfirmButton: false,
+                  timer: 1000,
+                  timerProgressBar: true,
+                  didOpen: (toast) => {
+                    toast.addEventListener('mouseenter', Swal.stopTimer);
+                    toast.addEventListener('mouseleave', Swal.resumeTimer);
+                  },
+                });
+                Toast.fire({
+                  icon: 'success',
+                  title: this.api.translate('deleted'),
+                });
+              } else {
+                this.error(this.api.translate('Something went wrong'));
+              }
+            },
+            (error) => {
+              console.log(error);
+              this.spinner.hide();
+              this.error(this.api.translate('Something went wrong'));
+            }
+          )
+          .catch((error) => {
+            console.log(error);
+            this.spinner.hide();
+            this.error(this.api.translate('Something went wrong'));
+          });
+      }
+    });
+  }
 }

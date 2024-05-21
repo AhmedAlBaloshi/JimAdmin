@@ -14,6 +14,7 @@ import { UtilService } from 'src/app/services/util.service';
 })
 export class ManageAdminComponent implements OnInit {
   cities: any[] = [];
+  zones: any[] = [];
   new: boolean;
   branchManager: boolean = false;
   isAgent: boolean = false;
@@ -23,7 +24,8 @@ export class ManageAdminComponent implements OnInit {
   email: any = '';
   password: any = '';
   mobile: any;
-  city: any;
+  city: any = '';
+  zone_id: any = '';
   coverImage: any = '';
   status: any = '';
   address: any = '';
@@ -72,10 +74,11 @@ export class ManageAdminComponent implements OnInit {
           this.spinner.hide();
           if (data && data.status === 200 && data.data.length) {
             const info = data.data[0];
-            this.fname = info.first_name;
+            this.fname = info.full_name;
             this.lname = info.last_name;
             this.email = info.email;
             this.city = info.city;
+            this.zone_id = info.zone_id;
             this.gender = info.gender;
             this.coverImage = info.cover;
             this.imageUrl = this.api.mediaURL + this.coverImage;
@@ -84,6 +87,7 @@ export class ManageAdminComponent implements OnInit {
             this.lat = info.lat;
             this.lng = info.lng;
             this.address = info.address;
+            this.getZones()
           } else {
             this.error('Something went wrong');
           }
@@ -114,6 +118,31 @@ export class ManageAdminComponent implements OnInit {
             );
           } else {
             this.error('Something went wrong');
+          }
+        },
+        (error) => {
+          console.log(error);
+          this.error('Something went wrong');
+        }
+      )
+      .catch((error) => {
+        console.log(error);
+        this.error('Something went wrong');
+      });
+  }
+
+  getZones() {
+    this.zones = []
+    this.api
+      .get('zones/getAllZones?city_id='+this.city)
+      .then(
+        (data: any) => {
+          // console.log(data);
+          if (data && data.status === 200 && data.data.length) {
+            this.zones = data.data;
+            console.warn(
+              '---------------------------------------------' + this.zones
+            );
           }
         },
         (error) => {
@@ -178,7 +207,7 @@ export class ManageAdminComponent implements OnInit {
       return false;
     }
     if (this.isAgent) {
-      if (this.city === '') {
+      if (this.city === '' || this.zone_id === '') {
         this.error('All Fields are required');
         return false;
       }
@@ -205,7 +234,7 @@ export class ManageAdminComponent implements OnInit {
     }
 
     const param = {
-      first_name: this.fname,
+      full_name: this.fname,
       last_name: this.lname,
       gender: 1,
       email: this.email,
@@ -223,6 +252,7 @@ export class ManageAdminComponent implements OnInit {
       date: moment().format('YYYY-MM-DD'),
       stripe_key: '',
       city: this.isAgent ? this.city : null,
+      zone_id: this.isAgent ? this.zone_id : null,
       role_id: role_id,
       country_code: '+' + this.mobileCcode,
     };
@@ -255,6 +285,12 @@ console.log('patrama-----------------'+ JSON.stringify(param))
       this.error('All Fields are required');
       return false;
     }
+    if (this.isAgent) {
+      if (this.city === '' || this.zone_id === '' || this.zone_id == null) {
+        this.error('All Fields are required');
+        return false;
+      }
+    }
     const emailfilter = /^[\w._-]+[+]?[\w._-]+@[\w.-]+\.[a-zA-Z]{2,6}$/;
     if (!emailfilter.test(this.email)) {
       this.error('Please enter valid email');
@@ -267,12 +303,26 @@ console.log('patrama-----------------'+ JSON.stringify(param))
     this.lng = '';
     console.log('----->', this.lat, this.lng);
 
+    let user_type = 'admin';
+    let role_id = 1;
+    if (this.branchManager) {
+      user_type = 'branch_manager';
+      role_id = 5;
+    } else if (this.isAgent) {
+      user_type = 'agent';
+      role_id = 6;
+    }
+
+
     const param = {
-      first_name: this.fname,
+      full_name: this.fname,
       last_name: this.lname,
       gender: this.gender,
       lat: this.lat,
       lng: this.lng,
+      city: this.city,
+      type: user_type,
+      zone_id: this.zone_id,
       mobile: this.mobile,
       others: this.others,
       id: this.id,

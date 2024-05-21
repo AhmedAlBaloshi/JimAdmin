@@ -10,11 +10,13 @@
             *ngIf="!new">{{api.translate('Edit')}}</span> {{api.translate('Administrators')}} </h5>
 
         <h5 *ngIf="branchManager">
-          {{ api.translate('Create New Branch Manager') }}
+          <span *ngIf="new">{{api.translate('CREATE NEW')}}</span> <span *ngIf="!new">{{api.translate('Edit')}}</span>
+          {{ api.translate('Branch Manager') }}
         </h5>
 
         <h5 *ngIf="isAgent">
-          {{ api.translate('Create New Agent') }}
+          <span *ngIf="new">{{api.translate('CREATE NEW')}}</span> <span *ngIf="!new">{{api.translate('Edit')}}</span>
+          {{api.translate('Agent')}}
         </h5>
 
 
@@ -72,9 +74,19 @@
 
           <div class="col-sm-6" *ngIf="isAgent">
             <label>{{api.translate('Select City')}}</label>
-            <select name="select" [(ngModel)]="city" class="form-control">
+            <select name="select" [(ngModel)]="city" class="form-control" (change)="getZones()">
               <option value="">{{ api.translate('Select City') }}</option>
-              <option *ngFor="let city of cities" [value]='city.id'>{{city.name_en + ' - ' + city.name_ar}}</option>
+              <option *ngFor="let city of cities" [value]='city.id'>{{city.name_en + ' - ' + (city.name_ar!= null
+                ?city.name_ar:'')}}</option>
+            </select>
+          </div>
+
+          <div class="col-sm-6" *ngIf="isAgent && city">
+            <label>{{api.translate('Select Zone')}}</label>
+            <select name="select" [(ngModel)]="zone_id" class="form-control">
+              <option value="">{{ api.translate('Select Zone') }}</option>
+              <option *ngFor="let zone of zones" [value]='zone.id'>{{zone.name_en + ' - ' + (zone.name_ar!= null
+                ?zone.name_ar:'')}}</option>
             </select>
           </div>
 
@@ -84,11 +96,26 @@
 
         <div class="form-group row">
           <div class="col-sm-12">
-            <button class="btn btn-danger btn-round" (click)="create()" *ngIf="new">{{api.translate('Add New
-              Admin')}}
+            <!-- ADMIN BTNS -->
+            <button class="btn btn-danger btn-round" (click)="create()"
+              *ngIf="new && !branchManager && !isAgent">{{api.translate('Add New Admin')}}
             </button>
-            <button class="btn btn-danger btn-round" (click)="update()" *ngIf="!new">
+            <button class="btn btn-danger btn-round" (click)="update()" *ngIf="!new && !branchManager && !isAgent">
               {{api.translate('Update Admin')}} </button>
+            <!-- BRANCH MANAGER BTNS -->
+            <button class="btn btn-danger btn-round" (click)="create()" *ngIf="new && branchManager">
+              {{api.translate('Add New Branch Manager')}}
+            </button>
+            <button class="btn btn-danger btn-round" (click)="update()" *ngIf="!new && branchManager">
+              {{api.translate('Update Branch Manager')}}
+            </button>
+            <!-- AGENT BTNS -->
+            <button class="btn btn-danger btn-round" (click)="create()" *ngIf="new && isAgent">
+            {{api.translate('Add New Agent')}}
+            </button>
+            <button class="btn btn-danger btn-round" (click)="update()" *ngIf="!new && isAgent">
+            {{api.translate('Update Agent')}}
+            </button>
           </div>
         </div>
       </div>

@@ -71,6 +71,7 @@ export class AdminComponent implements OnInit {
   selectedFlag: any = '';
 
   userType = localStorage.getItem('type');
+  userName:string = '';
   asideItems:any;
 
   constructor(
@@ -79,6 +80,14 @@ export class AdminComponent implements OnInit {
     private router: Router,
     public util: UtilService
   ) {
+    if(this.userType == 'admin'){
+      this.userName = 'Store Admin'
+    }
+    else if(this.userType == 'branch_manager'){
+      this.userName = 'Branch Manager'
+    }else{
+      this.userName = 'Agent'
+    }
     this.asideItems = this.menuItems.getAll(this.userType);
     const scrollHeight = window.screen.height - 150;
     this.innerHeight = scrollHeight + 'px';
