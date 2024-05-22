@@ -162,7 +162,7 @@ export class ManageOrdersComponent implements OnInit {
       backdrop: false,
       background: 'white',
       confirmButtonText: this.api.translate('Reject & Refund'),
-      cancelButtonText: this.api.translate('Cancle'),
+      cancelButtonText: this.api.translate('Cancel'),
       showConfirmButton: true,
       showCancelButton: true,
       icon: 'question'
@@ -247,7 +247,7 @@ export class ManageOrdersComponent implements OnInit {
       backdrop: false,
       background: 'white',
       confirmButtonText: this.api.translate('Reject'),
-      cancelButtonText: this.api.translate('Cancle'),
+      cancelButtonText: this.api.translate('Cancel'),
       showConfirmButton: true,
       showCancelButton: true,
       icon: 'question'

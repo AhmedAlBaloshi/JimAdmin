@@ -1,7 +1,7 @@
 
 import { Component, OnInit, TemplateRef, inject } from '@angular/core';
 import { ApisService } from 'src/app/services/apis.service';
-import { Router, NavigationExtras } from '@angular/router';
+import { Router, NavigationExtras, ActivatedRoute } from '@angular/router';
 import * as moment from 'moment';
 import { UtilService } from 'src/app/services/util.service';
 import { ToastData, ToastOptions, ToastyService } from 'ng2-toasty';
@@ -22,6 +22,8 @@ export class OrdersComponent implements OnInit {
   drivers:any[]= [];
   orderId:number|null = null;
   closeResult = '';
+  storeId = '';
+  driverId = '';
   reason:string = '';
   userType: string = localStorage.getItem('type');
   city: string = localStorage.getItem('city_id');
@@ -34,8 +36,14 @@ export class OrdersComponent implements OnInit {
     private router: Router,
     public util: UtilService,
     private toastyService: ToastyService,
-    private spinner: NgxSpinnerService
+    private spinner: NgxSpinnerService,
+    private route: ActivatedRoute,
+
   ) {
+    this.route.queryParams.subscribe((data: any) => {
+      this.storeId = data.storeId;
+      this.driverId = data.driverId;
+    })
     this.api.auth();
     this.getOrders();
     this.getDrivers()
@@ -71,6 +79,11 @@ export class OrdersComponent implements OnInit {
     }
     if (this.userType == 'branch_manager') {
       queryParam = '?manager_id=' + this.loggedInId;
+    }
+    if(this.storeId){
+      queryParam = '?store_id=' + this.storeId;
+    }else if(this.driverId){
+      queryParam = '?driver_id=' + this.driverId;
     }
     this.api.get('orders'+queryParam).then((data: any) => {
       this.dummy = [];

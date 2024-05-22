@@ -91,7 +91,11 @@
                                         [className]="getClass(item.status)">{{item.status === '1' ?
                                         'Active':'Deactive'}}</button>
                                 </td>
-                                <td><button type="button" (click)="openDriver(item)"
+                                <td>
+                                    <button type="button" (click)="ViewOrders(item)" *ngIf="userType != 'admin'"
+                                              class="btn btn-success btn-round btn-outline-success mr-2">{{api.translate('View Orders')}}</button>
+                                        
+                                    <button type="button" (click)="openDriver(item)"
                                         class="btn btn-success btn-round btn-outline-success">{{api.translate('View')}}</button>
                                 </td>
                             </tr>

@@ -10,7 +10,7 @@
                         *ngIf="!new">{{api.translate('Edit')}}</span> {{api.translate('Driver')}} </h5>
             </div>
             <div class="card-body reset-table p-t-0">
-                <h4 class="sub-title">{{api.translate('Owner Details')}}</h4>
+                <h4 class="sub-title">{{api.translate('Driver Details')}}</h4>
                 <div class="form-group row">
                     <div class="col-sm-6">
                         <label>{{api.translate('First Name')}}</label>
@@ -68,10 +68,19 @@
 
                     <div class="col-sm-12">
                         <label>{{api.translate('Select City')}}</label>
-                        <select name="select" [(ngModel)]="city" class="form-control">
+                        <select name="select" [(ngModel)]="city" class="form-control" (change)="getZones()">
                             <option *ngFor="let item of cities" [value]="item.id">{{item.name_en}} - {{item.name_ar}}</option>
                         </select>
                     </div>
+                    <div class="col-sm-12" *ngIf="city">
+                        <label>{{api.translate('Select Zone')}}</label>
+                        <select name="select" [(ngModel)]="zone" class="form-control">
+                          <option value="">{{ api.translate('Select Zone') }}</option>
+                          <option *ngFor="let zone of zones" [value]='zone.id'>{{zone.name_en + ' - ' + (zone.name_ar!= null
+                            ?zone.name_ar:'')}}</option>
+                        </select>
+                      </div>
+
                 </div>
 
                 <div class="form-group row">

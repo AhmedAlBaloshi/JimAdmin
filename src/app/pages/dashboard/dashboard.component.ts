@@ -13,7 +13,7 @@ export class DashboardComponent implements OnInit {
   dummy = Array(5);
   page: number = 1;
   userType: string = localStorage.getItem('type');
-  city: string = localStorage.getItem('city_id');
+  zone_id: string = localStorage.getItem('zone_id');
   loggedInId: string = localStorage.getItem('uid');
 
   orders: any[] = [];
@@ -33,7 +33,7 @@ export class DashboardComponent implements OnInit {
   getData() {
     let queryParam = '';
     if (this.userType == 'agent') {
-      queryParam = '?city_id=' + this.city;
+      queryParam = '?zone_id=' + this.zone_id;
     }
     if (this.userType == 'branch_manager') {
       queryParam = '?manager_id=' + this.loggedInId;

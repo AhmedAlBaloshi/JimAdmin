@@ -16,7 +16,7 @@ export class DriversComponent implements OnInit {
   dummyDrivers: any[] = [];
   page: number = 1;
   userType: string = localStorage.getItem('type');
-  city: string = localStorage.getItem('city_id');
+  zone_id: string = localStorage.getItem('zone_id');
   loggedInId: string = localStorage.getItem('uid');
 
   constructor(
@@ -35,7 +35,7 @@ export class DriversComponent implements OnInit {
   getDrivers() {
     let queryParam = '';
     if (this.userType == 'agent') {
-      queryParam = '?city_id=' + this.city;
+      queryParam = '?zone_id=' + this.zone_id;
     }
     if (this.userType == 'branch_manager') {
       queryParam = '?manager_id=' + this.loggedInId;
@@ -96,6 +96,15 @@ export class DriversComponent implements OnInit {
       return 'btn btn-danger btn-round';
     }
     return 'btn btn-warning btn-round';
+  }
+
+  ViewOrders(item) {
+    const navData: NavigationExtras = {
+      queryParams: {
+        driverId: item.id,
+      },
+    };
+    this.router.navigate(['orders'], navData);
   }
 
   changeStatus(item) {

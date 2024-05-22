@@ -18,7 +18,7 @@ export class StoresComponent implements OnInit {
   page: number = 1;
   majorCategoriesList = [];
   userType: string = localStorage.getItem('type');
-  city: string = localStorage.getItem('city_id');
+  zone_id: string = localStorage.getItem('zone_id');
   loggedInId: string = localStorage.getItem('uid');
 
   constructor(
@@ -45,7 +45,7 @@ export class StoresComponent implements OnInit {
     this.dummy = Array(10);
     let queryParam = '';
     if (this.userType == 'agent') {
-      queryParam = '?city_id=' + this.city;
+      queryParam = '?zone_id=' + this.zone_id;
     }
     if (this.userType == 'branch_manager') {
       queryParam = '?manager_id=' + this.loggedInId;
@@ -335,6 +335,14 @@ export class StoresComponent implements OnInit {
       },
     };
     this.router.navigate(['manage-stores'], navData);
+  }
+  ViewOrders(item) {
+    const navData: NavigationExtras = {
+      queryParams: {
+        storeId: item.id,
+      },
+    };
+    this.router.navigate(['orders'], navData);
   }
 
   getCurrency() {

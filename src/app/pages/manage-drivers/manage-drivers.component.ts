@@ -16,6 +16,7 @@ import { UtilService } from 'src/app/services/util.service';
 export class ManageDriversComponent implements OnInit {
   cities: any[] = [];
   new: boolean = false;
+  zones: any[] = [];
   id: any;
   fname: any = '';
   lname: any = '';
@@ -29,6 +30,7 @@ export class ManageDriversComponent implements OnInit {
   lat: any = '';
   maximumOrders: any = '';
   lng: any = '';
+  zone: any = '';
   gender: any = '1';
   country_code: any;
   imageUrl: any;
@@ -69,6 +71,7 @@ export class ManageDriversComponent implements OnInit {
         this.lname = info.last_name;
         this.email = info.email;
         this.city = info.city;
+        this.zone = info.zone;
         this.gender = info.gender;
         this.coverImage = info.cover;
         this.imageUrl = this.api.mediaURL + this.coverImage;
@@ -79,6 +82,8 @@ export class ManageDriversComponent implements OnInit {
         this.address = info.address;
         this.country_code = info.country_code;
         this.country_code = this.country_code.replace('+', '');
+        this.getZones()
+
       } else {
         this.error('Something went wrong');
       }
@@ -94,6 +99,31 @@ export class ManageDriversComponent implements OnInit {
   }
 
   ngOnInit(): void {
+  }
+
+  getZones() {
+    this.zones = []
+    this.api
+      .get('zones/getAllZones?city_id='+this.city)
+      .then(
+        (data: any) => {
+          // console.log(data);
+          if (data && data.status === 200 && data.data.length) {
+            this.zones = data.data;
+            console.warn(
+              '---------------------------------------------' + this.zones
+            );
+          }
+        },
+        (error) => {
+          console.log(error);
+          this.error('Something went wrong');
+        }
+      )
+      .catch((error) => {
+        console.log(error);
+        this.error('Something went wrong');
+      });
   }
 
   getCity() {
@@ -171,7 +201,7 @@ export class ManageDriversComponent implements OnInit {
 
   create() {
     if (this.email === '' || this.password === '' || this.fname === '' || this.lname === '' || this.gender === '' ||
-      this.mobile === '' || !this.mobile || this.country_code === '') {
+      this.mobile === '' || !this.mobile || this.country_code === ''|| this.zone === '') {
       this.error('All Fields are required');
       return false;
     }
@@ -202,7 +232,7 @@ export class ManageDriversComponent implements OnInit {
       date: moment().format('YYYY-MM-DD'),
       last_active: 0,
       language: '',
-      zone: '',
+      zone: this.zone,
       fcm_token: '',
       current: 'active',
       rating: 0,
@@ -258,7 +288,7 @@ export class ManageDriversComponent implements OnInit {
 
   update() {
     if (this.fname === '' || this.lname === '' || this.gender === '' ||
-      this.mobile === '' || !this.mobile || this.country_code === '') {
+      this.mobile === '' || !this.mobile || this.country_code === '' || this.zone === '') {
       this.error('All Fields are required');
       return false;
     }
@@ -282,6 +312,7 @@ export class ManageDriversComponent implements OnInit {
       lng: this.lng,
       mobile: this.mobile,
       cover: this.coverImage,
+      zone: this.zone,
       others: this.maximumOrders,
       id: this.id,
       country_code: '+' + this.country_code

@@ -137,7 +137,7 @@ export class CuisinesComponent implements OnInit {
       showConfirmButton: true,
       confirmButtonText: this.api.translate('Yes'),
       showCancelButton: true,
-      cancelButtonText: this.api.translate('Cancle'),
+      cancelButtonText: this.api.translate('Cancel'),
       backdrop: false,
       background: 'white'
     }).then((data) => {

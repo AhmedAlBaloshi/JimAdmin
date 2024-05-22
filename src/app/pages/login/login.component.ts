@@ -51,6 +51,7 @@ export class LoginComponent implements OnInit {
         this.spinner.hide();
         if (data && data.status === 200) {
           if (data && data.data && data.data.type) {
+            if(data.data.status == 1){
             if (
               data.data.type === 'admin' ||
               data.data.type === 'branch_manager' ||
@@ -58,13 +59,17 @@ export class LoginComponent implements OnInit {
             ) {
               localStorage.setItem('uid', data.data.id);
               localStorage.setItem('type', data.data.type);
-              localStorage.setItem('city_id', data.data.city);
+              localStorage.setItem('zone_id', data.data.zone_id);
               localStorage.setItem('status', 'signedin');
               this.router.navigate(['']);
             } else {
               this.error(this.api.translate('access denied'));
               return false;
             }
+          }
+          else{
+            this.error(this.api.translate('access denied'))
+          }
           } else {
             this.error(this.api.translate('access denied'));
             return false;

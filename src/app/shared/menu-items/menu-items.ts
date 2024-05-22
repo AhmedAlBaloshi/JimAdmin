@@ -266,12 +266,6 @@ let MENUITEMS = [];
           icon: 'ti-notepad',
         },
         {
-          state: 'users',
-          name: 'Users',
-          type: 'link',
-          icon: 'ti-user',
-        },
-        {
           state: 'agents',
           name: 'Agents',
           type: 'link',
@@ -283,19 +277,6 @@ let MENUITEMS = [];
           type: 'link',
           icon: 'ti-truck',
         },
-        {
-          state: 'orders',
-          name: 'Orders',
-          type: 'link',
-          icon: 'ti-shopping-cart',
-        },
-
-        // {
-        //   state: 'payment',
-        //   name: 'Payments',
-        //   type: 'link',
-        //   icon: 'ti-money'
-        // }
       ],
     },
   ];
@@ -315,23 +296,12 @@ let MENUITEMS = [];
           type: 'link',
           icon: 'ti-notepad',
         },
-        {
-          state: 'users',
-          name: 'Users',
-          type: 'link',
-          icon: 'ti-user',
-        },
+
         {
           state: 'drivers',
           name: 'Drivers',
           type: 'link',
           icon: 'ti-truck',
-        },
-        {
-          state: 'orders',
-          name: 'Orders',
-          type: 'link',
-          icon: 'ti-shopping-cart',
         },
 
         // {

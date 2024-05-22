@@ -20,14 +20,15 @@
     <!-- counter-card-2 start -->
     <div class="col-md-6 col-xl-4">
         <app-card [cardClass]="'counter-card-2'" [blockClass]="'card-body-big'">
-            <div class="row" (click)="openIt('users')" style="cursor: pointer;">
+            <div class="row" (click)="openIt(userType == 'admin'?'users':'drivers')" style="cursor: pointer;">
                 <div class="col-6 counter-card-icon">
                     <i class="icofont icofont-chart-line-alt"></i>
                 </div>
                 <div class="col-6 text-right">
                     <div class="counter-card-text">
                         <h3> {{allUsers}} </h3>
-                        <p>{{api.translate('Users')}}</p>
+                        <p *ngIf="userType == 'admin'">{{api.translate('Users')}}</p>
+                        <p *ngIf="userType == 'agent' || userType == 'branch_manager'">{{api.translate('Drivers')}}</p>
                     </div>
                 </div>
             </div>
