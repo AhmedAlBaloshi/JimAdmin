@@ -51,7 +51,7 @@ export class LoginComponent implements OnInit {
         this.spinner.hide();
         if (data && data.status === 200) {
           if (data && data.data && data.data.type) {
-            if(data.data.status == 1){
+            if(data.data.status == 1 && data.data.deleted_at == null){
             if (
               data.data.type === 'admin' ||
               data.data.type === 'branch_manager' ||

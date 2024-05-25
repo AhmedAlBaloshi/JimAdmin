@@ -54,6 +54,8 @@ export class ManageStoresComponent implements OnInit {
   cities: any[] = [];
   fileURL: any;
   orders: any[] = [];
+  zones: any[] = [];
+  zone_id: any = '';
   shippingPrice: any;
   shipping: any = 'fixed';
   deliveryTime: any;
@@ -261,6 +263,7 @@ export class ManageStoresComponent implements OnInit {
           if (datas && datas.status === 200 && datas.data.length) {
             const info = datas.data[0];
             this.city = info.cid;
+            this.zone_id = info.zone_id;
             this.user_id = info.user_id;
             this.name_en = info.name_en;
             this.name_ar = info.name_ar;
@@ -285,6 +288,7 @@ export class ManageStoresComponent implements OnInit {
             this.notes_ar = info.notes_ar;
             this.getOrders();
             this.getReviews();
+            this.getZones()
             this.getProfile(info.user_id);
           } else {
             this.spinner.hide();
@@ -303,6 +307,32 @@ export class ManageStoresComponent implements OnInit {
         this.error(this.api.translate('Something went wrong'));
       });
   }
+
+  getZones() {
+    this.zones = []
+    this.api
+      .get('zones/getAllZones?city_id='+this.city)
+      .then(
+        (data: any) => {
+          // console.log(data);
+          if (data && data.status === 200 && data.data.length) {
+            this.zones = data.data;
+            console.warn(
+              '---------------------------------------------' + this.zones
+            );
+          }
+        },
+        (error) => {
+          console.log(error);
+          this.error('Something went wrong');
+        }
+      )
+      .catch((error) => {
+        console.log(error);
+        this.error('Something went wrong');
+      });
+  }
+
 
   getImage(cover) {
     return cover ? cover : 'assets/icon.png';
@@ -346,6 +376,7 @@ export class ManageStoresComponent implements OnInit {
       !this.closeTime ||
       this.deliveryTime === '' ||
       this.shippingPrice === ''
+      || this.zone_id === ''
     ) {
       this.error(this.api.translate('All Fields are required'));
       return false;
@@ -370,6 +401,7 @@ export class ManageStoresComponent implements OnInit {
       close_time: this.closeTime,
       cid: this.city,
       id: this.id,
+      zone_id: this.zone_id,
       min_order_price: this.minOrderPrice,
       shipping_price: this.shippingPrice,
       shipping: this.shipping,
@@ -426,6 +458,7 @@ export class ManageStoresComponent implements OnInit {
       !this.closeTime ||
       this.minOrderPrice === '' ||
       this.deliveryTime === '' ||
+      this.zone_id === '' ||
       this.shippingPrice === ''
     ) {
       this.error(this.api.translate('All Fields are required'));
@@ -442,7 +475,7 @@ export class ManageStoresComponent implements OnInit {
     }
     this.spinner.show();
     const userParam = {
-      first_name: this.fname,
+      full_name: this.fname,
       last_name: this.lname,
       email: this.email,
       password: this.password,
@@ -454,6 +487,7 @@ export class ManageStoresComponent implements OnInit {
       cover: this.fileURL,
       mobile: this.phone,
       status: 1,
+      role_id: 3,
       verified: 1,
       others: 1,
       date: moment().format('YYYY-MM-DD'),
@@ -470,6 +504,7 @@ export class ManageStoresComponent implements OnInit {
               name_en: this.name_en,
               name_ar: this.name_ar,
               mobile: this.phone,
+              zone_id: this.zone_id,
               lat: this.latitude,
               lng: this.longitude,
               verified: 1,
