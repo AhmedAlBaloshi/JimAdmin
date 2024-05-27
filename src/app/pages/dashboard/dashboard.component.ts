@@ -104,6 +104,15 @@ export class DashboardComponent implements OnInit {
   }
 
   openIt(item) {
+    if(item === this.userType){
+      if(this.userType == 'admin'){
+        item = 'users';
+      }else if(this.userType== 'store'){
+        item = 'products';
+      }else{
+        item = 'drivers';
+      }
+    }
     this.router.navigate([item]);
   }
 }

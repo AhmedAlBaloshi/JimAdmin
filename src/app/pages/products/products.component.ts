@@ -167,6 +167,14 @@ export class ProductsComponent implements OnInit {
     return 'btn btn-warning btn-round';
   }
 
+  createNew(){
+    const navData: NavigationExtras = {
+      queryParams: {
+        new:true
+      }
+    };
+    this.router.navigate(['manage-products'], navData);
+  }
   openOrder(item) {
     const navData: NavigationExtras = {
       queryParams: {
@@ -225,7 +233,7 @@ export class ProductsComponent implements OnInit {
       console.log('status', item);
       Swal.fire({
         title: this.api.translate('Are you sure?'),
-        text: 'To change it',
+        text: 'You want to '+(item.status == '1'?'deactivate':'activate') + ' this product',
         icon: 'question',
         showConfirmButton: true,
         confirmButtonText: this.api.translate('Yes'),

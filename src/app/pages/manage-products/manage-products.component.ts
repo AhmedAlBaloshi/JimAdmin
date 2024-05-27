@@ -25,7 +25,7 @@ import Swal from 'sweetalert2';
   styleUrls: ['./manage-products.component.scss']
 })
 export class ManageProductsComponent implements OnInit {
-
+  new:boolean = false;
   @ViewChild('contentVarient', { static: false }) contentVarient: any;
   @ViewChild('newAddone', { static: false }) newAddone: any;
   categories: any[] = [];
@@ -69,12 +69,29 @@ export class ManageProductsComponent implements OnInit {
     private modalService: NgbModal,
   ) {
     this.route.queryParams.subscribe((data: any) => {
-      if (data && data.id) {
+      if (data) {
+        this.new = data.new == 'true'?true:false;
+        this.getloggedInStoreId(localStorage.getItem('uid'))
+      if (data.id) {
         this.id = data.id;
         this.storeId = data.storeId;
         this.getCates();
         this.getProduct();
       }
+      }
+    });
+  }
+
+  getloggedInStoreId(id){
+    const param = {
+      id: id
+    };
+    this.spinner.show();
+    this.api.post('categories/getLoggedInStore', param).then((data: any) => {
+      this.spinner.hide();
+      this.storeId = data.data[0].id
+      this.getCates()
+
     });
   }
 
@@ -301,7 +318,12 @@ export class ManageProductsComponent implements OnInit {
       this.error(this.api.translate('Please add your cover image'));
       return false;
     }
-    this.update();
+    if(!this.new){
+      this.update();
+    }
+    else{
+      this.create()
+    }
   }
 
   update() {
@@ -326,6 +348,42 @@ export class ManageProductsComponent implements OnInit {
     };
     this.spinner.show();
     this.api.post('products/editList', param).then((data: any) => {
+      this.spinner.hide();
+      if (data && data.status === 200) {
+
+        this.navCtrl.back();
+      } else {
+        this.error(this.api.translate('Something went wrong'));
+      }
+    }, error => {
+      this.spinner.hide();
+      this.error(this.api.translate('Something went wrong'));
+      console.log('error', error);
+    });
+  }
+
+  create() {
+    const param = {
+      storeId: this.storeId,
+      cid: this.cid,
+      name_en: this.name_en,
+      name_ar: this.name_ar,
+      price: this.price,
+      price_type: this.price_type,
+      descriptions_en: this.descriptions_en,
+      descriptions_ar: this.descriptions_ar,
+      notes_en: this.notes_en,
+      notes_ar: this.notes_ar,
+      cover: this.coverImage,
+      veg: this.veg,
+      status: this.status,
+      variations: JSON.stringify(this.variations),
+      size: this.size,
+      internal_tax: this.internalTax,
+    };
+    console.log(param)
+    this.spinner.show();
+    this.api.post('products/save', param).then((data: any) => {
       this.spinner.hide();
       if (data && data.status === 200) {
 

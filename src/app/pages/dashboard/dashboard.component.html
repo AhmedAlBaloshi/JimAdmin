@@ -2,7 +2,7 @@
     <!-- counter-card-1 start-->
     <div class="col-md-12 col-xl-4">
         <app-card [cardClass]="'counter-card-1'" [blockClass]="'card-body-big'">
-            <div class="row" (click)="openIt('orders')" style="cursor: pointer;">
+            <div class="row" (click)="userType == 'admin' || userType == 'store'?openIt('orders'):''" style="cursor: pointer;">
                 <div class="col-6 counter-card-icon">
                     <i class="icofont icofont-chart-histogram"></i>
                 </div>
@@ -20,7 +20,7 @@
     <!-- counter-card-2 start -->
     <div class="col-md-6 col-xl-4">
         <app-card [cardClass]="'counter-card-2'" [blockClass]="'card-body-big'">
-            <div class="row" (click)="openIt(userType == 'admin'?'users':'drivers')" style="cursor: pointer;">
+            <div class="row" (click)="openIt(userType)" style="cursor: pointer;">
                 <div class="col-6 counter-card-icon">
                     <i class="icofont icofont-chart-line-alt"></i>
                 </div>
@@ -40,7 +40,7 @@
     <!-- counter-card-3 start -->
     <div class="col-md-6 col-xl-4">
         <app-card [cardClass]="'counter-card-3'" [blockClass]="'card-body-big'">
-            <div class="row" (click)="openIt('stores')" style="cursor: pointer;">
+            <div class="row" (click)="openIt(userType =='store'?'category':'stores')" style="cursor: pointer;">
                 <div class="col-6 counter-card-icon">
                     <i class="icofont icofont-chart-line"></i>
                 </div>
