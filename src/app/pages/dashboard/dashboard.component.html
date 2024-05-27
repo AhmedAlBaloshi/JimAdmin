@@ -29,6 +29,7 @@
                         <h3> {{allUsers}} </h3>
                         <p *ngIf="userType == 'admin'">{{api.translate('Users')}}</p>
                         <p *ngIf="userType == 'agent' || userType == 'branch_manager'">{{api.translate('Drivers')}}</p>
+                        <p *ngIf="userType == 'store'">{{api.translate('Products')}}</p>
                     </div>
                 </div>
             </div>
@@ -46,7 +47,9 @@
                 <div class="col-6 text-right">
                     <div class="counter-card-text">
                         <h3> {{stores.length}} </h3>
-                        <p>{{api.translate('Stores')}}</p>
+                        <p *ngIf="userType != 'store'">{{api.translate('Stores')}}</p>
+                        <p *ngIf="userType == 'store'">{{api.translate('Categories')}}</p>
+
                     </div>
                 </div>
             </div>

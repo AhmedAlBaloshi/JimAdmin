@@ -85,8 +85,10 @@ export class AdminComponent implements OnInit {
     }
     else if(this.userType == 'branch_manager'){
       this.userName = 'Branch Manager'
-    }else{
+    }else if(this.userType == 'agent'){
       this.userName = 'Agent'
+    }else if(this.userType == 'store'){
+      this.userName = localStorage.getItem('full_name')
     }
     this.asideItems = this.menuItems.getAll(this.userType);
     const scrollHeight = window.screen.height - 150;

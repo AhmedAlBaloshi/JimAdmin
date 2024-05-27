@@ -19,6 +19,8 @@ export class CategoryComponent implements OnInit {
   catNameEn: any = '';
   catNameAr: any = '';
   cateId: any;
+  userType: string = localStorage.getItem('type');
+  loggedInId: string = localStorage.getItem('uid');
 
   constructor(
     private router: Router,
@@ -37,7 +39,11 @@ export class CategoryComponent implements OnInit {
   getCategory() {
     this.categories = [];
     this.dummy = Array(10);
-    this.api.get('categories').then((datas: any) => {
+    let queryParam = '';
+    if (this.userType == 'store') {
+      queryParam = '?store_id=' + this.loggedInId;
+    }
+    this.api.get('categories'+queryParam).then((datas: any) => {
       this.dummy = [];
       if (datas && datas.data && datas.data.length) {
         this.categories = datas.data;
@@ -117,10 +123,6 @@ export class CategoryComponent implements OnInit {
       return 'btn btn-danger btn-round';
     }
     return 'btn btn-warning btn-round';
-  }
-
-  createNew() {
-    this.router.navigate(['manage-category']);
   }
 
   changeStatus(item) {
@@ -270,5 +272,15 @@ export class CategoryComponent implements OnInit {
         });
       }
     });
+  }
+
+  createNew() {
+    const navData: NavigationExtras = {
+      queryParams: {
+        register: true,
+        isCategory: true
+      }
+    };
+    this.router.navigate(['manage-major-categories'], navData);
   }
 }

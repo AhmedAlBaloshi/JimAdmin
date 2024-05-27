@@ -6,11 +6,16 @@
     <div class="col-md-12">
         <div class="card">
             <div class="card-body">
-                <h5> <span *ngIf="new">{{api.translate('CREATE NEW')}}</span> <span
-                        *ngIf="!new">{{api.translate('Edit')}}</span> {{api.translate('Major Category')}} </h5>
+                <h5> <span *ngIf="new">{{api.translate('CREATE NEW ')}}</span>
+                  <span
+                  *ngIf="!new">{{api.translate('Edit')}}</span>
+                  <span *ngIf="isCategory">{{api.translate('Category')}}</span>
+                  <span *ngIf="!isCategory">{{api.translate('Major Category')}} </span>
+                </h5>
             </div>
             <div class="card-body reset-table p-t-0">
-                <h4 class="sub-title">{{api.translate('Major Category Details')}}</h4>
+                <h4 class="sub-title" *ngIf="isCategory">{{api.translate('Category Details')}}</h4>
+                <h4 class="sub-title" *ngIf="!isCategory">{{api.translate('Major Category Details')}}</h4>
                 <div class="form-group row">
                     <div class="col-sm-6">
                         <label>{{api.translate('Name (EN)')}}</label>
@@ -35,8 +40,11 @@
                 </div>
                 <div class="form-group row">
                     <div class="col-sm-12">
-                        <button class="btn btn-danger btn-round" (click)="create()" *ngIf="new">{{api.translate('Add New
-                            Major Category')}}
+                        <button class="btn btn-danger btn-round" (click)="create()" *ngIf="new && !isCategory">
+                        {{api.translate('Add New Major Category')}}
+                        </button>
+                        <button class="btn btn-danger btn-round" (click)="createCategory()" *ngIf="new && isCategory">
+                          {{api.translate('Add New Category')}}
                         </button>
                         <button class="btn btn-danger btn-round" (click)="update()" *ngIf="!new">
                             {{api.translate('Update Major Category')}} </button>

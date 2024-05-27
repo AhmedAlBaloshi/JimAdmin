@@ -15,6 +15,8 @@ import { UtilService } from 'src/app/services/util.service';
 })
 export class ManageMajorCategoriesComponent implements OnInit {
   new: boolean = false;
+  isCategory: boolean = false;
+  storeId: any;
   id: any;
   name_en: any = '';
   name_ar: any = '';
@@ -33,6 +35,12 @@ export class ManageMajorCategoriesComponent implements OnInit {
     this.api.auth();
     this.route.queryParams.subscribe((data: any) => {
       this.new = data.register === 'true' ? true : false;
+      this.isCategory = data.isCategory === 'true' ? true : false;
+
+      if(this.isCategory){
+        this.storeId = localStorage.getItem('uid');
+      }
+
       if (!this.new && data.id) {
         this.id = data.id;
         this.getMajorCategories();
@@ -124,6 +132,40 @@ export class ManageMajorCategoriesComponent implements OnInit {
     };
     this.spinner.show();
     this.api.post('majorcategories/createMajorCategory', param).then((res: any) => {
+      this.spinner.hide();
+      if (res && res.data && res.status === 200) {
+        this.navCtrl.back();
+      } else {
+        if (res && res.data && res.data.message) {
+          this.error(res.data.message);
+          return false;
+        }
+        this.error(res.message);
+        return false;
+      }
+    });
+  }
+
+  createCategory() {
+    if (this.name_en === '' || this.name_ar === '') {
+      this.error('All Fields are required');
+      return false;
+    }
+    if (!this.coverImage || this.coverImage === '') {
+      this.error('Please add your cover image');
+      return false;
+    }
+    this.spinner.show();
+    const param = {
+      name_en: this.name_en,
+      name_ar: this.name_ar,
+      status: 1,
+      storeId: this.storeId,
+      image: this.coverImage
+    };
+    console.log(param)
+    this.spinner.show();
+    this.api.post('categories/save', param).then((res: any) => {
       this.spinner.hide();
       if (res && res.data && res.status === 200) {
         this.navCtrl.back();

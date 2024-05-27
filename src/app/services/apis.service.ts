@@ -157,7 +157,7 @@ export class ApisService {
         console.log(data);
         if (data && data.status === 200 && data.data && data.data.length) {
           if (data && data.data[0] && data.data[0].type) {
-          if (data.data[0].type === 'admin' || data.data[0].type === 'branch_manager' || data.data[0].type === 'agent') {
+          if (data.data[0].type === 'admin' || data.data[0].type === 'branch_manager' || data.data[0].type === 'agent' || data.data[0].type === 'store') {
             resolve(true);
           } else {
             localStorage.removeItem('uid');

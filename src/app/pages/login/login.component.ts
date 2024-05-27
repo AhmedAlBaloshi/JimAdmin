@@ -55,8 +55,10 @@ export class LoginComponent implements OnInit {
             if (
               data.data.type === 'admin' ||
               data.data.type === 'branch_manager' ||
-              data.data.type === 'agent'
+              data.data.type === 'agent'||
+              data.data.type === 'store'
             ) {
+              localStorage.setItem('full_name', data.data.full_name+data.data.last_name);
               localStorage.setItem('uid', data.data.id);
               localStorage.setItem('type', data.data.type);
               localStorage.setItem('zone_id', data.data.zone_id);

@@ -304,12 +304,37 @@ let MENUITEMS = [];
           icon: 'ti-truck',
         },
 
-        // {
-        //   state: 'payment',
-        //   name: 'Payments',
-        //   type: 'link',
-        //   icon: 'ti-money'
-        // }
+      ],
+    },
+  ];
+  const STOREMENUITEMS = [
+    {
+      label: 'Main',
+      main: [
+        {
+          state: 'dashboard',
+          name: 'Dashboard',
+          type: 'link',
+          icon: 'ti-home',
+        },
+        {
+          state: 'products',
+          name: 'Products',
+          type: 'link',
+          icon: 'ti-envelope',
+        },
+        {
+          state: 'category',
+          name: 'Categories',
+          type: 'link',
+          icon: 'ti-layout-grid2',
+        },
+        {
+          state: 'orders',
+          name: 'Orders',
+          type: 'link',
+          icon: 'ti-shopping-cart',
+        },
       ],
     },
   ];
@@ -322,8 +347,11 @@ export class MenuItems {
     else if (type == 'branch_manager'){
         return BRANCHMANAGERMENUITEMS;
       }
+      else if(type == 'agent'){
+        return AGENTMENUITEMS;
+      }
       else{
-        return AGENTMENUITEMS
+        return STOREMENUITEMS;
       }
   }
 

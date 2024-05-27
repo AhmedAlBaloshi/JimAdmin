@@ -21,6 +21,9 @@ export class ProductsComponent implements OnInit {
   dummy = Array(5);
   page = 1;
 
+  userType: string = localStorage.getItem('type');
+  loggedInId: string = localStorage.getItem('uid');
+
   sortByNameOrder: any = '';
   sortByStoreOrder: any = '';
 
@@ -42,7 +45,11 @@ export class ProductsComponent implements OnInit {
   getProducts() {
     // this.dummy = Array(5);
     // this.products = [];
-    this.api.get('products').then((data: any) => {
+    let queryParam = '';
+    if (this.userType == 'store') {
+      queryParam = '?store_id=' + this.loggedInId;
+    }
+    this.api.get('products'+queryParam).then((data: any) => {
       console.log('products', data);
       this.dummy = [];
       if (data && data.status === 200 && data.data && data.data.length > 0) {

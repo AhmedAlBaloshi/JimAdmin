@@ -38,6 +38,10 @@ export class DashboardComponent implements OnInit {
     if (this.userType == 'branch_manager') {
       queryParam = '?manager_id=' + this.loggedInId;
     }
+
+    if (this.userType == 'store') {
+      queryParam = '?store_id=' + this.loggedInId;
+    }
     this.api.get('users/adminHome'+queryParam).then((res: any) => {
       this.dummy = [];
       if (res && res.status === 200) {

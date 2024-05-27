@@ -77,8 +77,11 @@ export class OrdersComponent implements OnInit {
     if (this.userType == 'agent') {
       queryParam = '?city_id=' + this.city;
     }
-    if (this.userType == 'branch_manager') {
+    else if (this.userType == 'branch_manager') {
       queryParam = '?manager_id=' + this.loggedInId;
+    }
+    else if (this.userType == 'store') {
+      queryParam = '?storeId=' + this.loggedInId;
     }
     if(this.storeId){
       queryParam = '?store_id=' + this.storeId;

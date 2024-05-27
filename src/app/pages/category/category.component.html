@@ -44,12 +44,15 @@
                             [placeholder]="api.translate('Search Categories')" (input)="search($event.target.value)">
                     </div>
                     <div class="col-sm-4">
-                    </div>
+                      <button style="float: right;" type="button" (click)="createNew()"
+                          class="btn btn-danger btn-round" *ngIf="userType == 'store'">{{api.translate('CREATE NEW')}}</button>
+                  </div>
                 </div>
                 <div class="table-responsive">
                     <table class="table table-hover">
                         <thead>
                             <tr class="text-uppercase">
+                                <th>{{api.translate('Cover')}}</th>
                                 <th>{{api.translate('Name')}}</th>
                                 <th>{{api.translate('Store Name')}}</th>
                                 <th>{{api.translate('Status')}}</th>
@@ -79,10 +82,19 @@
                                         [theme]="{ 'border-radius': '5px', height: '10px', border: '1px solid white' }">
                                     </ngx-skeleton-loader>
                                 </td>
+                                <td>
+                                    <ngx-skeleton-loader count="1"
+                                        [theme]="{ 'border-radius': '5px', height: '10px', border: '1px solid white' }">
+                                    </ngx-skeleton-loader>
+                                </td>
                             </tr>
                             <tr
                                 *ngFor="let item of categories | paginate: {id:'pagin1', itemsPerPage: 10, currentPage: page };let i = index;">
-
+                                <td>
+                                  <a href="javascript:;"><img class="img-responsive"
+                                    style="height: 40px;" [src]="api.mediaURL+item.cover"
+                                    onError="this.src='assets/images/user.png'" alt="chat-user"></a>
+                                </td>
                                 <td>{{item.name_en}} - {{item.name_ar}}</td>
                                 <td>{{item.store_name_en}} - {{item.store_name_ar}}</td>
                                 <td><button type="button" [className]="getClass(item.status)"
