@@ -109,8 +109,8 @@ export class ManageOrdersComponent implements OnInit {
           this.api.post('address/getById', { id: data.address }).then((addressRes) => {
             if (addressRes && addressRes.status === 200 && addressRes.data) {
               let addressesData = addressRes.data[0];
-              this.deliveryAddress = 'Building ' + addressesData.building + ', ' + addressesData.landmark + ', ' + addressesData.address_en;
-              this.userAddress = 'Building ' + addressesData.building + ', ' + addressesData.landmark + ', ' + addressesData.address_en;
+              this.deliveryAddress = 'Building ' + (addressesData.building?addressesData.building+', ':'') + (addressesData.landmark?addressesData.landmark+', ':'') + (addressesData.address_en?addressesData.address_en:'');
+              this.userAddress = 'Building ' + (addressesData.building?addressesData.building+', ':'') + (addressesData.landmark?addressesData.landmark+', ':'') + (addressesData.address_en?addressesData.address_en:'');
             }
           }, error => {
             console.log(error);
