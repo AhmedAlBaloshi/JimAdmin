@@ -4,11 +4,11 @@
 
 export const environment = {
   production: false,
-  // baseURL: 'http://localhost/Ahmed/jimadminapi/api/index.php/', //'/jim-api/index.php/', //
-  // mediaURL: 'http://localhost/Ahmed/jimadminapi/api/uploads/', //'/jim-api/uploads/', //
+  baseURL: 'http://localhost/jimadminapi/api/index.php/', //'/jim-api/index.php/', //
+  mediaURL: 'http://localhost/jimadminapi/api/uploads/', //'/jim-api/uploads/', //
 
-baseURL: 'https://apijim.nuewma.com/index.php/',
-mediaURL: 'https://apijim.nuewma.com/uploads/',
+// baseURL: 'https://apijim.nuewma.com/index.php/',
+// mediaURL: 'https://apijim.nuewma.com/uploads/',
 
   onesignal: {
     appId: 'a44ba4e4-cd5e-4c42-8388-a3195418b147',

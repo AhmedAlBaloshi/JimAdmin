@@ -1,4 +1,4 @@
- 
+
 <ngx-spinner type="ball-pulse-sync" color="#e74c3c">
     <p style="font-size: 20px; color: #e74c3c">{{api.translate('Please wait...')}}</p>
 </ngx-spinner>
@@ -31,6 +31,8 @@
                                 <th>{{api.translate('Name')}}</th>
                                 <th>{{api.translate('Email')}}</th>
                                 <th>{{api.translate('Phone')}}</th>
+                                <th>{{api.translate('Working Start Time')}}</th>
+                                <th>{{api.translate('Working End Time')}}</th>
                                 <th>{{api.translate('Maximum Orders')}}</th>
                                 <th>{{api.translate('Status')}}</th>
                                 <th>{{api.translate('Action')}}</th>
@@ -38,6 +40,16 @@
                         </thead>
                         <tbody>
                             <tr *ngFor="let item of dummy ">
+                                <td>
+                                    <ngx-skeleton-loader count="1"
+                                        [theme]="{ 'border-radius': '5px', height: '10px', border: '1px solid white' }">
+                                    </ngx-skeleton-loader>
+                                </td>
+                                <td>
+                                    <ngx-skeleton-loader count="1"
+                                        [theme]="{ 'border-radius': '5px', height: '10px', border: '1px solid white' }">
+                                    </ngx-skeleton-loader>
+                                </td>
                                 <td>
                                     <ngx-skeleton-loader count="1"
                                         [theme]="{ 'border-radius': '5px', height: '10px', border: '1px solid white' }">
@@ -85,6 +97,12 @@
                                     {{item.mobile}}
                                 </td>
                                 <td>
+                                    {{item.working_start_time!= null?convertTimeTo12HourFormat(item.working_start_time): '--:--'}}
+                                </td>
+                                <td>
+                                    {{item.working_end_time!= null?convertTimeTo12HourFormat(item.working_end_time): '--:--'}}
+                                </td>
+                                <td>
                                     {{item.others}}
                                 </td>
                                 <td><button type="button" (click)="changeStatus(item)"
@@ -94,7 +112,7 @@
                                 <td>
                                     <button type="button" (click)="ViewOrders(item)" *ngIf="userType != 'admin'"
                                               class="btn btn-success btn-round btn-outline-success mr-2">{{api.translate('View Orders')}}</button>
-                                        
+
                                     <button type="button" (click)="openDriver(item)"
                                         class="btn btn-success btn-round btn-outline-success">{{api.translate('View')}}</button>
                                 </td>

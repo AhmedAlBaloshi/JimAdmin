@@ -60,6 +60,19 @@
                         </select>
                     </div>
 
+                    <div class="col-sm-6">
+                      <label>{{api.translate('Working Hours From')}}</label>
+                      <input type="time" [(ngModel)]="working_start_time" class="form-control"
+                          [placeholder]="api.translate('Working hours from')">
+                  </div>
+
+                    <div class="col-sm-6">
+                      <label>{{api.translate('Working Hours To')}}</label>
+                      <input type="time" [(ngModel)]="working_end_time" class="form-control"
+                          [placeholder]="api.translate('Working hours to')">
+                  </div>
+
+
                     <div class="col-sm-12">
                         <label>{{api.translate('Address')}}</label>
                         <input type="text" [(ngModel)]="address" class="form-control"

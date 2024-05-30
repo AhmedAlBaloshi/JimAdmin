@@ -28,6 +28,8 @@ export class ManageDriversComponent implements OnInit {
   status: any = '';
   address: any = '';
   lat: any = '';
+  working_start_time: any = '';
+  working_end_time: any = '';
   maximumOrders: any = '';
   lng: any = '';
   zone: any = '';
@@ -73,6 +75,8 @@ export class ManageDriversComponent implements OnInit {
         this.city = info.city;
         this.zone = info.zone;
         this.gender = info.gender;
+        this.working_start_time = info.working_start_time;
+        this.working_end_time = info.working_end_time;
         this.coverImage = info.cover;
         this.imageUrl = this.api.mediaURL + this.coverImage;
         this.mobile = info.mobile;
@@ -201,10 +205,15 @@ export class ManageDriversComponent implements OnInit {
 
   create() {
     if (this.email === '' || this.password === '' || this.fname === '' || this.lname === '' || this.gender === '' ||
-      this.mobile === '' || !this.mobile || this.country_code === ''|| this.zone === '') {
+      this.mobile === '' || !this.mobile || this.country_code === ''|| this.zone === '' || this.working_start_time === '' ||this.working_end_time === '') {
       this.error('All Fields are required');
       return false;
     }
+    if(this.working_start_time >= this.working_end_time){
+      this.error('The working end time must be later than the working start time');
+      return false;
+    }
+
     const emailfilter = /^[\w._-]+[+]?[\w._-]+@[\w.-]+\.[a-zA-Z]{2,6}$/;
     if (!(emailfilter.test(this.email))) {
       this.error('Please enter valid email');
@@ -223,6 +232,8 @@ export class ManageDriversComponent implements OnInit {
       city: this.city,
       gender: this.gender,
       address: this.address,
+      working_start_time: this.working_start_time,
+      working_end_time: this.working_end_time,
       lat: this.lat,
       lng: this.lng,
       mobile: this.mobile,
@@ -288,8 +299,12 @@ export class ManageDriversComponent implements OnInit {
 
   update() {
     if (this.fname === '' || this.lname === '' || this.gender === '' ||
-      this.mobile === '' || !this.mobile || this.country_code === '' || this.zone === '') {
+      this.mobile === '' || !this.mobile || this.country_code === '' || this.zone === '' || this.working_start_time === '' ||this.working_end_time === '') {
       this.error('All Fields are required');
+      return false;
+    }
+    if(this.working_start_time >= this.working_end_time){
+      this.error('The working end time must be later than the working start time');
       return false;
     }
     const emailfilter = /^[\w._-]+[+]?[\w._-]+@[\w.-]+\.[a-zA-Z]{2,6}$/;
@@ -308,6 +323,8 @@ export class ManageDriversComponent implements OnInit {
       city: this.city,
       gender: this.gender,
       address: this.address,
+      working_start_time: this.working_start_time,
+      working_end_time: this.working_end_time,
       lat: this.lat,
       lng: this.lng,
       mobile: this.mobile,

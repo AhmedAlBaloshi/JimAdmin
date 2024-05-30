@@ -199,4 +199,11 @@ export class DriversComponent implements OnInit {
     this.toastyService.success(toastOptions);
   }
 
+  convertTimeTo12HourFormat(time) {
+    const [hours, minutes] = time.split(':');
+    const date = new Date();
+    date.setHours(+hours);
+    date.setMinutes(+minutes);
+    return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true });
+  }
 }
