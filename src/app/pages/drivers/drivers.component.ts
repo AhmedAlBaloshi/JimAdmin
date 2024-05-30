@@ -75,8 +75,12 @@ export class DriversComponent implements OnInit {
   }
 
   filterItems(searchTerm) {
+    console.log('searchTerm' + searchTerm);
     return this.drivers.filter((item) => {
-      return item.first_name.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1;
+      console.log('----------------' +item.first_name)
+      return (item.first_name!= null ?item.first_name.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1:'' ||
+      item.email!= null ?item.email.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1:''
+     );
     });
 
   }
