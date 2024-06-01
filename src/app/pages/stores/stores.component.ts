@@ -383,4 +383,55 @@ export class StoresComponent implements OnInit {
       ? matchedMajorCategories[0].name_en
       : '-';
   }
+
+  changeStoreStatus(type:string) {
+    let msg = "";
+    if(type === 'close'){
+      msg = "You want to make all the restaurants closed"
+    }else{
+      msg = "You want to make all the restaurants busy";
+    }
+    Swal.fire({
+      title: this.api.translate('Are you sure?'),
+      text: this.api.translate(msg),
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: this.api.translate('Yes'),
+    }).then((result) => {
+
+      if (result.value) {
+
+        let param = {
+          type:type
+        }
+
+        this.spinner.show();
+        this.api
+          .post('stores/changeAllStatus', param)
+          .then(
+            (datas: any) => {
+              this.spinner.hide();
+              if (datas && datas.status === 200) {
+                this.getStores();
+              } else {
+                this.spinner.hide();
+                this.error(this.api.translate('Something went wrong'));
+              }
+            },
+            (error) => {
+              this.spinner.hide();
+              console.log(error);
+              this.error(this.api.translate('Something went wrong'));
+            }
+          )
+          .catch((error) => {
+            this.spinner.hide();
+            console.log(error);
+            this.error(this.api.translate('Something went wrong'));
+          });
+      }
+    });
+  }
 }
