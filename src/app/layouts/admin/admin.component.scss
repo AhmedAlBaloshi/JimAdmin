@@ -15,3 +15,8 @@ aside.pcoded-slider.ng-sidebar {
     display: none;
   }
 }
+
+.show-notification.profile-notification li:hover{
+  cursor: pointer;
+  background-color: #e6e6e6 !important;
+}

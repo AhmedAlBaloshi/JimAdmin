@@ -3,7 +3,7 @@ import { state, style, transition, animate, trigger, AUTO_STYLE } from '@angular
 import 'rxjs/add/operator/filter';
 import { MenuItems } from '../../shared/menu-items/menu-items';
 import { ApisService } from 'src/app/services/apis.service';
-import { Router } from '@angular/router';
+import { NavigationExtras, Router } from '@angular/router';
 import { UtilService } from 'src/app/services/util.service';
 
 @Component({
@@ -61,6 +61,7 @@ export class AdminComponent implements OnInit {
   isCollapsedMobile = 'no-block';
   toggleOn = true;
   windowWidth: number;
+  orderTracks: any[] = [];
   @ViewChild('searchFriends', /* TODO: add static flag */ { static: false }) search_friends: ElementRef;
   @ViewChild('toggleButton', /* TODO: add static flag */ { static: false }) toggle_button: ElementRef;
   @ViewChild('sideMenu', /* TODO: add static flag */ { static: false }) side_menu: ElementRef;
@@ -71,6 +72,7 @@ export class AdminComponent implements OnInit {
   selectedFlag: any = '';
 
   userType = localStorage.getItem('type');
+  zone_id = localStorage.getItem('zone_id');
   userName:string = '';
   asideItems:any;
 
@@ -114,7 +116,19 @@ export class AdminComponent implements OnInit {
     });
   }
 
-  ngOnInit() { }
+  ngOnInit() {
+    this.getOrderTrancks()
+  }
+
+  viewOrder(id) {
+    console.log(id);
+    const navData: NavigationExtras = {
+      queryParams: {
+        id: id
+      }
+    };
+    this.router.navigate(['manage-orders'], navData);
+  }
 
   onClickedOutside(e: Event) {
     if (this.windowWidth < 768 && this.toggleOn && this.verticalNavType !== 'offcanvas') {
@@ -157,6 +171,19 @@ export class AdminComponent implements OnInit {
       this.verticalNavType = 'expanded';
       this.verticalEffect = 'shrink';
     }
+  }
+
+  getOrderTrancks(){
+    const param = {zone_id:this.zone_id}
+    this.api.post('orders/tracks', param).then((datas: any) => {
+      console.log("datas", datas);
+      if (datas && datas.status === 200 && datas.data.length) {
+        this.orderTracks = datas.data;
+        console.warn(this.orderTracks);
+      }
+    }).catch(error => {
+      console.log(error);
+    });
   }
 
   searchFriendList(event) {

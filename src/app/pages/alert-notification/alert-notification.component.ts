@@ -107,7 +107,8 @@ export class AlertNotificationComponent implements OnInit {
           console.log(data);
           if (data && data.status === 200 && data.data.length) {
             this.users = data.data;
-            this.users = this.users.filter((d) => d.zone === this.zone_id);
+            if(this.userType === 'agent'){
+            this.users = this.users.filter((d) => d.zone === this.zone_id);}
             console.log(this.users)
             this.displayedUsers = this.users.slice(0, 100);
             this.setDrop('first_name');
@@ -185,13 +186,18 @@ export class AlertNotificationComponent implements OnInit {
 
   submit() {
     if (
-      !this.messageFor ||
       this.message === '' ||
       this.selectedUsers.length < 1 ||
       this.title === ''
     ) {
       this.error(this.api.translate('All Fields are required'));
       return false;
+    }
+    if(this.userType == 'admin'){
+      if(this.messageFor === '')  {
+        this.error(this.api.translate('All Fields are required'));
+        return false;
+      }
     }
     const params = {
       for: this.messageFor,
