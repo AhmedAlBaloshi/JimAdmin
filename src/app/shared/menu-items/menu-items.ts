@@ -303,6 +303,12 @@ let MENUITEMS = [];
           type: 'link',
           icon: 'ti-truck',
         },
+        {
+          state: 'alert-notification',
+          name: 'Warning Message',
+          type: 'link',
+          icon: 'ti-email',
+        },
 
       ],
     },

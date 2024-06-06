@@ -6,13 +6,13 @@
   <div class="col-md-12">
     <div class="card">
       <div class="card-body">
-        <h5>{{api.translate('Alert Notification')}}</h5>
+        <h5>{{api.translate(userType === 'agent'?'Warning Message':'Alert Notification')}}</h5>
       </div>
 
       <div class="card-body reset-table p-t-0">
 
         <div class="form-group row">
-            <div class="col-sm-6">
+            <div class="col-sm-6" *ngIf="userType !== 'agent'">
                 <label>{{api.translate('For')}}</label>
                 <select name="select" [(ngModel)]="messageFor" (change)="getUsers($event)" class="form-control">
                   <option value="customer" selected>{{api.translate('Customer')}}</option>
@@ -21,8 +21,8 @@
               </select>
             </div>
             <div class="col-sm-6">
-              <label for=""> {{ api.translate('Users') }} </label>
-              <ng-multiselect-dropdown [placeholder]="api.translate('Select Users')" [settings]="dropdownSettings"
+              <label for=""> {{ api.translate(userType !== 'agent'?'Users':'Drivers') }} </label>
+              <ng-multiselect-dropdown [placeholder]="api.translate(userType !== 'agent'?'Select Users':'Select Drivers')" [settings]="dropdownSettings"
               [data]="displayedUsers" [(ngModel)]="selectedUsers" (onSelect)="onItemSelect($event)"
               (onSelectAll)="onSelectAll($event)" (filterChange)="onFilterChange($event)">
             </ng-multiselect-dropdown>

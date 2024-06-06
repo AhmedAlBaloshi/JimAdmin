@@ -17,6 +17,8 @@ export class AlertNotificationComponent implements OnInit {
   selectedUsers: any = [];
   users: any = [];
   dropdownSettings: IDropdownSettings = {};
+  userType:any = localStorage.getItem('type')
+  zone_id:any = localStorage.getItem('zone_id')
 
   constructor(
     public api: ApisService,
@@ -28,6 +30,9 @@ export class AlertNotificationComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    if(this.userType === 'agent'){
+      this.getDrivers();
+    }
     this.spinner.hide();
   }
 
@@ -102,6 +107,8 @@ export class AlertNotificationComponent implements OnInit {
           console.log(data);
           if (data && data.status === 200 && data.data.length) {
             this.users = data.data;
+            this.users = this.users.filter((d) => d.zone === this.zone_id);
+            console.log(this.users)
             this.displayedUsers = this.users.slice(0, 100);
             this.setDrop('first_name');
           }
