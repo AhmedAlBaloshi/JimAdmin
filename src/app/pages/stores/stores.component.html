@@ -29,11 +29,11 @@
 
             <!-- Close All Stores -->
             <button style="float: right;" type="button" (click)="changeStoreStatus('close')"
-              class="btn btn-danger btn-round mx-2">{{api.translate('Close All')}}</button>
+              class="btn btn-danger btn-round mx-2" *ngIf="userType == 'agent'">{{api.translate('Close All')}}</button>
 
             <!-- Busy All Stores -->
             <button style="float: right;" type="button" (click)="changeStoreStatus('busy')"
-              class="btn btn-danger btn-round mx-2">{{api.translate('Busy All')}}</button>
+              class="btn btn-danger btn-round mx-2" *ngIf="userType == 'agent'">{{api.translate('Busy All')}}</button>
 
           </div>
         </div>
@@ -47,12 +47,18 @@
                 <th>{{api.translate('Time')}}</th>
                 <th>{{api.translate('Ratting')}}</th>
                 <th>{{api.translate('Reg. Date')}}</th>
+                <th>{{api.translate('Is Special')}}</th>
                 <th>{{api.translate('Status')}}</th>
                 <th>{{api.translate('Action')}}</th>
               </tr>
             </thead>
             <tbody>
               <tr *ngFor="let item of dummy;">
+                <td>
+                  <ngx-skeleton-loader count="1"
+                    [theme]="{ 'border-radius': '5px', height: '10px', border: '1px solid white' }">
+                  </ngx-skeleton-loader>
+                </td>
                 <td>
                   <ngx-skeleton-loader count="1"
                     [theme]="{ 'border-radius': '5px', height: '10px', border: '1px solid white' }">
@@ -113,6 +119,10 @@
                 </td>
                 <td>{{item.rating}}</td>
                 <td>{{item.created_at}}</td>
+                <td>
+                  <span class="badge badge-success" *ngIf="item.is_special == 1"> yes </span>
+                  <span class="badge badge-danger" *ngIf="item.is_special == 0"> No </span>
+                </td>
                 <td><button type="button" [className]="getClass(item.status)"
                     (click)="changeStatus(item)">{{item.status === '1' ?
                     'Active':'Deactive'}}</button>

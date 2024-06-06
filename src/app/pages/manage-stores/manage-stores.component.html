@@ -159,7 +159,7 @@
           </div>
           <div class="col-sm-12">
             <label>{{api.translate('Select city')}}</label>
-            <select name="select" [(ngModel)]="city" class="form-control" (change)="getZones()">
+            <select name="select" [disabled]="userType === 'agent'" [(ngModel)]="city" class="form-control" (change)="getZones()">
               <option *ngFor="let item of cities" [value]="item.id">{{item.name_en}} - {{item.name_ar}}
               </option>
             </select>
@@ -168,7 +168,7 @@
 
           <div class="col-sm-12" *ngIf="city">
             <label>{{api.translate('Select Zone')}}</label>
-            <select name="select" [(ngModel)]="zone_id" class="form-control">
+            <select name="select" [(ngModel)]="zone_id" class="form-control" [disabled]="userType === 'agent'">
               <option value="">{{ api.translate('Select Zone') }}</option>
               <option *ngFor="let zone of zones" [value]='zone.id'>{{zone.name_en + ' - ' + (zone.name_ar!= null
                 ?zone.name_ar:'')}}</option>
@@ -237,6 +237,17 @@
                 <label>{{api.translate('Notes (AR)')}}</label>
                 <textarea [(ngModel)]="notes_ar" rows="5" cols="5" class="form-control"
                   [placeholder]="api.translate('Notes (AR)')"></textarea>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <div class="col-sm-12">
+            <div class="form-group row">
+              <div class="col-sm-6">
+                <input class="mx-2" *ngIf="userType === 'agent'" type="checkbox" [(ngModel)]="is_special" id="is-special">
+                <label for="is-special">{{api.translate('Is Special')}}</label> <br>
               </div>
             </div>
           </div>

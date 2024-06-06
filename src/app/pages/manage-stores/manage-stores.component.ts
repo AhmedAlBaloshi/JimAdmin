@@ -29,6 +29,7 @@ export class ManageStoresComponent implements OnInit {
   address_ar: any = '';
   latitude: any;
   longitude: any;
+  is_special: any = 0;
 
   coverImage: any;
   gender: any = 1;
@@ -80,6 +81,9 @@ export class ManageStoresComponent implements OnInit {
   ];
   dropdownSettings: IDropdownSettings = {};
 
+  userType = localStorage.getItem('type')
+
+
   constructor(
     private route: ActivatedRoute,
     public api: ApisService,
@@ -96,6 +100,11 @@ export class ManageStoresComponent implements OnInit {
   }
 
   ngOnInit() {
+    if(this.userType === 'agent'){
+      this.city = localStorage.getItem('city')
+      this.getZones()
+      this.zone_id = localStorage.getItem('zone_id')
+    }
     this.initMap();
     this.route.queryParams.subscribe((data) => {
       this.new = data.register === 'true' ? true : false;
@@ -271,6 +280,7 @@ export class ManageStoresComponent implements OnInit {
             this.address_ar = info.address_ar;
             this.latitude = info.lat;
             this.longitude = info.lng;
+            this.is_special = info.is_special == 1? true:false;
             this.fileURL = info.cover;
             this.coverImage = environment.mediaURL + info.cover;
             this.descriptions_en = info.descriptions_en;
@@ -363,6 +373,8 @@ export class ManageStoresComponent implements OnInit {
   }
 
   updateVenue() {
+    this.is_special = this.is_special === true? 1: 0;
+
     if (
       this.name_en === '' ||
       this.name_ar === '' ||
@@ -395,6 +407,7 @@ export class ManageStoresComponent implements OnInit {
       descriptions_ar: this.descriptions_ar,
       lat: this.latitude,
       lng: this.longitude,
+      is_special: this.is_special,
       cover: this.fileURL,
       cover_hr: this.fileURL,
       open_time: this.openTime,
@@ -438,6 +451,7 @@ export class ManageStoresComponent implements OnInit {
   }
 
   create() {
+    this.is_special = this.is_special === true? 1: 0;
     if (
       this.email === '' ||
       this.fname === '' ||
@@ -507,6 +521,7 @@ export class ManageStoresComponent implements OnInit {
               zone_id: this.zone_id,
               lat: this.latitude,
               lng: this.longitude,
+              is_special: this.is_special,
               verified: 1,
               address_en: this.address_en,
               address_ar: this.address_ar,

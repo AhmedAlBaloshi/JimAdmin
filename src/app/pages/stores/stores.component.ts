@@ -404,7 +404,8 @@ export class StoresComponent implements OnInit {
       if (result.value) {
 
         let param = {
-          type:type
+          type:type,
+          zone_id:this.zone_id
         }
 
         this.spinner.show();

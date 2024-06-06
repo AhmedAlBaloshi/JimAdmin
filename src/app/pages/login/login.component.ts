@@ -62,6 +62,7 @@ export class LoginComponent implements OnInit {
               localStorage.setItem('uid', data.data.id);
               localStorage.setItem('type', data.data.type);
               localStorage.setItem('zone_id', data.data.zone_id);
+              localStorage.setItem('city', data.data.city);
               localStorage.setItem('status', 'signedin');
               this.router.navigate(['']);
             } else {

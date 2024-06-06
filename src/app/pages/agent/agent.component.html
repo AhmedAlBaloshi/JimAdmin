@@ -29,12 +29,31 @@
                               <th>{{api.translate('Email')}}</th>
                               <th>{{api.translate('Mobile')}}</th>
                               <th>{{api.translate('Branch Manager')}}</th>
+                              <th>{{api.translate('Accepted Orders')}}</th>
+                              <th>{{api.translate('Delivered Orders')}}</th>
+                              <th>{{api.translate('Rejected Orders')}}</th>
+                              <th>{{api.translate('Orders Held By Driver')}}</th>
                               <th>{{api.translate('Status')}}</th>
                               <th *ngIf="userType != 'admin'">{{api.translate('Action')}}</th>
                           </tr>
                       </thead>
                       <tbody>
                           <tr *ngFor="let item of dummy ">
+                              <td>
+                                  <ngx-skeleton-loader count="1"
+                                      [theme]="{ 'border-radius': '5px', height: '10px', border: '1px solid white' }">
+                                  </ngx-skeleton-loader>
+                              </td>
+                              <td>
+                                  <ngx-skeleton-loader count="1"
+                                      [theme]="{ 'border-radius': '5px', height: '10px', border: '1px solid white' }">
+                                  </ngx-skeleton-loader>
+                              </td>
+                              <td>
+                                  <ngx-skeleton-loader count="1"
+                                      [theme]="{ 'border-radius': '5px', height: '10px', border: '1px solid white' }">
+                                  </ngx-skeleton-loader>
+                              </td>
                               <td>
                                   <ngx-skeleton-loader count="1"
                                       [theme]="{ 'border-radius': '5px', height: '10px', border: '1px solid white' }">
@@ -84,6 +103,18 @@
                               </td>
                               <td>
                                   {{item.branch_manager}}
+                              </td>
+                              <td>
+                                  {{item.accepted_orders}}
+                              </td>
+                              <td>
+                                  {{item.delivered_orders}}
+                              </td>
+                              <td>
+                                  {{item.rejected_orders}}
+                              </td>
+                              <td>
+                                  {{item.orders_held_by_driver}}
                               </td>
                               <td><button type="button" [className]="getClass(item.status)"
                                       (click)="changeStatus(item)">{{item.status === '1' ? 'Active'
