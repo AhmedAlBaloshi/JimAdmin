@@ -40,6 +40,8 @@ export class ManageDriversComponent implements OnInit {
   orders: any[] = [];
   reviews: any[] = [];
 
+  userType = localStorage.getItem('type')
+
   constructor(
     private route: ActivatedRoute,
     public api: ApisService,
@@ -48,6 +50,12 @@ export class ManageDriversComponent implements OnInit {
     private navCtrl: Location,
     public util: UtilService
   ) {
+
+    if(this.userType === 'agent'){
+      this.city = localStorage.getItem('city')
+      this.getZones()
+      this.zone = localStorage.getItem('zone_id')
+    }
     this.api.auth();
     this.route.queryParams.subscribe((data: any) => {
       this.new = data.register === 'true' ? true : false;

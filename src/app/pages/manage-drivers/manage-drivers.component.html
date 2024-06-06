@@ -81,13 +81,13 @@
 
                     <div class="col-sm-12">
                         <label>{{api.translate('Select City')}}</label>
-                        <select name="select" [(ngModel)]="city" class="form-control" (change)="getZones()">
+                        <select name="select" [(ngModel)]="city" [disabled]="userType === 'agent'" class="form-control" (change)="getZones()">
                             <option *ngFor="let item of cities" [value]="item.id">{{item.name_en}} - {{item.name_ar}}</option>
                         </select>
                     </div>
                     <div class="col-sm-12" *ngIf="city">
                         <label>{{api.translate('Select Zone')}}</label>
-                        <select name="select" [(ngModel)]="zone" class="form-control">
+                        <select name="select" [(ngModel)]="zone" [disabled]="userType === 'agent'" class="form-control">
                           <option value="">{{ api.translate('Select Zone') }}</option>
                           <option *ngFor="let zone of zones" [value]='zone.id'>{{zone.name_en + ' - ' + (zone.name_ar!= null
                             ?zone.name_ar:'')}}</option>
