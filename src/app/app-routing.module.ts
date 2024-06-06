@@ -59,6 +59,14 @@ const routes: Routes = [
         loadChildren: () => import('./pages/notifications/notifications.module').then(m => m.NotificationsModule)
       },
       {
+        path: 'complaints',
+        loadChildren: () => import('./pages/complaints/complaints.module').then(m => m.ComplaintsModule)
+      },
+      {
+        path: 'complaint-form',
+        loadChildren: () => import('./pages/complaint-form/complaint-form.module').then(m => m.ComplaintFormModule)
+      },
+      {
         path: 'stats',
         loadChildren: () => import('./pages/stats/stats.module').then(m => m.StatsModule)
       },

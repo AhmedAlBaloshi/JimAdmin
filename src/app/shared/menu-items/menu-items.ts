@@ -125,6 +125,12 @@ let MENUITEMS = [];
           type: 'link',
           icon: 'ti-map',
         },
+        {
+          state: 'complaints',
+          name: 'Complaints List',
+          type: 'link',
+          icon: 'ti-email'
+        }
         // {
         //   state: 'payment',
         //   name: 'Payments',
@@ -306,6 +312,12 @@ let MENUITEMS = [];
         {
           state: 'alert-notification',
           name: 'Warning Message',
+          type: 'link',
+          icon: 'ti-email',
+        },
+        {
+          state: 'complaint-form',
+          name: 'Complaint Form',
           type: 'link',
           icon: 'ti-email',
         },
