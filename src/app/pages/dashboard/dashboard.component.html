@@ -57,6 +57,78 @@
     </div>
     <!-- counter-card-3 end -->
 
+    <!-- counter-card-4 start -->
+    <div class="col-md-6 col-xl-3" *ngIf="userType =='agent'">
+      <app-card [cardClass]="'counter-card-1'" [blockClass]="'card-body-big'">
+          <div class="row" style="cursor: pointer;">
+              <div class="col-4 counter-card-icon">
+                <i class="icofont icofont-chart-histogram"></i>
+              </div>
+              <div class="col-8 text-right">
+                  <div class="counter-card-text">
+                      <h3> {{storeSales}} </h3>
+                      <p>{{api.translate('Restaurants Sales')}}</p>
+                  </div>
+              </div>
+          </div>
+      </app-card>
+    </div>
+    <!-- counter-card-4 end -->
+
+    <!-- counter-card-5 start -->
+    <div class="col-md-6 col-xl-3" *ngIf="userType =='agent'">
+      <app-card [cardClass]="'counter-card-1'" [blockClass]="'card-body-big'">
+          <div class="row" style="cursor: pointer;">
+              <div class="col-4 counter-card-icon">
+                <i class="icofont icofont-chart-histogram"></i>
+              </div>
+              <div class="col-8 text-right">
+                  <div class="counter-card-text">
+                      <h3> {{driversTotal}}</h3>
+                      <p>{{api.translate('Driver\'s Total Amount')}}</p>
+                  </div>
+              </div>
+          </div>
+      </app-card>
+    </div>
+    <!-- counter-card-5 end -->
+
+    <!-- counter-card-6 start -->
+    <div class="col-md-6 col-xl-3" *ngIf="userType =='agent'">
+      <app-card [cardClass]="'counter-card-1'" [blockClass]="'card-body-big'">
+          <div class="row" style="cursor: pointer;">
+              <div class="col-4 counter-card-icon">
+                <i class="icofont icofont-chart-histogram"></i>
+              </div>
+              <div class="col-8 text-right">
+                  <div class="counter-card-text">
+                      <h3> {{profit}}</h3>
+                      <p>{{api.translate('Total Profit')}}</p>
+                  </div>
+              </div>
+          </div>
+      </app-card>
+    </div>
+    <!-- counter-card-6 end -->
+
+    <!-- counter-card-7 start -->
+    <div class="col-md-6 col-xl-3" *ngIf="userType =='agent'">
+      <app-card [cardClass]="'counter-card-1'" [blockClass]="'card-body-big'">
+          <div class="row" style="cursor: pointer;">
+              <div class="col-4 counter-card-icon">
+                <i class="icofont icofont-chart-histogram"></i>
+              </div>
+              <div class="col-8 text-right">
+                  <div class="counter-card-text">
+                      <h3> {{profitPer}}% </h3>
+                      <p>{{api.translate('Profit Percentage')}}</p>
+                  </div>
+              </div>
+          </div>
+      </app-card>
+    </div>
+    <!-- counter-card-7 end -->
+
     <!-- Reset Order Start -->
     <div class="col-md-12">
         <div class="card">

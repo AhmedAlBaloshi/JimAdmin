@@ -200,7 +200,7 @@ export class AlertNotificationComponent implements OnInit {
       }
     }
     const params = {
-      for: this.messageFor,
+      for: this.userType === 'agent'?'driver':this.messageFor,
       title: this.title,
       message: this.message,
       users: this.selectedUsers,

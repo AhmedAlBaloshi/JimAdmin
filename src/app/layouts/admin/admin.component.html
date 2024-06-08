@@ -30,7 +30,7 @@
               <li class="user-profile header-notification" *ngIf="userType == 'agent'">
                 <span>Notifications</span>
                 <i class="ti-angle-down"></i>
-                <ul class="show-notification profile-notification"
+                <ul class="show-notification profile-notification scrollable"
                 style="max-height: 250px; overflow-y: auto; width: 300px;">
                   <li *ngFor="let track of orderTracks" (click)="viewOrder(track.order_id)" class="notificationss">
                     Order id #{{track.order_id}} is {{track.status.replaceAll('_', ' ')}}

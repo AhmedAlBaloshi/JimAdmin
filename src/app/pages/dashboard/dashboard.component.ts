@@ -20,6 +20,10 @@ export class DashboardComponent implements OnInit {
   stores: any[] = [];
   allUsers: any = 0;
   allOrders: any = 0;
+  storeSales: any = 0;
+  driversTotal: any = 0;
+  profit: any = 0;
+  profitPer: any = 0;
 
   constructor(
     public api: ApisService,
@@ -49,6 +53,10 @@ export class DashboardComponent implements OnInit {
         this.stores = res.data.stores;
         this.allUsers = res.data.allUsers;
         this.allOrders = res.data.allOrders;
+        this.storeSales = res.data.storeSales;
+        this.driversTotal = res.data.driversTotal;
+        this.profit = res.data.profit;
+        this.profitPer = res.data.profitPer;
         orders.forEach(element => {
           if (((x) => { try { JSON.parse(x); return true; } catch (e) { return false } })(element.orders)) {
             element.orders = JSON.parse(element.orders);
