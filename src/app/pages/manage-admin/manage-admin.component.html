@@ -27,6 +27,7 @@
         <h4 class="sub-title" *ngIf="branchManager">{{api.translate('Branch Manager Details')}}</h4>
         <h4 class="sub-title" *ngIf="isAgent">{{api.translate('Agent Details')}}</h4>
         <div class="form-group row">
+          <h4 class="sub-title mt-4 col-sm-12 col-12" *ngIf="isAgent && new">{{api.translate('First Agent Details')}}</h4>
           <div class="col-sm-6">
             <label>{{api.translate('First Name')}}</label>
             <input type="text" [(ngModel)]="fname" class="form-control" [placeholder]="api.translate('First Name')">
@@ -71,6 +72,60 @@
               <option value='2'>{{api.translate('Other')}}</option>
             </select>
           </div>
+          <div class="col-sm-12 row" *ngIf="isAgent && new">
+          <h4 class="sub-title mt-4 col-sm-12 col-12" *ngIf="isAgent">{{api.translate('Second Agent Details')}}</h4>
+          <div class="col-sm-6">
+            <label>{{api.translate('First Name')}}</label>
+            <input type="text" [(ngModel)]="fname2" class="form-control" [placeholder]="api.translate('First Name')">
+          </div>
+          <div class="col-sm-6">
+            <label>{{api.translate('Last Name')}}</label>
+            <input type="text" [(ngModel)]="lname2" class="form-control" [placeholder]="api.translate('Last Name')">
+          </div>
+          <div class="col-sm-6">
+            <label>{{api.translate('Email')}}</label>
+            <input type="email" [(ngModel)]="email2" class="form-control" [placeholder]="api.translate('Email')">
+          </div>
+          <div class="col-sm-6" *ngIf="new">
+            <label>{{api.translate('Password')}}</label>
+            <input type="password" [(ngModel)]="password2" class="form-control"
+              [placeholder]="api.translate('Password')">
+          </div>
+          <div class="col-sm-6">
+            <label>{{api.translate('Contact No')}}</label>
+            <!-- <input type="number" [(ngModel)]="mobile" class="form-control" [placeholder]="api.translate('Mobile No')"> -->
+            <div class="row">
+              <div class="col-3">
+                <select name="select" class="form-control" [(ngModel)]="mobileCcode2">
+                  <option *ngFor="let item of util.countrys;" [value]="item.dialling_code">
+                    {{item.country_name}}
+                  </option>
+                </select>
+              </div>
+              <div class="col-9">
+                <input type="number" class="form-control" [placeholder]="api.translate('Mobile Number')"
+                  [(ngModel)]="mobile2" [ngModelOptions]="{standalone: true}">
+                <span class="md-line"></span>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-sm-6">
+            <label>{{api.translate('Select Gender')}}</label>
+            <select name="select" [(ngModel)]="gender2" class="form-control">
+              <option value='1'>{{api.translate('Male')}}</option>
+              <option value='0'>{{api.translate('Female')}}</option>
+              <option value='2'>{{api.translate('Other')}}</option>
+            </select>
+          </div>
+
+          <h4 class="sub-title mt-4 col-sm-12 col-12" *ngIf="isAgent">{{api.translate('Other Details')}}</h4>
+        </div>
+          <div class="col-sm-6 " *ngIf="isAgent">
+            <label>{{api.translate('Attach Contract')}}</label>
+              <input (change)="preview_banner($event.target.files)" type="file" class="form-control">
+          </div>
+
 
           <div class="col-sm-6" *ngIf="isAgent">
             <label>{{api.translate('Select City')}}</label>
@@ -89,7 +144,6 @@
                 ?zone.name_ar:'')}}</option>
             </select>
           </div>
-
 
         </div>
 
