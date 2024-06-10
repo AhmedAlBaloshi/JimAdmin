@@ -319,10 +319,6 @@ export class ManageAdminComponent implements OnInit {
         this.error('All Fields are required');
         return false;
       }
-      if(this.shift_start >= this.shift_end){
-        this.error('The shift end time must be later than the shift start time');
-        return false;
-      }
     }
     const emailfilter = /^[\w._-]+[+]?[\w._-]+@[\w.-]+\.[a-zA-Z]{2,6}$/;
     if (!emailfilter.test(this.email)) {
