@@ -28,11 +28,12 @@
                               <th>{{api.translate('Name')}}</th>
                               <th>{{api.translate('Email')}}</th>
                               <th>{{api.translate('Mobile')}}</th>
+                              <th>{{api.translate('Shift Time')}}</th>
                               <th>{{api.translate('Branch Manager')}}</th>
-                              <th>{{api.translate('Accepted Orders')}}</th>
-                              <th>{{api.translate('Delivered Orders')}}</th>
-                              <th>{{api.translate('Rejected Orders')}}</th>
-                              <th>{{api.translate('Orders Held By Driver')}}</th>
+                              <th style="cursor:pointer" (click)="sortData('accepted_orders')">{{api.translate('Accepted Orders')}}</th>
+                              <th style="cursor:pointer" (click)="sortData('delivered_orders')">{{api.translate('Delivered Orders')}}</th>
+                              <th style="cursor:pointer" (click)="sortData('rejected_orders')">{{api.translate('Rejected Orders')}}</th>
+                              <th style="cursor:pointer" (click)="sortData('orders_held_by_driver')">{{api.translate('Orders Held By Driver')}}</th>
                               <th>{{api.translate('Status')}}</th>
                               <th>{{api.translate('Attachment')}}</th>
                               <th *ngIf="userType != 'admin'">{{api.translate('Action')}}</th>
@@ -40,6 +41,11 @@
                       </thead>
                       <tbody>
                           <tr *ngFor="let item of dummy ">
+                              <td>
+                                  <ngx-skeleton-loader count="1"
+                                      [theme]="{ 'border-radius': '5px', height: '10px', border: '1px solid white' }">
+                                  </ngx-skeleton-loader>
+                              </td>
                               <td>
                                   <ngx-skeleton-loader count="1"
                                       [theme]="{ 'border-radius': '5px', height: '10px', border: '1px solid white' }">
@@ -106,6 +112,13 @@
                               </td>
                               <td>
                                   {{item.country_code}} {{item.mobile}}
+                              </td>
+                              <td>
+                                <span *ngIf="item.shift_start && item.shift_end">
+                                  {{item.shift_start!= null?convertTimeTo12HourFormat(item.shift_start): '--:--'}}
+                                  to
+                                  {{item.shift_end!= null?convertTimeTo12HourFormat(item.shift_end): '--:--'}}
+                                </span>
                               </td>
                               <td>
                                   {{item.branch_manager}}

@@ -72,6 +72,14 @@
               <option value='2'>{{api.translate('Other')}}</option>
             </select>
           </div>
+          <div class="col-sm-6" *ngIf="isAgent">
+            <label>{{api.translate('Shift Start Time')}}</label>
+            <input type="time" name="shift_start" [(ngModel)]="shift_start" class="form-control">
+          </div>
+          <div class="col-sm-6" *ngIf="isAgent">
+            <label>{{api.translate('Shift End Time')}}</label>
+            <input type="time" name="shift_end" [(ngModel)]="shift_end" class="form-control">
+          </div>
           <div class="col-sm-12 row" *ngIf="isAgent && new">
           <h4 class="sub-title mt-4 col-sm-12 col-12" *ngIf="isAgent">{{api.translate('Second Agent Details')}}</h4>
           <div class="col-sm-6">
@@ -117,6 +125,15 @@
               <option value='0'>{{api.translate('Female')}}</option>
               <option value='2'>{{api.translate('Other')}}</option>
             </select>
+          </div>
+
+          <div class="col-sm-6">
+            <label>{{api.translate('Shift Start Time')}}</label>
+            <input type="time" name="shift_start" [(ngModel)]="shift_start2" class="form-control">
+          </div>
+          <div class="col-sm-6">
+            <label>{{api.translate('Shift End Time')}}</label>
+            <input type="time" name="shift_end" [(ngModel)]="shift_end2" class="form-control">
           </div>
 
           <h4 class="sub-title mt-4 col-sm-12 col-12" *ngIf="isAgent">{{api.translate('Other Details')}}</h4>

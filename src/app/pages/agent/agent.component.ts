@@ -11,6 +11,10 @@ import { ToastData, ToastOptions, ToastyService } from 'ng2-toasty';
   styleUrls: ['./agent.component.scss'],
 })
 export class AgentComponent implements OnInit {
+  filterValue: string = '';
+  sortColumn: string = '';
+  sortDirection: 'asc' | 'desc' = 'asc';
+
   users: any[] = [];
   dummy = Array(5);
   dummyUsers: any[] = [];
@@ -269,5 +273,47 @@ export class AgentComponent implements OnInit {
           });
       }
     });
+  }
+
+  sortData(column: string) {
+    if (this.sortColumn === column) {
+      this.sortDirection = this.sortDirection === 'asc' ? 'desc' : 'asc';
+    } else {
+      this.sortDirection = 'asc';
+    }
+    this.sortColumn = column;
+    this.updateDataSource();
+  }
+
+  updateDataSource() {
+    let filteredData = this.users.filter(item => {
+      return Object.values(item).some(val =>
+        val.toString().toLowerCase().includes(this.filterValue)
+      );
+    });
+
+    if (this.sortColumn) {
+      filteredData = filteredData.sort((a, b) => {
+        const valueA = a[this.sortColumn];
+        const valueB = b[this.sortColumn];
+        let comparison = 0;
+        if (valueA > valueB) {
+          comparison = 1;
+        } else if (valueA < valueB) {
+          comparison = -1;
+        }
+        return this.sortDirection === 'asc' ? comparison : -comparison;
+      });
+    }
+
+    this.users = filteredData;
+  }
+
+  convertTimeTo12HourFormat(time) {
+    const [hours, minutes] = time.split(':');
+    const date = new Date();
+    date.setHours(+hours);
+    date.setMinutes(+minutes);
+    return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true });
   }
 }

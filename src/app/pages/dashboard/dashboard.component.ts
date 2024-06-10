@@ -65,7 +65,7 @@ export class DashboardComponent implements OnInit {
             this.api.post('drivers/getById', { id: element.did }).then((res: any) => {
               if (res && res.status === 200 && res.data.length) {
                 const obj = res.data[0];
-                Object.assign(element, { driverfullName: obj.first_name + " " + obj.last_name });
+                Object.assign(element, { driverfullName: obj.first_name + " " + (obj.last_name?obj.last_name:'') });
               }
             });
           }

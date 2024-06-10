@@ -43,6 +43,11 @@ export class ManageAdminComponent implements OnInit {
   gender: any = '1';
   gender2: any = '1';
 
+  shift_start:any;
+  shift_start2:any;
+  shift_end:any;
+  shift_end2:any;
+
   imageUrl: any;
   mobileCcode: any = this.api.default_country_code;
   mobileCcode2: any = this.api.default_country_code;
@@ -97,6 +102,9 @@ export class ManageAdminComponent implements OnInit {
             this.lat = info.lat;
             this.lng = info.lng;
             this.address = info.address;
+            this.shift_start = info.shift_start;
+            this.shift_end = info.shift_end;
+
             this.getZones();
           } else {
             this.error('Something went wrong');
@@ -222,10 +230,13 @@ export class ManageAdminComponent implements OnInit {
       return false;
     }
     if (this.isAgent) {
-      if (this.city === '' || this.zone_id === '') {
+      if (this.city === '' || this.zone_id === '' ||
+      !this.shift_start ||
+      !this.shift_end) {
         this.error('All Fields are required');
         return false;
       }
+
     }
     const emailfilter = /^[\w._-]+[+]?[\w._-]+@[\w.-]+\.[a-zA-Z]{2,6}$/;
     if (!emailfilter.test(this.email)) {
@@ -269,6 +280,8 @@ export class ManageAdminComponent implements OnInit {
       city: this.isAgent ? this.city : null,
       zone_id: this.isAgent ? this.zone_id : null,
       role_id: role_id,
+      shift_start: this.shift_start,
+      shift_end: this.shift_end,
       country_code: '+' + this.mobileCcode,
     };
     console.log('patrama-----------------' + JSON.stringify(param));
@@ -302,8 +315,12 @@ export class ManageAdminComponent implements OnInit {
       return false;
     }
     if (this.isAgent) {
-      if (this.city === '' || this.zone_id === '' || this.zone_id == null) {
+      if (this.city === '' || this.zone_id === '' || this.zone_id == null|| !this.shift_end || !this.shift_start) {
         this.error('All Fields are required');
+        return false;
+      }
+      if(this.shift_start >= this.shift_end){
+        this.error('The shift end time must be later than the shift start time');
         return false;
       }
     }
@@ -341,6 +358,8 @@ export class ManageAdminComponent implements OnInit {
       zone_id: this.zone_id,
       mobile: this.mobile,
       others: this.others,
+      shift_start: this.shift_start,
+      shift_end: this.shift_end,
       id: this.id,
     };
 
@@ -408,7 +427,7 @@ export class ManageAdminComponent implements OnInit {
       return false;
     }
     if (this.isAgent) {
-      if (this.city === '' || this.zone_id === '') {
+      if (this.city === '' || this.zone_id === '' || !this.shift_start || !this.shift_end) {
         this.error('All Fields are required');
         return false;
       }
@@ -455,6 +474,8 @@ export class ManageAdminComponent implements OnInit {
       city: this.isAgent ? this.city : null,
       zone_id: this.isAgent ? this.zone_id : null,
       role_id: role_id,
+      shift_start: this.shift_start2,
+      shift_end: this.shift_end2,
       country_code: '+' + this.mobileCcode2,
     };
     console.log('patrama-----------------' + JSON.stringify(param));

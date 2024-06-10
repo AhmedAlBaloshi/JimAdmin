@@ -100,7 +100,7 @@ export class OrdersComponent implements OnInit {
             this.api.post('drivers/getById', { id: element.did }).then((data: any) => {
               if (data && data.status === 200 && data.data.length) {
                 const obj = data.data[0];
-                Object.assign(element, { driverfullName: obj.first_name + " " + obj.last_name });
+                Object.assign(element, { driverfullName: obj.first_name + " " + (obj.last_name? obj.last_name :'') });
               }
             });
           }
