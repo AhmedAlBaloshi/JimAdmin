@@ -49,6 +49,12 @@ export class OrdersComponent implements OnInit {
     this.getDrivers()
   }
 
+  getDriverName(id){
+    const driver = this.drivers.filter((d) => d.user_id === id)
+    console.log(driver)
+    return driver[0].first_name +' '+(driver[0].last_name?driver[0].last_name:'');
+  }
+
   getDrivers() {
     this.drivers = [];
 
@@ -96,14 +102,7 @@ export class OrdersComponent implements OnInit {
           if (((x) => { try { JSON.parse(x); return true; } catch (e) { return false } })(element.orders)) {
             element.orders = JSON.parse(element.orders);
           }
-          if (element.did != 0 && element.did != null) {
-            this.api.post('drivers/getById', { id: element.did }).then((data: any) => {
-              if (data && data.status === 200 && data.data.length) {
-                const obj = data.data[0];
-                Object.assign(element, { driverfullName: obj.first_name + " " + (obj.last_name? obj.last_name :'') });
-              }
-            });
-          }
+
           element.grand_total = (+element.grand_total).toFixed(3);
         });
         this.orders = orders;
